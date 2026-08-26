@@ -16,6 +16,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 4. Sell | Get the first customers | [Go-To-Market Playbook](docs/GTM.md) |
 | 5. Monetize | Build durable revenue | [Monetization Guide](docs/MONETIZATION.md) |
 | 6. Operate | Track the few numbers that matter | [Founder Scorecard](templates/FOUNDER_SCORECARD.md) |
+| 7. Transact | Sell to, buy from, and operate with other agents | [Agent Commerce & Machine Payments](docs/AGENT_COMMERCE.md) |
 
 ## The agent-business loop
 
@@ -109,6 +110,7 @@ Agent Business is designed to grow into a practical founder knowledge base with:
 - agent-friendly operating checklists,
 - vendor/tool comparisons,
 - benchmarks and unit-economics calculators,
+- agent-to-agent commerce, payments, identity, and reputation playbooks,
 - and a curated marketplace of services and tools for agent founders.
 
 ## How this project itself can make money
