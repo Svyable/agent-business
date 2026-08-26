@@ -17,6 +17,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 5. Monetize | Build durable revenue | [Monetization Guide](docs/MONETIZATION.md) |
 | 6. Operate | Track the few numbers that matter | [Founder Scorecard](templates/FOUNDER_SCORECARD.md) |
 | 7. Transact | Sell to, buy from, and operate with other agents | [Agent Commerce & Machine Payments](docs/AGENT_COMMERCE.md) |
+| 8. Trust | Prove identity, delegated authority, and counterparty reputation | [Agent Identity, Authority & Reputation](docs/AGENT_IDENTITY_TRUST.md) |
 
 ## The agent-business loop
 
