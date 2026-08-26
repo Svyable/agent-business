@@ -18,6 +18,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 6. Operate | Track the few numbers that matter | [Founder Scorecard](templates/FOUNDER_SCORECARD.md) |
 | 7. Transact | Sell to, buy from, and operate with other agents | [Agent Commerce & Machine Payments](docs/AGENT_COMMERCE.md) |
 | 8. Trust | Prove identity, delegated authority, and counterparty reputation | [Agent Identity, Authority & Reputation](docs/AGENT_IDENTITY_TRUST.md) |
+| 9. Secure | Test, constrain, observe, and recover autonomous systems | [Agent Security, Evals & Incident Response](docs/AGENT_SECURITY_EVALS.md) |
 
 ## The agent-business loop
 
@@ -111,7 +112,7 @@ Agent Business is designed to grow into a practical founder knowledge base with:
 - agent-friendly operating checklists,
 - vendor/tool comparisons,
 - benchmarks and unit-economics calculators,
-- agent-to-agent commerce, payments, identity, and reputation playbooks,
+- agent-to-agent commerce, payments, identity, reputation, security, evals, and incident-response playbooks,
 - and a curated marketplace of services and tools for agent founders.
 
 ## How this project itself can make money
@@ -136,6 +137,7 @@ The monetization rule: **the free repo must be strong enough to earn trust befor
 - Manual delivery before premature infrastructure.
 - Measurable outcomes over impressive demos.
 - Trust is an asset; disclose incentives and conflicts.
+- Bound agent autonomy with deterministic controls, measurable evals, and kill switches.
 - Do not automate spam, deception, impersonation, or illegal activity.
 
 ## Contributing
