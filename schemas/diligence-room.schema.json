@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/diligence-room.schema.json",
+  "title": "Agent Business Diligence Room",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "company", "generated_at", "audience", "claims", "evidence", "risks", "readiness"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "company": {"type": "string", "minLength": 1},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "audience": {
+      "type": "string",
+      "enum": ["enterprise_customer", "investor", "acquirer", "insurer", "marketplace", "counterparty", "internal"]
+    },
+    "scope": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["company", "financial", "customer", "technical", "security", "legal", "compliance", "operations", "insurance", "ip"]},
+      "uniqueItems": true
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "category", "statement", "evidence_ids", "as_of", "owner"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^claim-[A-Za-z0-9._-]+$"},
+          "category": {"type": "string"},
+          "statement": {"type": "string", "minLength": 1},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+          "as_of": {"type": "string", "format": "date"},
+          "expires_on": {"type": ["string", "null"], "format": "date"},
+          "owner": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "enum": ["verified", "qualified", "draft", "disputed"], "default": "verified"},
+          "qualification": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "category", "uri", "captured_at", "sensitivity", "allowed_audiences", "integrity"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^evidence-[A-Za-z0-9._-]+$"},
+          "title": {"type": "string", "minLength": 1},
+          "category": {"type": "string"},
+          "uri": {"type": "string", "minLength": 1},
+          "captured_at": {"type": "string", "format": "date-time"},
+          "expires_on": {"type": ["string", "null"], "format": "date"},
+          "sensitivity": {"type": "string", "enum": ["public", "shared", "confidential", "restricted"]},
+          "allowed_audiences": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+          "redaction": {"type": ["string", "null"]},
+          "integrity": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["method", "value"],
+            "properties": {
+              "method": {"type": "string", "enum": ["sha256", "signed_url", "attestation", "repository_commit", "other"]},
+              "value": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "severity", "status", "owner"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^risk-[A-Za-z0-9._-]+$"},
+          "description": {"type": "string"},
+          "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
+          "status": {"type": "string", "enum": ["open", "mitigating", "accepted", "closed"]},
+          "owner": {"type": "string"},
+          "mitigation": {"type": ["string", "null"]},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+        }
+      }
+    },
+    "readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "blocking_claim_ids", "blocking_risk_ids", "reviewed_at"],
+      "properties": {
+        "status": {"type": "string", "enum": ["ready", "conditional", "not_ready"]},
+        "blocking_claim_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "blocking_risk_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "reviewed_at": {"type": "string", "format": "date-time"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}
