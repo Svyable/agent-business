@@ -19,6 +19,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 7. Transact | Sell to, buy from, and operate with other agents | [Agent Commerce & Machine Payments](docs/AGENT_COMMERCE.md) |
 | 8. Trust | Prove identity, delegated authority, and counterparty reputation | [Agent Identity, Authority & Reputation](docs/AGENT_IDENTITY_TRUST.md) |
 | 9. Secure | Test, constrain, observe, and recover autonomous systems | [Agent Security, Evals & Incident Response](docs/AGENT_SECURITY_EVALS.md) |
+| 10. Distribute | Make capabilities discoverable, comparable, and selectable | [Agent Discovery, Registries & Distribution](docs/AGENT_DISCOVERY_DISTRIBUTION.md) |
 
 ## The agent-business loop
 
@@ -112,7 +113,7 @@ Agent Business is designed to grow into a practical founder knowledge base with:
 - agent-friendly operating checklists,
 - vendor/tool comparisons,
 - benchmarks and unit-economics calculators,
-- agent-to-agent commerce, payments, identity, reputation, security, evals, and incident-response playbooks,
+- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, and registry playbooks,
 - and a curated marketplace of services and tools for agent founders.
 
 ## How this project itself can make money
