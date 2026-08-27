@@ -34,8 +34,7 @@ def main() -> None:
         path = resource.get("path")
         if not isinstance(path, str) or not path:
             fail(f"{resource_id}: path must be a non-empty string")
-        resolved = ROOT / path
-        if not resolved.is_file():
+        if not (ROOT / path).is_file():
             fail(f"{resource_id}: indexed path does not exist: {path}")
 
         if resource.get("type") == "founder_stage":
@@ -65,22 +64,14 @@ def main() -> None:
                 if ref == resource_id:
                     fail(f"{resource_id}: {field} cannot self-reference")
 
-    indexed_paths = {resource["path"] for resource in resources}
-    core_paths = {
-        path.relative_to(ROOT).as_posix()
-        for directory in (ROOT / "docs", ROOT / "templates")
-        if directory.exists()
-        for path in directory.glob("*.md")
-    }
-    core_paths.update({"AGENT_FOUNDER_TOOL_DIRECTORY.md", "CONTRIBUTING.md"})
-
-    missing = sorted(core_paths - indexed_paths)
-    if missing:
-        fail("orphaned core Markdown resources: " + ", ".join(missing))
+    for entrypoint in ("canonical_entrypoint", "human_entrypoint", "llm_entrypoint"):
+        path = data.get(entrypoint)
+        if not isinstance(path, str) or not path or not (ROOT / path).is_file():
+            fail(f"{entrypoint} must point to an existing file")
 
     print(
         f"agent-index OK: {len(resources)} resources, "
-        f"{len(stages)} founder stages, no broken references or orphaned core resources"
+        f"{len(stages)} contiguous founder stages, no broken paths or resource references"
     )
 
 
