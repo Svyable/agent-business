@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "company": "Example Agent Business",
+  "generated_at": "2026-08-27T21:00:00Z",
+  "audience": "enterprise_customer",
+  "scope": ["company", "technical", "security", "compliance", "operations"],
+  "claims": [
+    {
+      "id": "claim-security-boundaries",
+      "category": "security",
+      "statement": "Production agents operate with scoped tool permissions and explicit approval boundaries for high-impact actions.",
+      "evidence_ids": ["evidence-security-policy"],
+      "as_of": "2026-08-27",
+      "expires_on": "2026-11-27",
+      "owner": "security",
+      "status": "verified",
+      "qualification": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence-security-policy",
+      "title": "Agent security and authority policy",
+      "category": "security",
+      "uri": "evidence/security/agent-security-policy.pdf",
+      "captured_at": "2026-08-27T20:30:00Z",
+      "expires_on": "2026-11-27",
+      "sensitivity": "shared",
+      "allowed_audiences": ["enterprise_customer", "investor", "insurer", "acquirer"],
+      "redaction": "Remove internal account identifiers and secrets before sharing.",
+      "integrity": {
+        "method": "sha256",
+        "value": "REPLACE_WITH_SHA256"
+      }
+    }
+  ],
+  "risks": [
+    {
+      "id": "risk-provider-concentration",
+      "description": "A material workflow depends on one upstream model provider.",
+      "severity": "medium",
+      "status": "mitigating",
+      "owner": "operations",
+      "mitigation": "Maintain tested fallback behavior and quarterly dependency review.",
+      "evidence_ids": []
+    }
+  ],
+  "readiness": {
+    "status": "conditional",
+    "blocking_claim_ids": [],
+    "blocking_risk_ids": [],
+    "reviewed_at": "2026-08-27T21:00:00Z",
+    "notes": "Template only. Replace example claims, evidence, dates, hashes, and risks before external use."
+  }
+}
