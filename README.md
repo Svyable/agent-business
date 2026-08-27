@@ -22,6 +22,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 10. Distribute | Make capabilities discoverable, comparable, and selectable | [Agent Discovery, Registries & Distribution](docs/AGENT_DISCOVERY_DISTRIBUTION.md) |
 | 11. Govern | Bound liability, data use, regulated actions, and contracts | [Agent Legal, Liability, Compliance & Contracting](docs/AGENT_LEGAL_COMPLIANCE.md) |
 | 12. Profit | Bound delivery cost and improve margin per successful outcome | [Agent Unit Economics, Cost Controls & Margin Engineering](docs/AGENT_UNIT_ECONOMICS.md) |
+| 13. Remember | Keep agent knowledge permissioned, attributable, fresh, and revocable | [Agent Data, Memory, Provenance & Knowledge Operations](docs/AGENT_DATA_MEMORY_PROVENANCE.md) |
 
 ## The agent-business loop
 
@@ -115,7 +116,7 @@ Agent Business is designed to grow into a practical founder knowledge base with:
 - agent-friendly operating checklists,
 - vendor/tool comparisons,
 - benchmarks and unit-economics calculators,
-- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, and margin-engineering playbooks,
+- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, and knowledge-operations playbooks,
 - and a curated marketplace of services and tools for agent founders.
 
 ## How this project itself can make money
@@ -143,6 +144,7 @@ The monetization rule: **the free repo must be strong enough to earn trust befor
 - Bound agent autonomy with deterministic controls, measurable evals, and kill switches.
 - Treat legal/compliance requirements as operating constraints, not launch-day disclaimers.
 - Optimize cost per successful outcome, not cost per token or model call.
+- Persist only permissioned, attributable memory; keep authoritative execution state outside free-form memory.
 - Do not automate spam, deception, impersonation, or illegal activity.
 
 ## Contributing
