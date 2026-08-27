@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/service-contract.schema.json",
+  "title": "Agent Service Contract Pack",
+  "description": "Machine-readable commercial contract object for agent-delivered services. This schema is an operating artifact, not legal advice or evidence of authority/consent.",
+  "type": "object",
+  "required": ["schema_version", "contract_id", "status", "parties", "service", "commercials", "authority", "service_levels", "acceptance", "change_control", "billing", "disputes"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "contract_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "proposed", "approved", "active", "suspended", "terminated", "expired"]},
+    "effective_at": {"type": ["string", "null"], "format": "date-time"},
+    "expires_at": {"type": ["string", "null"], "format": "date-time"},
+    "supersedes_contract_id": {"type": ["string", "null"]},
+    "parties": {
+      "type": "object",
+      "required": ["buyer", "seller"],
+      "properties": {
+        "buyer": {"$ref": "#/$defs/party"},
+        "seller": {"$ref": "#/$defs/party"}
+      },
+      "additionalProperties": false
+    },
+    "service": {
+      "type": "object",
+      "required": ["capability_id", "capability_version", "scope", "deliverables", "dependencies"],
+      "properties": {
+        "capability_id": {"type": "string", "minLength": 1},
+        "capability_version": {"type": "string", "minLength": 1},
+        "scope": {"type": "string", "minLength": 1},
+        "out_of_scope": {"type": "array", "items": {"type": "string"}},
+        "deliverables": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/deliverable"}},
+        "dependencies": {"type": "array", "items": {"$ref": "#/$defs/dependency"}},
+        "data_handling_profile": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "commercials": {
+      "type": "object",
+      "required": ["currency", "pricing_model", "price_version", "rates", "billing_cadence", "spend_ceiling"],
+      "properties": {
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "pricing_model": {"enum": ["fixed", "subscription", "usage", "outcome", "hybrid"]},
+        "price_version": {"type": "string", "minLength": 1},
+        "rates": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/rate"}},
+        "billing_cadence": {"enum": ["prepaid", "per_delivery", "daily", "weekly", "monthly", "milestone", "on_acceptance"]},
+        "spend_ceiling": {"type": "number", "minimum": 0},
+        "taxes_included": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "authority": {
+      "type": "object",
+      "required": ["buyer_approval_id", "seller_authority_id", "auto_approve_below", "human_approval_required_above", "prohibited_actions"],
+      "properties": {
+        "buyer_approval_id": {"type": ["string", "null"]},
+        "seller_authority_id": {"type": ["string", "null"]},
+        "auto_approve_below": {"type": "number", "minimum": 0},
+        "human_approval_required_above": {"type": "number", "minimum": 0},
+        "prohibited_actions": {"type": "array", "items": {"type": "string"}},
+        "allowed_regions": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "service_levels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/slo"}
+    },
+    "acceptance": {
+      "type": "object",
+      "required": ["acceptance_window_hours", "criteria", "evidence_required", "auto_accept"],
+      "properties": {
+        "acceptance_window_hours": {"type": "integer", "minimum": 0},
+        "criteria": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/criterion"}},
+        "evidence_required": {"type": "array", "items": {"type": "string"}},
+        "auto_accept": {"type": "boolean"},
+        "auto_accept_conditions": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "change_control": {
+      "type": "object",
+      "required": ["material_change_fields", "requires_change_order", "change_orders"],
+      "properties": {
+        "material_change_fields": {"type": "array", "items": {"type": "string"}},
+        "requires_change_order": {"type": "boolean"},
+        "change_orders": {"type": "array", "items": {"$ref": "#/$defs/changeOrder"}}
+      },
+      "additionalProperties": false
+    },
+    "billing": {
+      "type": "object",
+      "required": ["billable_event", "invoice_reference_policy", "acceptance_required_before_charge", "service_credit_policy"],
+      "properties": {
+        "billable_event": {"type": "string", "minLength": 1},
+        "invoice_reference_policy": {"type": "string", "minLength": 1},
+        "acceptance_required_before_charge": {"type": "boolean"},
+        "service_credit_policy": {"type": "array", "items": {"$ref": "#/$defs/creditRule"}}
+      },
+      "additionalProperties": false
+    },
+    "disputes": {
+      "type": "object",
+      "required": ["dispute_window_hours", "required_evidence", "escalation_path"],
+      "properties": {
+        "dispute_window_hours": {"type": "integer", "minimum": 0},
+        "required_evidence": {"type": "array", "items": {"type": "string"}},
+        "escalation_path": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "receipts": {"type": "array", "items": {"$ref": "#/$defs/receipt"}},
+    "metadata": {"type": "object", "additionalProperties": true}
+  },
+  "$defs": {
+    "party": {
+      "type": "object",
+      "required": ["party_id", "display_name", "agent_id", "authority_reference"],
+      "properties": {
+        "party_id": {"type": "string", "minLength": 1},
+        "display_name": {"type": "string", "minLength": 1},
+        "agent_id": {"type": ["string", "null"]},
+        "authority_reference": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "deliverable": {
+      "type": "object",
+      "required": ["deliverable_id", "description", "quantity", "acceptance_criterion_ids"],
+      "properties": {
+        "deliverable_id": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 1},
+        "quantity": {"type": "number", "exclusiveMinimum": 0},
+        "acceptance_criterion_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "dependency": {
+      "type": "object",
+      "required": ["dependency_id", "version", "material"],
+      "properties": {
+        "dependency_id": {"type": "string"},
+        "version": {"type": "string"},
+        "material": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "rate": {
+      "type": "object",
+      "required": ["rate_id", "unit", "amount"],
+      "properties": {
+        "rate_id": {"type": "string"},
+        "unit": {"type": "string"},
+        "amount": {"type": "number", "minimum": 0},
+        "minimum_charge": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "slo": {
+      "type": "object",
+      "required": ["slo_id", "metric", "target", "measurement_source", "window", "exclusions"],
+      "properties": {
+        "slo_id": {"type": "string"},
+        "metric": {"type": "string"},
+        "target": {"type": "string"},
+        "measurement_source": {"type": "string"},
+        "window": {"type": "string"},
+        "exclusions": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "criterion": {
+      "type": "object",
+      "required": ["criterion_id", "description", "verification_method"],
+      "properties": {
+        "criterion_id": {"type": "string"},
+        "description": {"type": "string"},
+        "verification_method": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "changeOrder": {
+      "type": "object",
+      "required": ["change_order_id", "status", "changes", "approved_by"],
+      "properties": {
+        "change_order_id": {"type": "string"},
+        "status": {"enum": ["proposed", "approved", "rejected", "applied"]},
+        "changes": {"type": "array", "items": {"type": "string"}},
+        "approved_by": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "creditRule": {
+      "type": "object",
+      "required": ["trigger", "credit_basis", "cap"],
+      "properties": {
+        "trigger": {"type": "string"},
+        "credit_basis": {"type": "string"},
+        "cap": {"type": "number", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "receipt": {
+      "type": "object",
+      "required": ["receipt_id", "deliverable_id", "delivered_at", "evidence_refs", "acceptance_status", "billable_event_id"],
+      "properties": {
+        "receipt_id": {"type": "string"},
+        "deliverable_id": {"type": "string"},
+        "delivered_at": {"type": "string", "format": "date-time"},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}},
+        "acceptance_status": {"enum": ["pending", "accepted", "rejected", "disputed"]},
+        "accepted_at": {"type": ["string", "null"], "format": "date-time"},
+        "billable_event_id": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
