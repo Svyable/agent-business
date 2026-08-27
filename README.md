@@ -31,6 +31,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 19. Match | Create liquid agent markets with transparent matching, evidence-backed reputation, and healthy market economics | [Agent Marketplace Liquidity, Matching & Reputation Economics](docs/AGENT_MARKETPLACE_LIQUIDITY.md) |
 | 20. Finance | Turn machine-speed commerce into controlled cash, reconciled records, and defensible runway | [Agent Treasury, Accounting & Financial Operations](docs/AGENT_TREASURY_FINOPS.md) |
 | 21. Allocate | Put cash, compute, data, and attention behind the highest-return bounded bets and report them with reproducible evidence | [Agent Capital Allocation, Fundraising & Investor Reporting](docs/AGENT_CAPITAL_ALLOCATION.md) |
+| 22. Staff | Allocate scarce human judgment, review capacity, and authority around autonomous work | [Agent Workforce, Human-in-the-Loop & Labor Operations](docs/AGENT_WORKFORCE_OPERATIONS.md) |
 
 ## The agent-business loop
 
@@ -124,7 +125,7 @@ Agent Business is designed to grow into a practical founder knowledge base with:
 - agent-friendly operating checklists,
 - vendor/tool comparisons,
 - benchmarks and unit-economics calculators,
-- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, interoperability, runtime, deployment, capacity, reliability-engineering, marketplace-liquidity, matching, reputation-economics, treasury, accounting, reconciliation, close, financial-operations, capital-allocation, fundraising, scenario-planning, and investor-reporting playbooks,
+- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, interoperability, runtime, deployment, capacity, reliability-engineering, marketplace-liquidity, matching, reputation-economics, treasury, accounting, reconciliation, close, financial-operations, capital-allocation, fundraising, scenario-planning, investor-reporting, workforce-design, human-review, escalation, staffing, and labor-operations playbooks,
 - and a curated marketplace of services and tools for agent founders.
 
 ## How this project itself can make money
@@ -161,6 +162,7 @@ The monetization rule: **the free repo must be strong enough to earn trust befor
 - Optimize marketplaces for verified successful outcomes, healthy depth, and repeat independent trade—not listing count, bid volume, or hidden pay-to-play ranking.
 - Keep commercial intent, delivery, cash movement, and accounting treatment separately auditable; autonomous finance authority must be deterministic, bounded, and reconcilable.
 - Allocate cash, compute, data, and attention through explicit return hypotheses, reserve floors, stage gates, source-linked metrics, and post-investment reviews; never let autonomous systems optimize fundraising or vanity growth as an end in itself.
+- Treat human attention as a scarce control resource: escalate by risk and expected value, capacity-plan review queues, measure rubber-stamping, and attribute reviewer labor to cost per successful outcome.
 - Do not automate spam, deception, impersonation, or illegal activity.
 
 ## Contributing
