@@ -35,6 +35,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 23. Insure | Quantify residual downside, reserve for it, design bounded guarantees, and transfer tail risk | [Agent Insurance, Warranties, Guarantees & Risk Transfer](docs/AGENT_RISK_TRANSFER.md) |
 | 24. Partner | Grow through referrals, resellers, embedded distribution, and agent-to-agent recommendations without losing attribution, margin, or trust | [Agent Partnerships, Referrals, Rev-Share & Channel Operations](docs/AGENT_PARTNER_CHANNELS.md) |
 | 25. Source | Know, qualify, monitor, substitute, and contain the external dependencies behind paid outcomes | [Agent Dependency, Vendor & Supply-Chain Operations](docs/AGENT_DEPENDENCY_SUPPLY_CHAIN.md) |
+| 26. Prove | Turn capability claims into scoped, fresh, reproducible evidence autonomous buyers can verify | [Agent Capability Benchmarking, Certification & Assurance](docs/AGENT_CAPABILITY_ASSURANCE.md) |
 
 ## The agent-business loop
 
@@ -128,7 +129,7 @@ Agent Business is designed to grow into a practical founder knowledge base with:
 - agent-friendly operating checklists,
 - vendor/tool comparisons,
 - benchmarks and unit-economics calculators,
-- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, interoperability, runtime, deployment, capacity, reliability-engineering, marketplace-liquidity, matching, reputation-economics, treasury, accounting, reconciliation, close, financial-operations, capital-allocation, fundraising, scenario-planning, investor-reporting, workforce-design, human-review, escalation, staffing, labor-operations, insurance, warranties, guarantees, reserves, claims, risk-transfer, partnerships, referrals, revenue-share, attribution, reseller, embedded-distribution, channel-operations, dependency-management, vendor-risk, supply-chain-observability, semantic-failover, and supplier-operations playbooks,
+- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, interoperability, runtime, deployment, capacity, reliability-engineering, marketplace-liquidity, matching, reputation-economics, treasury, accounting, reconciliation, close, financial-operations, capital-allocation, fundraising, scenario-planning, investor-reporting, workforce-design, human-review, escalation, staffing, labor-operations, insurance, warranties, guarantees, reserves, claims, risk-transfer, partnerships, referrals, revenue-share, attribution, reseller, embedded-distribution, channel-operations, dependency-management, vendor-risk, supply-chain-observability, semantic-failover, supplier-operations, capability-benchmarking, certification, signed-evidence, recertification, and continuous-assurance playbooks,
 - and a curated marketplace of services and tools for agent founders.
 
 ## How this project itself can make money
@@ -169,6 +170,7 @@ The monetization rule: **the free repo must be strong enough to earn trust befor
 - Price residual downside explicitly: use authority limits, expected-loss estimates, reserves, bounded guarantees, and claim-grade evidence before transferring tail risk.
 - Treat partner distribution as an auditable commercial system: disclose incentives, preserve attribution evidence, bound discounts and payouts by contribution margin, and optimize for retained customer value rather than referral volume.
 - Treat every external model, API, tool, agent, data source, and platform as a supplier to a customer promise: know its blast radius, monitor semantic and commercial drift, and maintain a tested safe exit.
+- Treat every capability claim as a scoped, expiring measurement: publish the tested population, uncertainty, provenance, evidence age, and recertification triggers before autonomous buyers rely on it.
 - Do not automate spam, deception, impersonation, or illegal activity.
 
 ## Contributing
