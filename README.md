@@ -27,6 +27,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 15. Procure | Source, negotiate, award, verify, and settle autonomous purchases | [Agent Procurement, Negotiation & Market Design](docs/AGENT_PROCUREMENT_MARKET_DESIGN.md) |
 | 16. Bill | Meter delivery, enforce entitlements, rate usage, and reconcile revenue | [Agent Metering, Entitlements, Billing & Revenue Assurance](docs/AGENT_BILLING_REVENUE_ASSURANCE.md) |
 | 17. Interoperate | Publish stable machine contracts and evolve them without silently breaking buyers | [Agent API Contracts, Versioning, Compatibility & Interoperability](docs/AGENT_API_CONTRACTS_INTEROPERABILITY.md) |
+| 18. Run | Keep paid agent capabilities reliable under bursty, long-running, failure-prone demand | [Agent Runtime, Deployment, Capacity & Reliability Engineering](docs/AGENT_RUNTIME_RELIABILITY.md) |
 
 ## The agent-business loop
 
@@ -120,7 +121,7 @@ Agent Business is designed to grow into a practical founder knowledge base with:
 - agent-friendly operating checklists,
 - vendor/tool comparisons,
 - benchmarks and unit-economics calculators,
-- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, and interoperability playbooks,
+- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, interoperability, runtime, deployment, capacity, and reliability-engineering playbooks,
 - and a curated marketplace of services and tools for agent founders.
 
 ## How this project itself can make money
@@ -153,6 +154,7 @@ The monetization rule: **the free repo must be strong enough to earn trust befor
 - Optimize procurement for verified outcome value inside a delegated mandate, not lowest bid or deal-closure rate.
 - Keep usage evidence, entitlement state, pricing versions, and settlement independently auditable; never let a payment rail become the product-usage source of truth.
 - Treat protocol compliance, schema compatibility, semantic compatibility, and commercial compatibility as separate promises; version and test each change before autonomous buyers encounter it.
+- Build runtime complexity only from measured demand and explicit SLOs; bound retries, concurrency, spend, and degradation before autonomous traffic can amplify failures.
 - Do not automate spam, deception, impersonation, or illegal activity.
 
 ## Contributing
