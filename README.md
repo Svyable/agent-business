@@ -29,6 +29,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 17. Interoperate | Publish stable machine contracts and evolve them without silently breaking buyers | [Agent API Contracts, Versioning, Compatibility & Interoperability](docs/AGENT_API_CONTRACTS_INTEROPERABILITY.md) |
 | 18. Run | Keep paid agent capabilities reliable under bursty, long-running, failure-prone demand | [Agent Runtime, Deployment, Capacity & Reliability Engineering](docs/AGENT_RUNTIME_RELIABILITY.md) |
 | 19. Match | Create liquid agent markets with transparent matching, evidence-backed reputation, and healthy market economics | [Agent Marketplace Liquidity, Matching & Reputation Economics](docs/AGENT_MARKETPLACE_LIQUIDITY.md) |
+| 20. Finance | Turn machine-speed commerce into controlled cash, reconciled records, and defensible runway | [Agent Treasury, Accounting & Financial Operations](docs/AGENT_TREASURY_FINOPS.md) |
 
 ## The agent-business loop
 
@@ -122,7 +123,7 @@ Agent Business is designed to grow into a practical founder knowledge base with:
 - agent-friendly operating checklists,
 - vendor/tool comparisons,
 - benchmarks and unit-economics calculators,
-- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, interoperability, runtime, deployment, capacity, reliability-engineering, marketplace-liquidity, matching, and reputation-economics playbooks,
+- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, interoperability, runtime, deployment, capacity, reliability-engineering, marketplace-liquidity, matching, reputation-economics, treasury, accounting, reconciliation, close, and financial-operations playbooks,
 - and a curated marketplace of services and tools for agent founders.
 
 ## How this project itself can make money
@@ -157,6 +158,7 @@ The monetization rule: **the free repo must be strong enough to earn trust befor
 - Treat protocol compliance, schema compatibility, semantic compatibility, and commercial compatibility as separate promises; version and test each change before autonomous buyers encounter it.
 - Build runtime complexity only from measured demand and explicit SLOs; bound retries, concurrency, spend, and degradation before autonomous traffic can amplify failures.
 - Optimize marketplaces for verified successful outcomes, healthy depth, and repeat independent trade—not listing count, bid volume, or hidden pay-to-play ranking.
+- Keep commercial intent, delivery, cash movement, and accounting treatment separately auditable; autonomous finance authority must be deterministic, bounded, and reconcilable.
 - Do not automate spam, deception, impersonation, or illegal activity.
 
 ## Contributing
