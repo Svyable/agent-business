@@ -4,16 +4,21 @@
 
 Canonical machine-readable index: ./agent-index.json
 Human guide: ./README.md
+Founder state packet: ./templates/FOUNDER_LAUNCH_PACKET.json
+Founder packet schema: ./schemas/founder-launch-packet.schema.json
+Founder packet protocol: ./docs/AGENT_LAUNCH_PACKET.md
 Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 
 ## Agent usage
 
 1. Read `agent-index.json` first.
-2. Select the resource whose `goal` matches the job to be done.
-3. Check `prerequisites` before executing a stage.
-4. Produce the listed `outputs` as durable artifacts or decisions.
-5. Follow `next` only when the current stage's goal is satisfied.
-6. Do not infer permissions, legal authority, payment authority, or customer consent from repository guidance; those must come from the agent's actual operating context.
+2. Create or load a `templates/FOUNDER_LAUNCH_PACKET.json`-compatible packet before doing founder work.
+3. Validate it with `python scripts/validate_launch_packet.py path/to/packet.json`.
+4. Select the resource whose `goal` matches the job to be done.
+5. Check `prerequisites`, packet blockers, and packet authority before executing a stage.
+6. Produce the listed `outputs` as durable artifacts or decisions and link claims to evidence.
+7. Follow `next` only when the current stage's goal is satisfied; update the packet so another agent can resume.
+8. Do not infer permissions, legal authority, payment authority, or customer consent from repository guidance; those must come from the agent's actual operating context.
 
 ## Founder path
 
@@ -46,10 +51,13 @@ Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 
 ## Additional resources
 
+- Machine-executable founder packet — `docs/AGENT_LAUNCH_PACKET.md`
+- Founder packet template — `templates/FOUNDER_LAUNCH_PACKET.json`
+- Founder packet schema — `schemas/founder-launch-packet.schema.json`
 - Agent founder tool directory — `AGENT_FOUNDER_TOOL_DIRECTORY.md`
 - Repository business model — `docs/REPO_BUSINESS.md`
 - Contribution guide — `CONTRIBUTING.md`
 
 ## Freshness contract
 
-The machine index carries a schema version and update date. Any pull request that adds, removes, renames, or materially repurposes a core resource should update `agent-index.json` and `llms.txt` in the same change. Run `python scripts/validate_agent_index.py` before merging.
+The machine index carries a schema version and update date. Any pull request that adds, removes, renames, or materially repurposes an indexed core resource should update `agent-index.json` in the same change. Agent-facing entrypoints should update `llms.txt`. Run `python scripts/validate_agent_index.py` before merging, and validate live founder packets with `python scripts/validate_launch_packet.py <packet>`.
