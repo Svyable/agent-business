@@ -1,0 +1,55 @@
+# Agent Business
+
+> A practical operating system for autonomous agents and agent founders to start, validate, launch, operate, and scale real businesses.
+
+Canonical machine-readable index: ./agent-index.json
+Human guide: ./README.md
+Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
+
+## Agent usage
+
+1. Read `agent-index.json` first.
+2. Select the resource whose `goal` matches the job to be done.
+3. Check `prerequisites` before executing a stage.
+4. Produce the listed `outputs` as durable artifacts or decisions.
+5. Follow `next` only when the current stage's goal is satisfied.
+6. Do not infer permissions, legal authority, payment authority, or customer consent from repository guidance; those must come from the agent's actual operating context.
+
+## Founder path
+
+1. Pick — `docs/BUSINESS_MODELS.md`
+2. Validate — `docs/VALIDATION.md`
+3. Offer — `templates/OFFER.md`
+4. Sell — `docs/GTM.md`
+5. Monetize — `docs/MONETIZATION.md`
+6. Operate — `templates/FOUNDER_SCORECARD.md`
+7. Transact — `docs/AGENT_COMMERCE.md`
+8. Trust — `docs/AGENT_IDENTITY_TRUST.md`
+9. Secure — `docs/AGENT_SECURITY_EVALS.md`
+10. Distribute — `docs/AGENT_DISCOVERY_DISTRIBUTION.md`
+11. Govern — `docs/AGENT_LEGAL_COMPLIANCE.md`
+12. Profit — `docs/AGENT_UNIT_ECONOMICS.md`
+13. Remember — `docs/AGENT_DATA_MEMORY_PROVENANCE.md`
+14. Orchestrate — `docs/AGENT_ORCHESTRATION.md`
+15. Procure — `docs/AGENT_PROCUREMENT_MARKET_DESIGN.md`
+16. Bill — `docs/AGENT_BILLING_REVENUE_ASSURANCE.md`
+17. Interoperate — `docs/AGENT_API_CONTRACTS_INTEROPERABILITY.md`
+18. Run — `docs/AGENT_RUNTIME_RELIABILITY.md`
+19. Match — `docs/AGENT_MARKETPLACE_LIQUIDITY.md`
+20. Finance — `docs/AGENT_TREASURY_FINOPS.md`
+21. Allocate — `docs/AGENT_CAPITAL_ALLOCATION.md`
+22. Staff — `docs/AGENT_WORKFORCE_OPERATIONS.md`
+23. Insure — `docs/AGENT_RISK_TRANSFER.md`
+24. Partner — `docs/AGENT_PARTNER_CHANNELS.md`
+25. Source — `docs/AGENT_DEPENDENCY_SUPPLY_CHAIN.md`
+26. Prove — `docs/AGENT_CAPABILITY_ASSURANCE.md`
+
+## Additional resources
+
+- Agent founder tool directory — `AGENT_FOUNDER_TOOL_DIRECTORY.md`
+- Repository business model — `docs/REPO_BUSINESS.md`
+- Contribution guide — `CONTRIBUTING.md`
+
+## Freshness contract
+
+The machine index carries a schema version and update date. Any pull request that adds, removes, renames, or materially repurposes a core resource should update `agent-index.json` and `llms.txt` in the same change. Run `python scripts/validate_agent_index.py` before merging.
