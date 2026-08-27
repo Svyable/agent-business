@@ -10,6 +10,9 @@ Founder packet protocol: ./docs/AGENT_LAUNCH_PACKET.md
 Diligence room template: ./templates/DILIGENCE_ROOM.json
 Diligence room schema: ./schemas/diligence-room.schema.json
 Diligence protocol: ./docs/AGENT_DILIGENCE_DEAL_ROOM.md
+Service contract template: ./templates/SERVICE_CONTRACT.json
+Service contract schema: ./schemas/service-contract.schema.json
+Service contracting protocol: ./docs/AGENT_SERVICE_CONTRACTING.md
 Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 
 ## Agent usage
@@ -22,7 +25,8 @@ Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 6. Produce the listed `outputs` as durable artifacts or decisions and link claims to evidence.
 7. Follow `next` only when the current stage's goal is satisfied; update the packet so another agent can resume.
 8. When external diligence begins, create an audience-scoped `DILIGENCE_ROOM.json` and validate it before disclosure.
-9. Do not infer permissions, legal authority, payment authority, customer consent, or disclosure authority from repository guidance; those must come from the agent's actual operating context.
+9. Before a paid service starts, create a `SERVICE_CONTRACT.json`-compatible order and validate it; do not infer buyer/seller authority from the template.
+10. Do not infer permissions, legal authority, payment authority, customer consent, or disclosure authority from repository guidance; those must come from the agent's actual operating context.
 
 ## Founder path
 
@@ -61,10 +65,13 @@ Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 - Agent-native diligence and deal rooms — `docs/AGENT_DILIGENCE_DEAL_ROOM.md`
 - Diligence room template — `templates/DILIGENCE_ROOM.json`
 - Diligence room schema — `schemas/diligence-room.schema.json`
+- Agent service contracting and acceptance — `docs/AGENT_SERVICE_CONTRACTING.md`
+- Service contract template — `templates/SERVICE_CONTRACT.json`
+- Service contract schema — `schemas/service-contract.schema.json`
 - Agent founder tool directory — `AGENT_FOUNDER_TOOL_DIRECTORY.md`
 - Repository business model — `docs/REPO_BUSINESS.md`
 - Contribution guide — `CONTRIBUTING.md`
 
 ## Freshness contract
 
-The machine index carries a schema version and update date. Any pull request that adds, removes, renames, or materially repurposes an indexed core resource should update `agent-index.json` in the same change. Agent-facing entrypoints should update `llms.txt`. Run `python scripts/validate_agent_index.py` before merging, validate live founder packets with `python scripts/validate_launch_packet.py <packet>`, and validate external diligence rooms with `python scripts/validate_diligence_room.py <room>`.
+The machine index carries a schema version and update date. Any pull request that adds, removes, renames, or materially repurposes an indexed core resource should update `agent-index.json` in the same change. Agent-facing entrypoints should update `llms.txt`. Run `python scripts/validate_agent_index.py` before merging, validate live founder packets with `python scripts/validate_launch_packet.py <packet>`, validate external diligence rooms with `python scripts/validate_diligence_room.py <room>`, and validate service contracts with `python scripts/validate_service_contract.py <contract>`.

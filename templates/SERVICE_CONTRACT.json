@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "contract-example-001",
+  "status": "draft",
+  "effective_at": null,
+  "expires_at": null,
+  "supersedes_contract_id": null,
+  "parties": {
+    "buyer": {
+      "party_id": "buyer-example",
+      "display_name": "Buyer Example",
+      "agent_id": null,
+      "authority_reference": null
+    },
+    "seller": {
+      "party_id": "seller-example",
+      "display_name": "Seller Example",
+      "agent_id": null,
+      "authority_reference": null
+    }
+  },
+  "service": {
+    "capability_id": "capability.example",
+    "capability_version": "1.0.0",
+    "scope": "Replace this with the exact service outcome and boundary.",
+    "out_of_scope": ["Any action not explicitly authorized by this contract"],
+    "deliverables": [
+      {
+        "deliverable_id": "deliverable-1",
+        "description": "Replace with a measurable deliverable.",
+        "quantity": 1,
+        "acceptance_criterion_ids": ["criterion-1"]
+      }
+    ],
+    "dependencies": [],
+    "data_handling_profile": null
+  },
+  "commercials": {
+    "currency": "USD",
+    "pricing_model": "fixed",
+    "price_version": "price-v1",
+    "rates": [
+      {
+        "rate_id": "base",
+        "unit": "contract",
+        "amount": 0,
+        "minimum_charge": 0
+      }
+    ],
+    "billing_cadence": "on_acceptance",
+    "spend_ceiling": 0,
+    "taxes_included": false
+  },
+  "authority": {
+    "buyer_approval_id": null,
+    "seller_authority_id": null,
+    "auto_approve_below": 0,
+    "human_approval_required_above": 0,
+    "prohibited_actions": ["Spend above the contract ceiling", "Expand scope without an approved change order"],
+    "allowed_regions": []
+  },
+  "service_levels": [
+    {
+      "slo_id": "slo-1",
+      "metric": "successful_outcome_rate",
+      "target": ">= 95%",
+      "measurement_source": "Replace with authoritative telemetry or acceptance receipts",
+      "window": "monthly",
+      "exclusions": []
+    }
+  ],
+  "acceptance": {
+    "acceptance_window_hours": 72,
+    "criteria": [
+      {
+        "criterion_id": "criterion-1",
+        "description": "Replace with a deterministic or independently verifiable acceptance condition.",
+        "verification_method": "Replace with test, receipt, human approval, or signed evidence reference."
+      }
+    ],
+    "evidence_required": ["delivery_receipt", "verification_result"],
+    "auto_accept": false,
+    "auto_accept_conditions": []
+  },
+  "change_control": {
+    "material_change_fields": ["service.scope", "service.capability_version", "service.dependencies", "commercials", "authority", "service_levels", "acceptance"],
+    "requires_change_order": true,
+    "change_orders": []
+  },
+  "billing": {
+    "billable_event": "accepted_delivery",
+    "invoice_reference_policy": "Every invoice line must reference contract_id plus receipt_id or approved recurring entitlement.",
+    "acceptance_required_before_charge": true,
+    "service_credit_policy": []
+  },
+  "disputes": {
+    "dispute_window_hours": 168,
+    "required_evidence": ["contract_version", "delivery_receipt", "verification_result", "billing_event", "incident_record_if_applicable"],
+    "escalation_path": ["counterparty_review", "authorized_human_or_governance_process"]
+  },
+  "receipts": [],
+  "metadata": {
+    "notes": "Template only. Draft status deliberately carries no implied legal, payment, or execution authority."
+  }
+}
