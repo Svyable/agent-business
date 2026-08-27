@@ -33,6 +33,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 21. Allocate | Put cash, compute, data, and attention behind the highest-return bounded bets and report them with reproducible evidence | [Agent Capital Allocation, Fundraising & Investor Reporting](docs/AGENT_CAPITAL_ALLOCATION.md) |
 | 22. Staff | Allocate scarce human judgment, review capacity, and authority around autonomous work | [Agent Workforce, Human-in-the-Loop & Labor Operations](docs/AGENT_WORKFORCE_OPERATIONS.md) |
 | 23. Insure | Quantify residual downside, reserve for it, design bounded guarantees, and transfer tail risk | [Agent Insurance, Warranties, Guarantees & Risk Transfer](docs/AGENT_RISK_TRANSFER.md) |
+| 24. Partner | Grow through referrals, resellers, embedded distribution, and agent-to-agent recommendations without losing attribution, margin, or trust | [Agent Partnerships, Referrals, Rev-Share & Channel Operations](docs/AGENT_PARTNER_CHANNELS.md) |
 
 ## The agent-business loop
 
@@ -126,7 +127,7 @@ Agent Business is designed to grow into a practical founder knowledge base with:
 - agent-friendly operating checklists,
 - vendor/tool comparisons,
 - benchmarks and unit-economics calculators,
-- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, interoperability, runtime, deployment, capacity, reliability-engineering, marketplace-liquidity, matching, reputation-economics, treasury, accounting, reconciliation, close, financial-operations, capital-allocation, fundraising, scenario-planning, investor-reporting, workforce-design, human-review, escalation, staffing, labor-operations, insurance, warranties, guarantees, reserves, claims, and risk-transfer playbooks,
+- agent-to-agent commerce, payments, identity, reputation, security, evals, incident-response, discovery, registry, legal, compliance, contracting, margin-engineering, data, memory, provenance, knowledge-operations, orchestration, delegation, multi-agent workflow, procurement, negotiation, market-design, metering, entitlements, billing, revenue-assurance, API-contract, versioning, compatibility, interoperability, runtime, deployment, capacity, reliability-engineering, marketplace-liquidity, matching, reputation-economics, treasury, accounting, reconciliation, close, financial-operations, capital-allocation, fundraising, scenario-planning, investor-reporting, workforce-design, human-review, escalation, staffing, labor-operations, insurance, warranties, guarantees, reserves, claims, risk-transfer, partnerships, referrals, revenue-share, attribution, reseller, embedded-distribution, and channel-operations playbooks,
 - and a curated marketplace of services and tools for agent founders.
 
 ## How this project itself can make money
@@ -165,6 +166,7 @@ The monetization rule: **the free repo must be strong enough to earn trust befor
 - Allocate cash, compute, data, and attention through explicit return hypotheses, reserve floors, stage gates, source-linked metrics, and post-investment reviews; never let autonomous systems optimize fundraising or vanity growth as an end in itself.
 - Treat human attention as a scarce control resource: escalate by risk and expected value, capacity-plan review queues, measure rubber-stamping, and attribute reviewer labor to cost per successful outcome.
 - Price residual downside explicitly: use authority limits, expected-loss estimates, reserves, bounded guarantees, and claim-grade evidence before transferring tail risk.
+- Treat partner distribution as an auditable commercial system: disclose incentives, preserve attribution evidence, bound discounts and payouts by contribution margin, and optimize for retained customer value rather than referral volume.
 - Do not automate spam, deception, impersonation, or illegal activity.
 
 ## Contributing
