@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/founder-launch-packet.schema.json",
+  "title": "Agent Business Founder Launch Packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "packet_id", "updated_at", "stage", "business", "evidence", "decisions", "authority", "experiments", "blockers", "next_actions"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "packet_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "stage": {"type": "string", "minLength": 1},
+    "business": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "hypothesis", "icp", "pain", "offer", "pricing"],
+      "properties": {
+        "name": {"type": "string"}, "hypothesis": {"type": "string"}, "icp": {"type": "string"}, "pain": {"type": "string"}, "offer": {"type": "string"}, "pricing": {"type": "string"},
+        "channel": {"type": "string"}, "unit_economics": {"type": "string"}, "stack": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+    "decisions": {"type": "array", "items": {"$ref": "#/$defs/decision"}},
+    "authority": {"$ref": "#/$defs/authority"},
+    "experiments": {"type": "array", "items": {"$ref": "#/$defs/experiment"}},
+    "blockers": {"type": "array", "items": {"$ref": "#/$defs/blocker"}},
+    "next_actions": {"type": "array", "items": {"$ref": "#/$defs/action"}}
+  },
+  "$defs": {
+    "evidence": {"type": "object", "additionalProperties": false, "required": ["id", "claim", "source", "observed_at", "expires_at"], "properties": {"id": {"type": "string"}, "claim": {"type": "string"}, "source": {"type": "string"}, "observed_at": {"type": "string", "format": "date-time"}, "expires_at": {"type": "string", "format": "date-time"}, "confidence": {"type": "number", "minimum": 0, "maximum": 1}}},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["id", "topic", "value", "evidence_ids", "status"], "properties": {"id": {"type": "string"}, "topic": {"type": "string"}, "value": {"type": "string"}, "evidence_ids": {"type": "array", "items": {"type": "string"}}, "status": {"enum": ["proposed", "approved", "rejected", "superseded"]}}},
+    "authority": {"type": "object", "additionalProperties": false, "required": ["can_contact_customers", "can_spend", "max_spend_usd", "can_sign_contracts", "requires_human_approval_for"], "properties": {"can_contact_customers": {"type": "boolean"}, "can_spend": {"type": "boolean"}, "max_spend_usd": {"type": "number", "minimum": 0}, "can_sign_contracts": {"type": "boolean"}, "requires_human_approval_for": {"type": "array", "items": {"type": "string"}}}},
+    "experiment": {"type": "object", "additionalProperties": false, "required": ["id", "hypothesis", "metric", "success_threshold", "status"], "properties": {"id": {"type": "string"}, "hypothesis": {"type": "string"}, "metric": {"type": "string"}, "success_threshold": {"type": "string"}, "status": {"enum": ["planned", "running", "passed", "failed", "stopped"]}, "result": {"type": "string"}}},
+    "blocker": {"type": "object", "additionalProperties": false, "required": ["id", "description", "severity", "owner"], "properties": {"id": {"type": "string"}, "description": {"type": "string"}, "severity": {"enum": ["low", "medium", "high", "critical"]}, "owner": {"type": "string"}}},
+    "action": {"type": "object", "additionalProperties": false, "required": ["id", "resource_id", "description", "status"], "properties": {"id": {"type": "string"}, "resource_id": {"type": "string"}, "description": {"type": "string"}, "status": {"enum": ["todo", "doing", "done", "blocked"]}, "requires_approval": {"type": "boolean"}}}
+  }
+}
