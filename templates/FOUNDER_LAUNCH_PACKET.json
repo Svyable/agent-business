@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "packet_id": "example-business-001",
+  "updated_at": "2026-08-27T20:56:00Z",
+  "stage": "pick",
+  "business": {
+    "name": "Example Agent Business",
+    "hypothesis": "A narrow customer will pay for a measurable agent-delivered outcome.",
+    "icp": "Define one buyer with a frequent, expensive problem.",
+    "pain": "Quantify the cost, delay, risk, or missed revenue caused by the problem.",
+    "offer": "Define the outcome, scope, proof, and delivery boundary.",
+    "pricing": "Set a testable price tied to value and delivery economics.",
+    "channel": "Name where the first 100 prospects can be reached.",
+    "unit_economics": "Track revenue, variable delivery cost, human review, and contribution margin.",
+    "stack": []
+  },
+  "evidence": [],
+  "decisions": [],
+  "authority": {
+    "can_contact_customers": false,
+    "can_spend": false,
+    "max_spend_usd": 0,
+    "can_sign_contracts": false,
+    "requires_human_approval_for": ["customer outreach", "spend", "contracts", "regulated actions", "production credential changes"]
+  },
+  "experiments": [],
+  "blockers": [],
+  "next_actions": [
+    {
+      "id": "action-001",
+      "resource_id": "pick",
+      "description": "Choose one narrow customer/problem pair using docs/BUSINESS_MODELS.md.",
+      "status": "todo",
+      "requires_approval": false
+    }
+  ]
+}
