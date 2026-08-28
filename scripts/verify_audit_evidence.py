@@ -93,8 +93,9 @@ def require_current_refs(refs: object, evidence: dict[str, dict], label: str) ->
 def canonical_event_hash(event: dict) -> str:
     fields = [
         event.get("sequence"), event.get("event_id"), event.get("occurred_at"), event.get("event_type"),
-        event.get("run_id"), event.get("tenant_ref"), event.get("authority_ref"), event.get("prev_hash"),
-        event.get("payload_digest")
+        event.get("run_id"), event.get("tenant_ref"), event.get("agent_id"), event.get("principal_ref"),
+        event.get("release_id"), event.get("policy_version"), event.get("authority_ref"), event.get("trace_id"),
+        event.get("side_effect_receipt_ref"), event.get("prev_hash"), event.get("payload_digest")
     ]
     material = "|".join("" if value is None else str(value) for value in fields)
     return hashlib.sha256(material.encode("utf-8")).hexdigest()
@@ -217,7 +218,6 @@ def validate(record: dict) -> None:
     previous_hash = "GENESIS"
     previous_time: datetime | None = None
     missing_authority = 0
-    tool_events = 0
 
     for index, event in enumerate(events):
         if not isinstance(event, dict):
@@ -238,8 +238,6 @@ def validate(record: dict) -> None:
         event_type = event.get("event_type")
         if event_type not in event_classes:
             fail(f"event type not declared in scope: {event_type}")
-        if event_type == "tool_call":
-            tool_events += 1
         if event_type in CONSEQUENTIAL_EVENTS and not event.get("authority_ref"):
             missing_authority += 1
         if event_type == "side_effect" and not event.get("side_effect_receipt_ref"):
