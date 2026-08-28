@@ -86,5 +86,8 @@ jobs:
       - name: Validate privacy request template
         run: python scripts/validate_privacy_request.py templates/PRIVACY_REQUEST_RECORD.json
 
+      - name: Validate platform access template
+        run: python scripts/validate_platform_access.py templates/PLATFORM_ACCESS_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
