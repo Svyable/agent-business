@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "audit-evidence-starter",
+  "status": "draft",
+  "updated_at": "2026-08-28T17:55:00Z",
+  "repository_resources": ["audit-evidence", "incident-response", "secure"],
+  "scope": {
+    "stream_id": "replace-with-private-stream-reference",
+    "tenant_scope": "single-tenant-placeholder",
+    "event_classes": ["agent_run", "tool_call", "authority_decision", "policy_decision", "side_effect", "incident"],
+    "required_context_fields": ["run_id", "tenant_ref", "agent_id", "principal_ref", "release_id", "policy_version", "authority_ref", "trace_id", "side_effect_receipt_ref"]
+  },
+  "integrity": {
+    "level": "observed_unverified",
+    "mode": "none",
+    "algorithm": "none",
+    "trust_boundary": "No integrity mechanism configured; replace before claiming verification.",
+    "integrity_proven": false,
+    "verification_evidence_ids": []
+  },
+  "roles": {
+    "runtime_writer": "unassigned",
+    "evidence_custodian": "unassigned",
+    "verifier": "unassigned",
+    "export_authority": "unassigned",
+    "can_delete": false,
+    "can_change_retention": false,
+    "can_release_hold": false,
+    "authority_evidence_ids": []
+  },
+  "retention": {
+    "classes": [
+      {
+        "id": "consequential-action-evidence",
+        "min_days": 0,
+        "max_days": null,
+        "deletion_eligible": false,
+        "storage_boundary": "unconfigured-private-evidence-store",
+        "cost_owner": "unassigned",
+        "contract_constraints": []
+      }
+    ],
+    "active_hold": false,
+    "hold_reference": null,
+    "deletion_requested": false
+  },
+  "export": {
+    "cross_tenant_allowed": false,
+    "include_raw_prompts": false,
+    "include_credentials": false,
+    "include_private_customer_data": false,
+    "chain_of_custody_required": true
+  },
+  "completeness": {
+    "claim": "unknown",
+    "scope_start": null,
+    "scope_end": null,
+    "expected_event_count": null,
+    "captured_event_count": 0,
+    "orphan_tool_calls": 0,
+    "missing_authority_links": 0
+  },
+  "evidence": [],
+  "events": [],
+  "privacy": {
+    "contains_credentials": false,
+    "contains_raw_prompts": false,
+    "contains_private_customer_data": false,
+    "contains_executable_commands": false,
+    "public_disclosure_confirmed": true
+  }
+}
