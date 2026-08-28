@@ -17,6 +17,11 @@ Workflow ROI operating model: ./docs/AGENT_WORKFLOW_ROI.md
 Workflow ROI template: ./templates/WORKFLOW_ROI_ANALYSIS.json
 Workflow ROI schema: ./schemas/workflow-roi-analysis.schema.json
 Workflow ROI calculator: ./scripts/workflow_roi.py
+Pricing, packaging, and deal desk: ./docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md
+Pricing package template: ./templates/PRICING_PACKAGE.json
+Pricing package schema: ./schemas/pricing-package.schema.json
+Pricing package validator: ./scripts/validate_pricing_package.py
+Commercial quote template: ./templates/COMMERCIAL_QUOTE.md
 Customer success and retention: ./docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md
 Customer success template: ./templates/CUSTOMER_SUCCESS_RECORD.json
 Customer success schema: ./schemas/customer-success-record.schema.json
@@ -72,12 +77,13 @@ The bootstrap performs no network requests and emits no telemetry. Generated pac
 9. When reporting a public founder outcome, use `docs/FOUNDER_OUTCOME_CASE_STUDIES.md` and keep observed facts, self-reported claims, estimates, and editorial interpretation separate.
 10. Never publish a founder outcome record as `published` until `python scripts/validate_founder_outcome.py <record>` succeeds without `--allow-draft`.
 11. When deciding whether an agentic workflow is economically worth building or scaling, use `docs/AGENT_WORKFLOW_ROI.md` and compare the same customer-visible outcome across a real baseline and alternatives; include retries, review, recovery, support, fixed operations, and implementation investment rather than optimizing token spend alone.
-12. For post-sale work, use `docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md`; keep account-health evidence, model inference, communications eligibility, incidents, renewal recommendations, approvals, and real commercial authority separate. A health score or renewal recommendation never grants authority.
-13. For taxable/invoiceable/payable transactions, use `docs/AGENT_FISCAL_OPERATIONS.md`; unresolved jurisdiction, registration, tax, invoice, withholding, platform-reporting, or FX evidence must remain `draft`/`needs_review`, not silently become an operational tax answer.
-14. For entity formation, ownership, signatory authority, statutory filings, or material corporate actions, use `docs/AGENT_ENTITY_GOVERNANCE.md`; an unresolved entity record must remain `needs_review`, not be treated as proof of legal existence, good standing, ownership, or authority.
-15. For models, code, datasets, RAG sources, customer inputs, generated outputs, and other IP-bearing assets, use `docs/AGENT_IP_DATA_RIGHTS.md`; public availability is not proof of commercial, redistribution, training, or customer-deliverable rights, and unresolved rights must not become `commercial_ready`.
-16. Never infer real-world authority from repository templates or guidance.
-17. Never put secrets, credentials, private prompts, payment data, raw government IDs, signatures, bank credentials, private contract text, restricted dataset content, or private founder/customer evidence into public GitHub artifacts.
+12. When defining a package or quote, use `docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md`; keep the customer billable meter separate from internal cost events, clear the declared contribution-margin floor with current evidence, bound variable spend, and never infer discount/credit/quote authority from a template.
+13. For post-sale work, use `docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md`; keep account-health evidence, model inference, communications eligibility, incidents, renewal recommendations, approvals, and real commercial authority separate. A health score or renewal recommendation never grants authority.
+14. For taxable/invoiceable/payable transactions, use `docs/AGENT_FISCAL_OPERATIONS.md`; unresolved jurisdiction, registration, tax, invoice, withholding, platform-reporting, or FX evidence must remain `draft`/`needs_review`, not silently become an operational tax answer.
+15. For entity formation, ownership, signatory authority, statutory filings, or material corporate actions, use `docs/AGENT_ENTITY_GOVERNANCE.md`; an unresolved entity record must remain `needs_review`, not be treated as proof of legal existence, good standing, ownership, or authority.
+16. For models, code, datasets, RAG sources, customer inputs, generated outputs, and other IP-bearing assets, use `docs/AGENT_IP_DATA_RIGHTS.md`; public availability is not proof of commercial, redistribution, training, or customer-deliverable rights, and unresolved rights must not become `commercial_ready`.
+17. Never infer real-world authority from repository templates or guidance.
+18. Never put secrets, credentials, private prompts, payment data, raw government IDs, signatures, bank credentials, private contract text, restricted dataset content, or private founder/customer evidence into public GitHub artifacts.
 
 ## GitHub is the canonical product surface
 
@@ -141,6 +147,11 @@ They are not required for canonical GitHub-native use.
 - Workflow ROI template — `templates/WORKFLOW_ROI_ANALYSIS.json`
 - Workflow ROI schema — `schemas/workflow-roi-analysis.schema.json`
 - Workflow ROI validator/calculator — `scripts/workflow_roi.py`
+- Pricing, packaging, metering, and deal desk — `docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md`
+- Pricing package template — `templates/PRICING_PACKAGE.json`
+- Pricing package schema — `schemas/pricing-package.schema.json`
+- Pricing package validator — `scripts/validate_pricing_package.py`
+- Commercial quote template — `templates/COMMERCIAL_QUOTE.md`
 - Customer success and retention — `docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md`
 - Customer success template — `templates/CUSTOMER_SUCCESS_RECORD.json`
 - Customer success schema — `schemas/customer-success-record.schema.json`
@@ -185,6 +196,7 @@ python scripts/workflow_roi.py templates/WORKFLOW_ROI_ANALYSIS.json --validate-o
 python scripts/validate_customer_success.py templates/CUSTOMER_SUCCESS_RECORD.json
 python scripts/validate_vendor_readiness.py templates/VENDOR_READINESS_RECORD.json
 python scripts/validate_ip_rights.py templates/IP_RIGHTS_RECORD.json
+python scripts/validate_pricing_package.py templates/PRICING_PACKAGE.json
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 
@@ -194,6 +206,7 @@ Validate live artifacts with:
 python scripts/agent_business.py validate <founder-packet>
 python scripts/validate_founder_outcome.py <founder-outcome-record>
 python scripts/workflow_roi.py <workflow-roi-analysis>
+python scripts/validate_pricing_package.py <pricing-package>
 python scripts/validate_customer_success.py <customer-success-record>
 python scripts/validate_fiscal_evidence.py <fiscal-transaction-record>
 python scripts/validate_entity_governance.py <entity-governance-record>

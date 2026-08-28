@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "package_id": "draft-pricing-package",
+  "updated_at": "2026-08-28T09:55:00Z",
+  "status": "needs_review",
+  "currency": "USD",
+  "pricing_model": "hybrid",
+  "customer_segment": "Replace with a validated segment before quoting",
+  "meter": {
+    "name": "successful workflow",
+    "unit": "workflow",
+    "trigger": "completed_workflow",
+    "definition": "A workflow is billable only after the configured completion criteria are satisfied and one canonical delivery identifier is recorded.",
+    "deduplication_key": "delivery_id",
+    "customer_verifiable": true,
+    "acceptance_window_hours": null,
+    "exclusions": [
+      "provider retries",
+      "duplicate delivery events",
+      "internal test traffic",
+      "failed workflows"
+    ]
+  },
+  "outcome_policy": null,
+  "commercial_terms": {
+    "billing_period": "monthly",
+    "base_fee_minor": 0,
+    "minimum_commitment_minor": 0,
+    "included_units": 0,
+    "unit_price_minor": 0,
+    "overage_price_minor": null,
+    "hard_spend_cap_minor": 0,
+    "discount_bps": 0,
+    "setup_fee_minor": 0,
+    "service_credit_cap_minor": 0,
+    "effective_from": "2026-08-28T09:55:00Z",
+    "effective_until": null,
+    "quote_expires_at": "2026-08-28T09:55:00Z",
+    "change_notice_days": 0
+  },
+  "economics": {
+    "expected_cost_per_billable_unit_minor": 0,
+    "expected_net_price_per_unit_minor": 0,
+    "target_contribution_margin_bps": 0,
+    "minimum_contribution_margin_bps": 0,
+    "workflow_roi_record": null,
+    "evidence_ids": []
+  },
+  "budget_controls": {
+    "usage_alert_percentages": [],
+    "hard_cap_behavior": "stop",
+    "overage_requires_approval": true,
+    "no_surprise_billing": true
+  },
+  "authority": {
+    "source": null,
+    "can_issue_quote": false,
+    "max_discount_bps": 0,
+    "can_waive_setup": false,
+    "can_change_minimum": false,
+    "can_grant_credits": false,
+    "max_credit_minor": 0,
+    "can_activate_nonstandard_terms": false,
+    "reviewed_at": null
+  },
+  "evidence": [],
+  "privacy": {
+    "contains_secrets": false,
+    "contains_payment_credentials": false,
+    "contains_private_customer_data": false
+  }
+}

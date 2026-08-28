@@ -50,5 +50,8 @@ jobs:
       - name: Validate IP rights template
         run: python scripts/validate_ip_rights.py templates/IP_RIGHTS_RECORD.json
 
+      - name: Validate pricing package template
+        run: python scripts/validate_pricing_package.py templates/PRICING_PACKAGE.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
