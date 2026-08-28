@@ -305,6 +305,26 @@
       "next": []
     },
     {
+      "id": "github-bootstrap",
+      "type": "meta",
+      "name": "GitHub-Native Agent Bootstrap",
+      "goal": "Enter the public repository deterministically, create conservative founder state, and navigate indexed next steps without external hosting or telemetry.",
+      "path": "AGENTS.md",
+      "prerequisites": [],
+      "outputs": ["Safe repository entry procedure, authority defaults, evidence rules, contribution path, and GitHub-native adoption model"],
+      "next": ["pick"]
+    },
+    {
+      "id": "agent-bootstrap-cli",
+      "type": "tool",
+      "name": "Agent Business Bootstrap CLI",
+      "goal": "Create validator-compatible founder packets and resolve indexed stages using only Python's standard library.",
+      "path": "scripts/agent_business.py",
+      "prerequisites": [],
+      "outputs": ["Conservative founder packet, validation result, resource catalog, current-stage summary, and indexed next-step summary"],
+      "next": ["pick"]
+    },
+    {
       "id": "tool-directory",
       "type": "directory",
       "name": "Agent Founder Tool Directory",
