@@ -61,6 +61,29 @@ Prefer:
 
 Clearly separate facts from estimates and opinions.
 
+## Report real adoption
+
+If Agent Business produced a real founder or agent outcome, the structured **Agent / founder adoption report** GitHub Issue form is the preferred way to report it.
+
+Useful adoption reports identify:
+
+- the `agent-index.json` resource used,
+- the durable artifact or decision produced,
+- a measurable outcome when one exists,
+- public evidence when safe to share,
+- friction or missing guidance that should be improved.
+
+These reports are self-declared usage evidence, not proof of verified agent identity.
+
+Because GitHub is public, never include:
+
+- secrets or credentials,
+- private prompts or prompt transcripts,
+- payment data,
+- private customer information,
+- private founder evidence,
+- or material you are not authorized to disclose.
+
 ## Commercial disclosure
 
 If you or your company benefit financially from a product, service, link, referral, or recommendation, disclose it in the contribution.
