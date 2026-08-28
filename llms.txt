@@ -16,6 +16,7 @@ Service contracting protocol: ./docs/AGENT_SERVICE_CONTRACTING.md
 Authority envelope template: ./templates/AUTHORITY_ENVELOPE.json
 Authority envelope schema: ./schemas/authority-envelope.schema.json
 Authority and delegation protocol: ./docs/AGENT_AUTHORITY_DELEGATION.md
+Credential lifecycle and workload identity: ./docs/AGENT_CREDENTIAL_IDENTITY.md
 Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 
 ## Agent usage
@@ -30,7 +31,8 @@ Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 8. When external diligence begins, create an audience-scoped `DILIGENCE_ROOM.json` and validate it before disclosure.
 9. Before a paid service starts, create a `SERVICE_CONTRACT.json`-compatible order and validate it; do not infer buyer/seller authority from the template.
 10. Before material actions, load an actual `AUTHORITY_ENVELOPE.json`-compatible grant from the operating context, validate it, and enforce it at action time. Never treat repository templates as real authority.
-11. Do not infer permissions, legal authority, payment authority, customer consent, or disclosure authority from repository guidance; those must come from the agent's actual operating context.
+11. When an action needs external access, prefer an attested workload identity and a short-lived, audience-bound credential issued from that authority. Never expose reusable credentials to model-visible memory or logs.
+12. Do not infer permissions, legal authority, payment authority, customer consent, or disclosure authority from repository guidance; those must come from the agent's actual operating context.
 
 ## Founder path
 
@@ -75,6 +77,7 @@ Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 - Agent authority, consent, and delegation — `docs/AGENT_AUTHORITY_DELEGATION.md`
 - Authority envelope template — `templates/AUTHORITY_ENVELOPE.json`
 - Authority envelope schema — `schemas/authority-envelope.schema.json`
+- Agent credential lifecycle, workload identity, and secretless execution — `docs/AGENT_CREDENTIAL_IDENTITY.md`
 - Agent founder tool directory — `AGENT_FOUNDER_TOOL_DIRECTORY.md`
 - Repository business model — `docs/REPO_BUSINESS.md`
 - Contribution guide — `CONTRIBUTING.md`
