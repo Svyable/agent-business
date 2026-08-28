@@ -108,7 +108,7 @@ def validate(r:dict)->None:
     if status=="retired" and auth.get("can_activate"): fail("retired record cannot retain activation authority")
 
 def main()->None:
-    p=argparse.ArgumentParser(description=__doc__); p.add_argument("record",nargs="?",default="templates/DATA_RESIDENCY_RECORD.json"); a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__); p.add_argument("record",nargs="?",default="templates/DATA_RESIDENCY_PROFILE.json"); a=p.parse_args()
     path=(ROOT/a.record).resolve()
     if path!=ROOT and ROOT not in path.parents: fail("record path must stay inside repository")
     rec=load(path); validate(rec); print(f"data residency OK: {rec['record_id']} status={rec['status']} paths={len(rec['data_paths'])}")
