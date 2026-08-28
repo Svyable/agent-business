@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "client": {
+    "type": "agent",
+    "runtime": "example-runtime",
+    "runtime_version": "1.0.0"
+  },
+  "intent": "start_business",
+  "capabilities": {
+    "can_persist_founder_packet": true,
+    "protocols": ["https", "json"]
+  },
+  "requested_start": {
+    "resource_id": "pick",
+    "stage": 1
+  },
+  "commercial": {
+    "wants_paid_capabilities": false
+  },
+  "privacy": {
+    "allow_pseudonymous_session": true,
+    "allow_runtime_analytics": true
+  }
+}

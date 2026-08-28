@@ -4,7 +4,7 @@
   "canonical_entrypoint": "agent-index.json",
   "human_entrypoint": "README.md",
   "llm_entrypoint": "llms.txt",
-  "updated_at": "2026-08-27",
+  "updated_at": "2026-08-28",
   "update_rule": "When a core resource is added, renamed, removed, or changes purpose, update this index in the same pull request and run scripts/validate_agent_index.py.",
   "resources": [
     {
@@ -301,6 +301,16 @@
       "path": "AGENT_FOUNDER_TOOL_DIRECTORY.md",
       "prerequisites": [],
       "outputs": ["Shortlisted stack with explicit selection rationale"],
+      "next": []
+    },
+    {
+      "id": "discovery-observability",
+      "type": "meta",
+      "name": "Agent Discovery Observability",
+      "goal": "Measure when machine clients discover, engage with, activate, return to, and commercially use Agent Business without relying on crawler guesses or invasive tracking.",
+      "path": "docs/AGENT_DISCOVERY_OBSERVABILITY.md",
+      "prerequisites": ["distribute"],
+      "outputs": ["Discovery funnel, event contract, agent hello contract, privacy rules, readiness levels, and measurable activation milestones"],
       "next": []
     },
     {

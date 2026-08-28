@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/agent-hello.schema.json",
+  "title": "Agent Business Hello Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "client", "intent", "capabilities", "privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "client": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {"const": "agent"},
+        "runtime": {"type": "string", "maxLength": 128},
+        "runtime_version": {"type": "string", "maxLength": 64},
+        "identity_reference": {"type": "string", "maxLength": 512}
+      }
+    },
+    "intent": {
+      "type": "string",
+      "enum": ["explore", "start_business", "resume_business", "evaluate_resource", "procure", "commercial"]
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["can_persist_founder_packet", "protocols"],
+      "properties": {
+        "can_persist_founder_packet": {"type": "boolean"},
+        "protocols": {
+          "type": "array",
+          "maxItems": 32,
+          "uniqueItems": true,
+          "items": {"type": "string", "maxLength": 64}
+        }
+      }
+    },
+    "requested_start": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resource_id": {"type": "string", "maxLength": 128},
+        "stage": {"type": "integer", "minimum": 1}
+      }
+    },
+    "commercial": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "wants_paid_capabilities": {"type": "boolean"},
+        "budget_currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "budget_amount_minor": {"type": "integer", "minimum": 0}
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allow_pseudonymous_session"],
+      "properties": {
+        "allow_pseudonymous_session": {"type": "boolean"},
+        "allow_runtime_analytics": {"type": "boolean"}
+      }
+    }
+  }
+}

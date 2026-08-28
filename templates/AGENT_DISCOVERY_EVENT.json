@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "event_id": "evt_example_0001",
+  "event_type": "agent_hello",
+  "occurred_at": "2026-08-28T00:00:00Z",
+  "session_id": "sess_example_0001",
+  "actor": {
+    "confidence": "self_declared_agent",
+    "declared_runtime": "example-runtime",
+    "declared_runtime_version": "1.0.0"
+  },
+  "source": {
+    "channel": "website",
+    "referrer_class": "direct"
+  },
+  "resource": {
+    "path": "llms.txt"
+  },
+  "engagement": {
+    "intent": "start_business",
+    "return_visit_count": 0
+  },
+  "privacy": {
+    "raw_ip_retained": false,
+    "raw_user_agent_retained": false,
+    "contains_prompt_content": false,
+    "contains_secrets": false,
+    "identifier_policy": "rotating_pseudonymous",
+    "retention_days": 90
+  }
+}
