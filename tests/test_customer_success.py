@@ -1,5 +1,5 @@
 from __future__ import annotations
-import copy, unittest
+import unittest
 from scripts.validate_customer_success import validate
 
 
@@ -21,7 +21,7 @@ def base():
 
 class Tests(unittest.TestCase):
     def test_valid(self): validate(base())
-    def rejects_health_without_evidence(self):
+    def test_rejects_health_without_evidence(self):
         r=base(); r["health"]["evidence_ids"]=[]
         with self.assertRaises(SystemExit): validate(r)
     def test_rejects_unknown_signal_ref(self):
