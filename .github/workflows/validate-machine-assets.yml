@@ -68,5 +68,8 @@ jobs:
       - name: Validate tenant operations template
         run: python scripts/validate_tenant_operations.py templates/TENANT_OPERATIONS_RECORD.json
 
+      - name: Validate business continuity template
+        run: python scripts/validate_business_continuity.py templates/BUSINESS_CONTINUITY_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
