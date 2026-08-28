@@ -80,5 +80,8 @@ jobs:
       - name: Validate incident response template
         run: python scripts/validate_incident_response.py templates/INCIDENT_RESPONSE_RECORD.json
 
+      - name: Verify audit evidence template
+        run: python scripts/verify_audit_evidence.py templates/AUDIT_EVIDENCE_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
