@@ -291,6 +291,17 @@
       "path": "docs/AGENT_CAPABILITY_ASSURANCE.md",
       "prerequisites": ["source"],
       "outputs": ["Decision or operating artifact for the prove stage"],
+      "next": ["defend"]
+    },
+    {
+      "id": "defend",
+      "type": "founder_stage",
+      "stage": 27,
+      "name": "Defend",
+      "goal": "Keep autonomous economic actions inside explicit fraud-loss, abuse, authority, evidence, and review boundaries",
+      "path": "docs/AGENT_ECONOMIC_INTEGRITY.md",
+      "prerequisites": ["prove"],
+      "outputs": ["Economic action inventory, bounded risk policy, dispute evidence plan, loss and false-positive metrics, and failure-mode eval suite"],
       "next": []
     },
     {
@@ -311,6 +322,16 @@
       "path": "docs/AGENT_DISCOVERY_OBSERVABILITY.md",
       "prerequisites": ["distribute"],
       "outputs": ["Discovery funnel, event contract, agent hello contract, privacy rules, readiness levels, and measurable activation milestones"],
+      "next": []
+    },
+    {
+      "id": "economic-action-policy",
+      "type": "template",
+      "name": "Economic Action Policy",
+      "goal": "Encode deterministic exposure, authority, velocity, risk, evidence, reserve, and incident boundaries for one class of autonomous economic action.",
+      "path": "templates/ECONOMIC_ACTION_POLICY.json",
+      "prerequisites": ["defend"],
+      "outputs": ["Customized draft economic action policy validated before activation"],
       "next": []
     },
     {

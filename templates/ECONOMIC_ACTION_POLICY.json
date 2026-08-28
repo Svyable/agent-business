@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "refund-standard-v1",
+  "policy_version": "1.0.0",
+  "status": "draft",
+  "action": {
+    "type": "refund",
+    "reversibility": "medium",
+    "description": "Starter policy for bounded customer refunds. Replace every threshold before activation."
+  },
+  "exposure": {
+    "currency": "USD",
+    "max_single_amount": 100,
+    "max_daily_amount": 500,
+    "max_lifetime_amount": 2000
+  },
+  "identity": {
+    "minimum_assurance": "verified",
+    "beneficiary_verification_required": true,
+    "new_identity_cooling_period_seconds": 0
+  },
+  "authority": {
+    "required": true,
+    "must_be_current": true,
+    "must_cover_action": true,
+    "must_cover_amount": true,
+    "second_approver_above": 250
+  },
+  "velocity": {
+    "max_actions_per_minute": 5,
+    "max_actions_per_hour": 20,
+    "max_actions_per_day": 50,
+    "max_new_beneficiaries_per_day": 10
+  },
+  "decision_bands": {
+    "allow_max_risk": 0.2,
+    "step_up_max_risk": 0.45,
+    "review_max_risk": 0.7,
+    "deny_above_risk": 0.7,
+    "fail_closed_on_missing_risk": true,
+    "hold_seconds_above_step_up": 3600
+  },
+  "evidence": {
+    "required_references": [
+      "identity",
+      "authority",
+      "order_or_contract",
+      "delivery",
+      "payment_or_settlement",
+      "risk_decision"
+    ],
+    "retain_decision_version": true,
+    "tamper_evident_required": false
+  },
+  "reserve": {
+    "required": false,
+    "basis_points": 0,
+    "settlement_hold_seconds": 0
+  },
+  "incident": {
+    "kill_switch_required": true,
+    "freeze_on_compromise": true,
+    "preserve_evidence": true,
+    "review_queue": "economic-integrity-review"
+  },
+  "metadata": {
+    "owner": "REPLACE_ME",
+    "effective_at": null,
+    "review_by": null,
+    "notes": "This repository template is not active authority. Copy, customize, review, and activate it only in your own operating environment."
+  }
+}
