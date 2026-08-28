@@ -38,6 +38,8 @@ Read these before broad repository traversal:
 8. `schemas/founder-outcome-record.schema.json` — outcome evidence contract.
 9. `docs/AGENT_WORKFLOW_ROI.md` — fully loaded workflow ROI and cost-versus-value protocol.
 10. `templates/WORKFLOW_ROI_ANALYSIS.json` — safe workflow economics starter.
+11. `docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md` — pricing, meter, margin-floor, budget-control, and quote-authority protocol.
+12. `templates/PRICING_PACKAGE.json` — conservative non-quote-ready pricing starter.
 
 List indexed founder stages without parsing prose:
 
@@ -159,6 +161,28 @@ A useful comparison includes model/context/tool/data/compute cost, retries/refin
 
 Do not choose the calculator's top-ranked scenario automatically. Quality, safety, privacy, authority, latency, contractual obligations, and cash/runway remain constraints outside the arithmetic.
 
+## Pricing packages and quotes
+
+Do not treat a pricing page, sales message, or billing configuration as an authority system.
+
+Start from:
+
+```bash
+cp templates/PRICING_PACKAGE.json pricing-package.json
+```
+
+Then define one customer-visible billable unit, separate it from internal cost events, link expected fully loaded delivery cost to current evidence, set a contribution-margin floor, bound variable spend, and record real deal-desk authority.
+
+Validate before treating the package as quote-ready or active:
+
+```bash
+python scripts/validate_pricing_package.py pricing-package.json
+```
+
+For outcome pricing, define success, attribution, acceptance/dispute windows, customer/provider exclusions, and a deduplication key. Provider retries, duplicate events, failed work, and test traffic must never become extra billable outcomes merely because they consumed internal resources.
+
+A valid pricing record does not prove willingness to pay and does not grant authority to issue or accept a quote, discount, waive fees, grant credits, or bind a party. Use `templates/COMMERCIAL_QUOTE.md` only after the actual operating environment provides the required commercial/contracting authority.
+
 ## Security and privacy
 
 Never commit or place in public GitHub issues:
@@ -206,6 +230,10 @@ python scripts/validate_founder_outcome.py templates/FOUNDER_OUTCOME_RECORD.json
 python scripts/validate_fiscal_evidence.py templates/FISCAL_TRANSACTION_EVIDENCE.json
 python scripts/validate_entity_governance.py templates/ENTITY_GOVERNANCE_RECORD.json
 python scripts/workflow_roi.py templates/WORKFLOW_ROI_ANALYSIS.json --validate-only
+python scripts/validate_customer_success.py templates/CUSTOMER_SUCCESS_RECORD.json
+python scripts/validate_vendor_readiness.py templates/VENDOR_READINESS_RECORD.json
+python scripts/validate_ip_rights.py templates/IP_RIGHTS_RECORD.json
+python scripts/validate_pricing_package.py templates/PRICING_PACKAGE.json
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 
@@ -217,8 +245,12 @@ If a core indexed resource is added, renamed, removed, or materially repurposed,
 python scripts/validate_launch_packet.py <packet>
 python scripts/validate_founder_outcome.py <outcome-record>
 python scripts/workflow_roi.py <workflow-roi-analysis>
+python scripts/validate_pricing_package.py <pricing-package>
 python scripts/validate_fiscal_evidence.py <fiscal-record>
 python scripts/validate_entity_governance.py <entity-record>
+python scripts/validate_customer_success.py <customer-success-record>
+python scripts/validate_vendor_readiness.py <vendor-readiness-record>
+python scripts/validate_ip_rights.py <ip-rights-record>
 python scripts/validate_diligence_room.py <room>
 python scripts/validate_service_contract.py <contract>
 python scripts/validate_authority_envelope.py <authority>
@@ -233,6 +265,7 @@ Progress is not more documents or more agent activity by itself. Prefer changes 
 - speed to a commercial signal,
 - reproducibility of operating decisions,
 - fully loaded economics per successful customer outcome,
+- clarity and enforceability of pricing/package decisions,
 - safety of autonomous execution,
 - contribution quality,
 - evidence-backed founder outcomes.
