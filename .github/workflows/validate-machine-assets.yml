@@ -53,5 +53,8 @@ jobs:
       - name: Validate pricing package template
         run: python scripts/validate_pricing_package.py templates/PRICING_PACKAGE.json
 
+      - name: Validate revenue opportunity template
+        run: python scripts/validate_revenue_opportunity.py templates/REVENUE_OPPORTUNITY_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
