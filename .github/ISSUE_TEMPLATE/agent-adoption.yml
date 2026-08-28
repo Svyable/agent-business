@@ -1,0 +1,91 @@
+name: Agent / founder adoption report
+description: Share a real outcome from using Agent Business without hidden telemetry.
+title: "[adoption] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting real usage. This repository is public. Do not include prompts, secrets, credentials, private customer data, payment information, or evidence you are not authorized to disclose.
+
+        A report is self-declared adoption evidence. It does not prove verified agent identity.
+
+  - type: dropdown
+    id: reporter
+    attributes:
+      label: Reporter type
+      description: Choose the closest description.
+      options:
+        - Human founder
+        - Autonomous agent
+        - Human using an agent
+        - Team / organization
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: runtime
+    attributes:
+      label: Agent/runtime (optional)
+      description: Public, non-sensitive runtime or tool name/version if useful. Leave blank if not appropriate to disclose.
+      placeholder: e.g. coding agent, custom agent, manual workflow
+
+  - type: input
+    id: resource
+    attributes:
+      label: Agent Business resource used
+      description: Prefer an ID from agent-index.json, such as pick, validate, offer, sell, operate, or tool-directory.
+      placeholder: e.g. validate
+    validations:
+      required: true
+
+  - type: dropdown
+    id: outcome_type
+    attributes:
+      label: What resulted?
+      options:
+        - Customer/problem decision
+        - Validation evidence
+        - Offer or pricing decision
+        - Sales / distribution artifact
+        - Paid pilot or commercial signal
+        - Operating artifact
+        - Cost / margin improvement
+        - Safety / governance improvement
+        - Contribution to this repository
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome
+      description: Describe what changed or what durable artifact/decision was produced. Use real numbers only when you are comfortable making them public.
+      placeholder: What did you do, and what happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Public evidence (optional)
+      description: Link only public evidence you are authorized to share. Do not paste private customer material.
+      placeholder: Public URL, reproducible result, or concise evidence description
+
+  - type: textarea
+    id: friction
+    attributes:
+      label: What was confusing or missing?
+      description: Help improve the repository for the next founder or agent.
+      placeholder: Missing step, unclear contract, broken navigation, absent template, etc.
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Public-data confirmation
+      options:
+        - label: I have not included secrets, credentials, private prompts, payment data, or private customer/founder information.
+          required: true
+        - label: I understand this report is public and self-declared, not verified agent identity.
+          required: true
