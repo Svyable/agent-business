@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/growth-experiment-record.schema.json",
+  "title": "Agent Business Growth Experiment Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","experiment_id","status","updated_at","hypothesis","audience","channel","metrics","budget","attribution","authority","evidence","decision","privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "experiment_id": {"type":"string","minLength":6,"maxLength":128,"pattern":"^[A-Za-z0-9._-]+$"},
+    "status": {"enum":["draft","planned","running","analyzed","scaled","stopped","retired"]},
+    "updated_at": {"type":"string","format":"date-time"},
+    "owner": {"type":["string","null"],"maxLength":160},
+    "repository_resources": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}},
+    "hypothesis": {
+      "type":"object","additionalProperties":false,
+      "required":["statement","primary_metric","success_threshold","guardrails"],
+      "properties": {
+        "statement":{"type":"string","minLength":1,"maxLength":1200},
+        "primary_metric":{"type":"string","minLength":1,"maxLength":120},
+        "success_threshold":{"type":"string","minLength":1,"maxLength":320},
+        "guardrails":{"type":"array","items":{"type":"string","minLength":1,"maxLength":320}}
+      }
+    },
+    "audience": {
+      "type":"object","additionalProperties":false,
+      "required":["icp","source","consent_basis","suppression_enforced","customer_data_use"],
+      "properties": {
+        "icp":{"type":"string","minLength":1,"maxLength":500},
+        "source":{"type":"string","minLength":1,"maxLength":320},
+        "consent_basis":{"enum":["not_required","consented","legitimate_context_reviewed","unknown"]},
+        "suppression_enforced":{"type":"boolean"},
+        "customer_data_use":{"enum":["none","aggregated","authorized_first_party","unknown"]}
+      }
+    },
+    "channel": {
+      "type":"object","additionalProperties":false,
+      "required":["type","account_or_surface","claims_reviewed","brand_assets_authorized"],
+      "properties": {
+        "type":{"enum":["paid_search","paid_social","display","email","sms","dm","content","seo_aeo","community","partner","other"]},
+        "account_or_surface":{"type":"string","minLength":1,"maxLength":240},
+        "claims_reviewed":{"type":"boolean"},
+        "brand_assets_authorized":{"type":"boolean"}
+      }
+    },
+    "metrics": {
+      "type":"object","additionalProperties":false,
+      "required":["spend_minor","currency","impressions","clicks","qualified_leads","qualified_opportunities","observed_revenue_minor","platform_attributed_revenue_minor"],
+      "properties": {
+        "spend_minor":{"type":"integer","minimum":0},
+        "currency":{"type":"string","pattern":"^[A-Z]{3}$"},
+        "impressions":{"type":"integer","minimum":0},
+        "clicks":{"type":"integer","minimum":0},
+        "qualified_leads":{"type":"integer","minimum":0},
+        "qualified_opportunities":{"type":"integer","minimum":0},
+        "observed_revenue_minor":{"type":"integer","minimum":0},
+        "platform_attributed_revenue_minor":{"type":"integer","minimum":0},
+        "revenue_opportunity_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+      }
+    },
+    "budget": {
+      "type":"object","additionalProperties":false,
+      "required":["daily_cap_minor","lifetime_cap_minor","reallocation_cap_bps","stop_loss_minor"],
+      "properties": {
+        "daily_cap_minor":{"type":"integer","minimum":0},
+        "lifetime_cap_minor":{"type":"integer","minimum":0},
+        "reallocation_cap_bps":{"type":"integer","minimum":0,"maximum":10000},
+        "stop_loss_minor":{"type":"integer","minimum":0}
+      }
+    },
+    "attribution": {
+      "type":"object","additionalProperties":false,
+      "required":["source_platform","model","lookback_window_days","identity_resolution","incrementality_method","causal_claim"],
+      "properties": {
+        "source_platform":{"type":"string","minLength":1,"maxLength":160},
+        "model":{"enum":["last_click","first_click","linear","data_driven","platform_model","custom","none"]},
+        "lookback_window_days":{"type":"integer","minimum":0,"maximum":3650},
+        "identity_resolution":{"type":"string","minLength":1,"maxLength":500},
+        "incrementality_method":{"enum":["randomized_holdout","geo_holdout","matched_control","pre_post","none"]},
+        "causal_claim":{"type":"boolean"},
+        "known_blind_spots":{"type":"array","items":{"type":"string","minLength":1,"maxLength":500}}
+      }
+    },
+    "authority": {
+      "type":"object","additionalProperties":false,
+      "required":["can_publish","can_spend","max_spend_minor","can_reallocate_budget","can_change_audience","can_change_claims"],
+      "properties": {
+        "can_publish":{"type":"boolean"},
+        "can_spend":{"type":"boolean"},
+        "max_spend_minor":{"type":"integer","minimum":0},
+        "can_reallocate_budget":{"type":"boolean"},
+        "can_change_audience":{"type":"boolean"},
+        "can_change_claims":{"type":"boolean"},
+        "authority_evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+      }
+    },
+    "evidence": {
+      "type":"array","items":{
+        "type":"object","additionalProperties":false,
+        "required":["id","type","status","description","observed_at"],
+        "properties": {
+          "id":{"type":"string","minLength":1,"maxLength":128},
+          "type":{"enum":["platform_report","crm_event","buyer_event","experiment_output","budget_record","consent_record","authority_record","public_artifact","reproducible_calculation","editorial_note"]},
+          "status":{"enum":["current","stale","disputed","draft"]},
+          "description":{"type":"string","minLength":1,"maxLength":1200},
+          "observed_at":{"type":"string","format":"date-time"},
+          "public_url":{"type":["string","null"],"format":"uri"}
+        }
+      }
+    },
+    "decision": {
+      "type":"object","additionalProperties":false,
+      "required":["action","reason","evidence_ids"],
+      "properties": {
+        "action":{"enum":["none","launch","continue","scale","stop","retire"]},
+        "reason":{"type":"string","minLength":1,"maxLength":1200},
+        "evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+      }
+    },
+    "privacy": {
+      "type":"object","additionalProperties":false,
+      "required":["contains_raw_contacts","contains_credentials","contains_private_customer_data","public_disclosure_confirmed"],
+      "properties": {
+        "contains_raw_contacts":{"const":false},
+        "contains_credentials":{"const":false},
+        "contains_private_customer_data":{"const":false},
+        "public_disclosure_confirmed":{"const":true}
+      }
+    }
+  }
+}
