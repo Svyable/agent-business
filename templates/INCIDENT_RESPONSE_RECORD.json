@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "incident_id": "incident-example-draft",
+  "status": "detected",
+  "severity": "unclassified",
+  "detected_at": "2026-08-28T17:10:00Z",
+  "updated_at": "2026-08-28T17:10:00Z",
+  "detection": {
+    "source": "manual_or_monitoring_placeholder",
+    "summary": "Draft starter: replace with a disclosure-safe incident summary before operational use.",
+    "evidence_ids": []
+  },
+  "affected_scope": {
+    "capabilities": [],
+    "release_ids": [],
+    "tenant_count": 0,
+    "dependency_ids": []
+  },
+  "impact": {
+    "availability": false,
+    "security_or_data": false,
+    "authority_violation": false,
+    "economic_side_effects": false,
+    "summary": "Impact not yet established.",
+    "severity_evidence_ids": []
+  },
+  "timeline": [
+    {
+      "at": "2026-08-28T17:10:00Z",
+      "event": "Incident record created; no operational claim is implied.",
+      "classification": "observed",
+      "evidence_ids": []
+    }
+  ],
+  "evidence": [],
+  "authority": {
+    "can_pause_intake": false,
+    "can_disable_tool": false,
+    "can_isolate_tenant": false,
+    "can_revoke_authority": false,
+    "can_rollback_release": false,
+    "can_contact_customers": false,
+    "can_issue_credits": false,
+    "can_move_money": false,
+    "evidence_ids": []
+  },
+  "containment": {
+    "actions": [],
+    "contained_at": null
+  },
+  "investigation": {
+    "facts": [],
+    "hypotheses": [],
+    "unknowns": ["trigger", "blast radius", "customer impact", "side effects"],
+    "root_cause_status": "unknown",
+    "root_cause": null,
+    "root_cause_evidence_ids": []
+  },
+  "side_effects": [],
+  "customer_impact": {
+    "assessed": false,
+    "affected_count": 0,
+    "notification_decision": "unknown",
+    "owner": "unassigned",
+    "evidence_ids": [],
+    "communication_evidence_ids": []
+  },
+  "recovery": {
+    "trigger_removed": false,
+    "identity_authority_healthy": false,
+    "security_policy_healthy": false,
+    "data_integrity_healthy": false,
+    "side_effects_reconciled": false,
+    "observability_healthy": false,
+    "production_authority_valid": false,
+    "verification_evidence_ids": [],
+    "verified_at": null
+  },
+  "corrective_actions": [],
+  "privacy": {
+    "contains_credentials": false,
+    "contains_private_customer_data": false,
+    "contains_secret_prompts": false,
+    "contains_exploit_instructions": false,
+    "public_disclosure_confirmed": true
+  }
+}
