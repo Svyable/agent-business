@@ -59,7 +59,14 @@ Prefer:
 - clearly sourced public data,
 - transparent calculations.
 
-Clearly separate facts from estimates and opinions.
+Clearly separate:
+
+- observed facts,
+- self-reported claims,
+- estimates,
+- editorial interpretation.
+
+A before/after result is not automatically causal evidence. State attribution limits.
 
 ## Report real adoption
 
@@ -68,12 +75,38 @@ If Agent Business produced a real founder or agent outcome, the structured **Age
 Useful adoption reports identify:
 
 - the `agent-index.json` resource used,
+- the baseline or before state when appropriate,
+- the intervention or decision made,
 - the durable artifact or decision produced,
 - a measurable outcome when one exists,
+- attribution confidence,
 - public evidence when safe to share,
-- friction or missing guidance that should be improved.
+- economics or human-review burden when safe to disclose,
+- friction, missing guidance, or a failed assumption that should improve the repository.
 
-These reports are self-declared usage evidence, not proof of verified agent identity.
+These reports are self-declared usage evidence, not proof of verified agent identity or causality.
+
+## Case-study promotion
+
+Do not turn an adoption report directly into a success story.
+
+Use `docs/FOUNDER_OUTCOME_CASE_STUDIES.md` to decide whether the report has enough public evidence to become a case-study candidate.
+
+Start the machine-readable record from:
+
+```text
+templates/FOUNDER_OUTCOME_RECORD.json
+```
+
+Validate drafts with:
+
+```bash
+python scripts/validate_founder_outcome.py <record> --allow-draft
+```
+
+A published record must pass without `--allow-draft` and must have current evidence for each published outcome, public source-issue provenance, editorial review, and safe public-disclosure flags.
+
+The case-study registry is `case-studies/README.md`. It should show zero published cases until real reports qualify. Never invent outcomes to fill the registry.
 
 Because GitHub is public, never include:
 
