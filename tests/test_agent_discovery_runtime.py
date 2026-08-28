@@ -165,7 +165,7 @@ class DiscoveryRuntimeTests(unittest.TestCase):
         event["prompt"] = "do not store me"
         status, _, response = call_wsgi(app, "POST", "/v1/events", event)
         self.assertEqual(status, 400)
-        self.assertIn("prohibited sensitive field", response["detail"])
+        self.assertIn("prompt", response["detail"])
 
     def test_raw_user_agent_retention_is_rejected(self):
         app = self.make_app()
