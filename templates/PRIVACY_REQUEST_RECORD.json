@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "request_id": "privacy-request-example",
+  "status": "received",
+  "updated_at": "2026-08-28T18:00:00Z",
+  "subject_ref": "opaque-subject-ref",
+  "tenant_ref": null,
+  "request_type": "erasure",
+  "policy_basis": {
+    "decision_ref": null,
+    "deadline_at": null,
+    "deadline_source_ref": null,
+    "lawful_basis_review_ref": null
+  },
+  "scope": {
+    "identity_scope_verified": false,
+    "included_purposes": [],
+    "excluded_surfaces": []
+  },
+  "systems": [],
+  "consent": {
+    "applicable": false,
+    "withdrawal_propagation_complete": false,
+    "non_consent_processing_review_ref": null
+  },
+  "authority": {
+    "can_access_subject_data": false,
+    "can_execute_privacy_action": false,
+    "authority_evidence_ids": []
+  },
+  "evidence": [],
+  "verification": {
+    "state": "not_started",
+    "mapped_surface_count": 0,
+    "verified_surface_count": 0,
+    "retrieval_residue_count": 0,
+    "derived_memory_tested": false,
+    "restore_resurrection_tested": false,
+    "known_unverifiable_surfaces": [],
+    "evidence_ids": []
+  },
+  "downstream": [],
+  "exceptions": [],
+  "response": {
+    "finalized": false,
+    "final_evidence_ids": [],
+    "export_tenant_isolated": false,
+    "export_redaction_reviewed": false
+  },
+  "privacy": {
+    "contains_personal_data": false,
+    "contains_credentials": false,
+    "contains_private_prompts": false,
+    "contains_raw_subject_identifier": false,
+    "public_disclosure_confirmed": true
+  },
+  "repository_resources": ["remember", "tenant-operations", "business-continuity", "audit-evidence"]
+}
