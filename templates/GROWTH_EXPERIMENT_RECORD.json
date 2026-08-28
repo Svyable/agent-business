@@ -4,7 +4,7 @@
   "status": "draft",
   "updated_at": "2026-08-28T12:00:00Z",
   "owner": null,
-  "repository_resources": ["growth-ops"],
+  "repository_resources": ["sell", "revenue-ops", "ip-data-rights"],
   "hypothesis": {
     "statement": "Replace with a falsifiable audience, offer, channel, and expected-outcome hypothesis.",
     "primary_metric": "qualified_opportunities",
