@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/privacy-request-record.schema.json",
+  "title": "Agent Business Privacy Request Record",
+  "type": "object",
+  "required": ["schema_version","request_id","status","updated_at","subject_ref","request_type","policy_basis","scope","systems","consent","authority","evidence","verification","downstream","exceptions","response","privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "request_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["received","identity_scope_review","mapped","executing","downstream_pending","verification","fulfilled","partially_fulfilled","denied_with_basis","escalated"]},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "subject_ref": {"type": "string", "minLength": 1},
+    "tenant_ref": {"type": ["string","null"]},
+    "request_type": {"enum": ["access","correction","erasure","consent_withdrawal","restriction","portability"]},
+    "policy_basis": {
+      "type": "object",
+      "required": ["decision_ref","deadline_at"],
+      "properties": {
+        "decision_ref": {"type": ["string","null"]},
+        "deadline_at": {"type": ["string","null"], "format": "date-time"},
+        "deadline_source_ref": {"type": ["string","null"]},
+        "lawful_basis_review_ref": {"type": ["string","null"]}
+      },
+      "additionalProperties": true
+    },
+    "scope": {
+      "type": "object",
+      "required": ["identity_scope_verified","included_purposes","excluded_surfaces"],
+      "properties": {
+        "identity_scope_verified": {"type": "boolean"},
+        "included_purposes": {"type": "array", "items": {"type": "string"}},
+        "excluded_surfaces": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "systems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id","surface","action","status","restore_protection","evidence_ids"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "surface": {"enum": ["raw_conversation","structured_memory","derived_summary","vector_index","cache","tool_output","analytics","export","training_pipeline","subprocessor","backup_recovery","other"]},
+          "action": {"enum": ["none","map","delete","redact","tombstone","rebuild","key_destroy","correct","restrict","export","downstream_request","expire","escalate"]},
+          "status": {"enum": ["unmapped","mapped","pending","executed","verified_not_present","corrected","restricted","exported","not_applicable","unverifiable","blocked"]},
+          "restore_protection": {"enum": ["not_assessed","not_applicable","planned","verified"]},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "consent": {
+      "type": "object",
+      "required": ["applicable","withdrawal_propagation_complete"],
+      "properties": {
+        "applicable": {"type": "boolean"},
+        "withdrawal_propagation_complete": {"type": "boolean"},
+        "non_consent_processing_review_ref": {"type": ["string","null"]}
+      },
+      "additionalProperties": true
+    },
+    "authority": {
+      "type": "object",
+      "required": ["can_access_subject_data","can_execute_privacy_action","authority_evidence_ids"],
+      "properties": {
+        "can_access_subject_data": {"type": "boolean"},
+        "can_execute_privacy_action": {"type": "boolean"},
+        "authority_evidence_ids": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id","type","status","observed_at"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "type": {"enum": ["request_receipt","identity_scope","policy_decision","authority","system_action","downstream_ack","verification","exception_review","final_response","audit_reference"]},
+          "status": {"enum": ["current","stale","superseded"]},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "public_url": {"type": ["string","null"], "format": "uri"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["state","mapped_surface_count","verified_surface_count","retrieval_residue_count","derived_memory_tested","restore_resurrection_tested","known_unverifiable_surfaces","evidence_ids"],
+      "properties": {
+        "state": {"enum": ["not_started","partial","passed","failed","not_applicable"]},
+        "mapped_surface_count": {"type": "integer", "minimum": 0},
+        "verified_surface_count": {"type": "integer", "minimum": 0},
+        "retrieval_residue_count": {"type": "integer", "minimum": 0},
+        "derived_memory_tested": {"type": "boolean"},
+        "restore_resurrection_tested": {"type": "boolean"},
+        "known_unverifiable_surfaces": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "downstream": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["processor_ref","required","status","evidence_ids"],
+        "properties": {
+          "processor_ref": {"type": "string", "minLength": 1},
+          "required": {"type": "boolean"},
+          "status": {"enum": ["not_sent","sent","acknowledged","not_applicable","unverifiable","rejected"]},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id","type","resolved","decision_ref","evidence_ids"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "type": {"enum": ["legal_hold","investigation_hold","fraud_security_retention","contractual_retention","technical_limitation","other"]},
+          "resolved": {"type": "boolean"},
+          "decision_ref": {"type": ["string","null"]},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "response": {
+      "type": "object",
+      "required": ["finalized","final_evidence_ids"],
+      "properties": {
+        "finalized": {"type": "boolean"},
+        "final_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "export_tenant_isolated": {"type": "boolean"},
+        "export_redaction_reviewed": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "privacy": {
+      "type": "object",
+      "required": ["contains_personal_data","contains_credentials","contains_private_prompts","contains_raw_subject_identifier","public_disclosure_confirmed"],
+      "properties": {
+        "contains_personal_data": {"const": false},
+        "contains_credentials": {"const": false},
+        "contains_private_prompts": {"const": false},
+        "contains_raw_subject_identifier": {"const": false},
+        "public_disclosure_confirmed": {"const": true}
+      }
+    }
+  },
+  "additionalProperties": true
+}
