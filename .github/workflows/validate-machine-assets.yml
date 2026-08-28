@@ -71,5 +71,11 @@ jobs:
       - name: Validate business continuity template
         run: python scripts/validate_business_continuity.py templates/BUSINESS_CONTINUITY_RECORD.json
 
+      - name: Validate business benchmark template
+        run: python scripts/validate_business_benchmark.py templates/BUSINESS_BENCHMARK_RECORD.json
+
+      - name: Validate worked business benchmark comparison
+        run: python scripts/validate_business_benchmark.py examples/BUSINESS_BENCHMARK_COMPARISON.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
