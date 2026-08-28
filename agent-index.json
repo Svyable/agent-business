@@ -385,6 +385,16 @@
       "next": []
     },
     {
+      "id": "ip-data-rights",
+      "type": "meta",
+      "name": "Agent Intellectual Property, Model Licensing, and Data Rights",
+      "goal": "Map code, model, data, retrieval, customer-input, output, and brand assets to current rights evidence so commercial use, redistribution, training, and customer promises never rely on public availability or remembered terms alone.",
+      "path": "docs/AGENT_IP_DATA_RIGHTS.md",
+      "prerequisites": ["govern", "remember", "source", "entity-governance"],
+      "outputs": ["Validated IP rights record, versioned license/terms inventory, customer/upstream conflict map, commercial-readiness decision, and terms-change response path"],
+      "next": []
+    },
+    {
       "id": "tool-directory",
       "type": "directory",
       "name": "Agent Founder Tool Directory",
