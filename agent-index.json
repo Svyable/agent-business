@@ -355,6 +355,16 @@
       "next": []
     },
     {
+      "id": "revenue-ops",
+      "type": "meta",
+      "name": "Agent Sales Pipeline, Opportunity, Forecasting, and Revenue Operations",
+      "goal": "Keep autonomous sales pipeline, buyer-map, opportunity stage, next action, forecast, and commercial handoffs grounded in current buyer evidence and explicit authority instead of model confidence or CRM write access alone.",
+      "path": "docs/AGENT_REVENUE_OPERATIONS.md",
+      "prerequisites": ["sell", "pricing-deal-desk"],
+      "outputs": ["Validated revenue opportunity record, evidence-backed lifecycle stage, buyer map, bounded next action, defensible forecast state, pipeline-hygiene signals, and won-deal handoff provenance"],
+      "next": []
+    },
+    {
       "id": "customer-success",
       "type": "meta",
       "name": "Agent Customer Success, Retention, Renewal, and Expansion",

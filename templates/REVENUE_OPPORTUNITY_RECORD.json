@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "opportunity_id": "draft-opportunity-001",
+  "updated_at": "2026-08-28T11:00:00Z",
+  "record_status": "draft",
+  "stage": "target_account",
+  "account": {
+    "public_alias": "Example account alias",
+    "segment": "Replace with customer segment",
+    "duplicate_key": "example-account-alias"
+  },
+  "stakeholders": [],
+  "qualification": {
+    "problem": "unknown",
+    "value": "unknown",
+    "timing": "unknown",
+    "decision_process": "unknown",
+    "expected_value_minor": null,
+    "currency": "USD",
+    "stage_evidence_ids": []
+  },
+  "forecast": {
+    "category": "pipeline",
+    "probability_bps": 0,
+    "close_date": null,
+    "seller_confidence": "low",
+    "evidence_ids": []
+  },
+  "next_action": {
+    "type": "research",
+    "due_at": null,
+    "owner": "founder",
+    "requires_external_contact": false,
+    "evidence_ids": []
+  },
+  "commercial": {
+    "pricing_package_id": null,
+    "quote_status": "none",
+    "accepted_scope": null,
+    "success_criteria": null,
+    "blockers": []
+  },
+  "authority": {
+    "can_write_crm": false,
+    "can_contact": false,
+    "can_change_stage": false,
+    "can_send_quote": false,
+    "can_make_pricing_claims": false,
+    "can_commit_forecast": false,
+    "can_mark_won_lost": false,
+    "source": null,
+    "reviewed_at": null
+  },
+  "evidence": [],
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_contact_data": false,
+    "contains_raw_customer_content": false,
+    "public_example_safe": true
+  }
+}
