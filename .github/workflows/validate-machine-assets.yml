@@ -29,5 +29,8 @@ jobs:
       - name: Validate economic integrity assets
         run: python scripts/validate_economic_integrity.py
 
-      - name: Test discovery runtime
+      - name: Validate founder outcome template
+        run: python scripts/validate_founder_outcome.py templates/FOUNDER_OUTCOME_RECORD.json --allow-draft
+
+      - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
