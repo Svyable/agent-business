@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/fiscal-transaction-evidence.schema.json",
+  "title": "Agent Business Fiscal Transaction Evidence",
+  "description": "Machine-readable evidence and decision record for tax, invoicing, withholding, reporting, FX, refund, and fiscal-close treatment of one commercial transaction. This record is an operational control, not tax or legal advice.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "updated_at",
+    "status",
+    "transaction",
+    "parties",
+    "jurisdiction",
+    "tax_determination",
+    "invoice",
+    "currency",
+    "evidence",
+    "approvals",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["draft", "needs_review", "ready_to_invoice", "issued", "corrected", "voided"]},
+    "transaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transaction_id", "occurred_at", "type", "description", "amount_minor", "currency"],
+      "properties": {
+        "transaction_id": {"type": "string", "minLength": 1, "maxLength": 160},
+        "occurred_at": {"type": "string", "format": "date-time"},
+        "type": {"enum": ["sale", "service", "marketplace_sale", "platform_fee", "supplier_payment", "refund", "credit", "payout", "other"]},
+        "description": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "amount_minor": {"type": "integer", "minimum": 0},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "original_transaction_id": {"type": ["string", "null"], "maxLength": 160}
+      }
+    },
+    "parties": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seller", "buyer"],
+      "properties": {
+        "seller": {"$ref": "#/$defs/party"},
+        "buyer": {"$ref": "#/$defs/party"},
+        "platform": {"anyOf": [{"$ref": "#/$defs/party"}, {"type": "null"}]}
+      }
+    },
+    "jurisdiction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["determination_status", "seller_country", "buyer_country", "supply_country", "ruleset", "evidence_ids"],
+      "properties": {
+        "determination_status": {"enum": ["unknown", "provisional", "confirmed"]},
+        "seller_country": {"type": ["string", "null"], "pattern": "^[A-Z]{2}$"},
+        "buyer_country": {"type": ["string", "null"], "pattern": "^[A-Z]{2}$"},
+        "supply_country": {"type": ["string", "null"], "pattern": "^[A-Z]{2}$"},
+        "subdivision": {"type": ["string", "null"], "maxLength": 64},
+        "ruleset": {"type": ["string", "null"], "maxLength": 240},
+        "ruleset_version": {"type": ["string", "null"], "maxLength": 80},
+        "valid_from": {"type": ["string", "null"], "format": "date-time"},
+        "valid_until": {"type": ["string", "null"], "format": "date-time"},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "tax_determination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "tax_type", "treatment", "rate_bps", "tax_amount_minor", "reason", "registration_required", "evidence_ids"],
+      "properties": {
+        "status": {"enum": ["unknown", "provisional", "confirmed", "not_applicable"]},
+        "tax_type": {"enum": ["sales_tax", "vat", "gst", "withholding", "other", "none"]},
+        "treatment": {"enum": ["standard", "reduced", "zero_rated", "exempt", "reverse_charge", "marketplace_deemed_supplier", "outside_scope", "withholding", "unknown"]},
+        "rate_bps": {"type": ["integer", "null"], "minimum": 0, "maximum": 10000},
+        "tax_amount_minor": {"type": ["integer", "null"], "minimum": 0},
+        "reason": {"type": "string", "minLength": 1, "maxLength": 1200},
+        "registration_required": {"enum": ["yes", "no", "unknown"]},
+        "registration_reference": {"type": ["string", "null"], "maxLength": 240},
+        "exemption_reference": {"type": ["string", "null"], "maxLength": 240},
+        "reverse_charge_reference": {"type": ["string", "null"], "maxLength": 240},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "invoice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status", "document_type", "invoice_id", "issue_date", "format", "profile", "original_invoice_id", "evidence_ids"],
+      "properties": {
+        "required": {"enum": ["yes", "no", "unknown"]},
+        "status": {"enum": ["not_started", "draft", "validated", "issued", "corrected", "voided", "not_required"]},
+        "document_type": {"enum": ["invoice", "credit_note", "debit_note", "receipt", "self_billing_invoice", "other", "none"]},
+        "invoice_id": {"type": ["string", "null"], "maxLength": 160},
+        "issue_date": {"type": ["string", "null"], "format": "date"},
+        "format": {"type": ["string", "null"], "maxLength": 160},
+        "profile": {"type": ["string", "null"], "maxLength": 240},
+        "original_invoice_id": {"type": ["string", "null"], "maxLength": 160},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "withholding": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"enum": ["unknown", "not_applicable", "provisional", "confirmed"]},
+        "rate_bps": {"type": ["integer", "null"], "minimum": 0, "maximum": 10000},
+        "amount_minor": {"type": ["integer", "null"], "minimum": 0},
+        "form_or_certificate": {"type": ["string", "null"], "maxLength": 240},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "platform_reporting": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"enum": ["unknown", "not_applicable", "provisional", "confirmed"]},
+        "regime": {"type": ["string", "null"], "maxLength": 240},
+        "seller_reportable": {"enum": ["yes", "no", "unknown"]},
+        "reporting_period": {"type": ["string", "null"], "maxLength": 80},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "currency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transaction_currency", "accounting_currency", "fx_required", "rate", "rate_source", "rate_observed_at", "evidence_ids"],
+      "properties": {
+        "transaction_currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "accounting_currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "fx_required": {"type": "boolean"},
+        "rate": {"type": ["number", "null"], "exclusiveMinimum": 0},
+        "rate_source": {"type": ["string", "null"], "maxLength": 240},
+        "rate_observed_at": {"type": ["string", "null"], "format": "date-time"},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "description", "source", "observed_at", "valid_until", "status"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "type": {"enum": ["tax_authority", "law_or_regulation", "invoice_standard", "registration_record", "customer_evidence", "supplier_evidence", "fx_source", "accountant_or_counsel", "internal_policy", "other"]},
+          "description": {"type": "string", "minLength": 1, "maxLength": 1200},
+          "source": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "valid_until": {"type": ["string", "null"], "format": "date-time"},
+          "status": {"enum": ["current", "stale", "disputed", "superseded"]}
+        }
+      }
+    },
+    "approvals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["human_review_required", "review_status", "review_reason"],
+      "properties": {
+        "human_review_required": {"type": "boolean"},
+        "review_status": {"enum": ["not_requested", "pending", "approved", "rejected", "not_required"]},
+        "review_reason": {"type": "string", "minLength": 1, "maxLength": 800},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "reviewer_role": {"type": ["string", "null"], "maxLength": 160}
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contains_payment_credentials", "contains_secrets", "contains_private_prompts", "contains_unnecessary_personal_data"],
+      "properties": {
+        "contains_payment_credentials": {"const": false},
+        "contains_secrets": {"const": false},
+        "contains_private_prompts": {"const": false},
+        "contains_unnecessary_personal_data": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "party": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["party_id", "country", "tax_registration_status", "tax_id_reference"],
+      "properties": {
+        "party_id": {"type": "string", "minLength": 1, "maxLength": 160},
+        "country": {"type": ["string", "null"], "pattern": "^[A-Z]{2}$"},
+        "tax_registration_status": {"enum": ["unknown", "not_registered", "registered", "exempt"]},
+        "tax_id_reference": {"type": ["string", "null"], "maxLength": 240},
+        "entity_type": {"type": ["string", "null"], "maxLength": 120}
+      }
+    }
+  }
+}
