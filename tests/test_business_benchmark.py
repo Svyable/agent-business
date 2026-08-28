@@ -69,6 +69,7 @@ class BusinessBenchmarkTests(unittest.TestCase):
         c["successful_runs"] = 3
         c["partial_runs"] = 1
         c["capability_score"] = 87.5
+        c["component_passes"]["cost"] = False
         self.assert_invalid(r, "at least five repeated runs")
 
     def test_statistical_claim_requires_twenty_runs(self):
