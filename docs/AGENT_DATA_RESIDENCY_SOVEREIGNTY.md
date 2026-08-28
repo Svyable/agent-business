@@ -148,12 +148,12 @@ Track at least:
 - resource-name or UI-region inference treated as evidence; and
 - `active` while a material location is unknown.
 
-## Portable record
+## Portable profile
 
-Start with `templates/DATA_RESIDENCY_RECORD.json`, validate with:
+Start with `templates/DATA_RESIDENCY_PROFILE.json`, validate with:
 
 ```bash
-python scripts/validate_data_residency.py templates/DATA_RESIDENCY_RECORD.json
+python scripts/validate_data_residency.py templates/DATA_RESIDENCY_PROFILE.json
 ```
 
-The public record must not contain credentials, private keys, raw prompts, private customer data, encryption keys, or unpublished legal advice. Use references to private evidence where necessary.
+The public profile must not contain credentials, private keys, raw prompts, private customer data, encryption keys, or unpublished legal advice. Use references to private evidence where necessary.
