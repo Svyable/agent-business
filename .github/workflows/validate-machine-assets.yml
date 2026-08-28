@@ -32,5 +32,8 @@ jobs:
       - name: Validate founder outcome template
         run: python scripts/validate_founder_outcome.py templates/FOUNDER_OUTCOME_RECORD.json --allow-draft
 
+      - name: Validate fiscal evidence template
+        run: python scripts/validate_fiscal_evidence.py templates/FISCAL_TRANSACTION_EVIDENCE.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
