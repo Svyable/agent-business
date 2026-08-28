@@ -325,6 +325,16 @@
       "next": ["pick"]
     },
     {
+      "id": "founder-outcomes",
+      "type": "meta",
+      "name": "Founder Outcome Evidence and Case Studies",
+      "goal": "Turn voluntary public adoption reports into structured, evidence-backed founder outcomes without confusing self-report, estimates, editorial interpretation, or correlation with verified causal results.",
+      "path": "docs/FOUNDER_OUTCOME_CASE_STUDIES.md",
+      "prerequisites": [],
+      "outputs": ["Validated founder outcome record, evidence classification, attribution confidence, publication decision, and reusable case-study lesson"],
+      "next": []
+    },
+    {
       "id": "tool-directory",
       "type": "directory",
       "name": "Agent Founder Tool Directory",
