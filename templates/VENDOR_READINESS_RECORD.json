@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "vendor-readiness-draft-001",
+  "updated_at": "2026-08-28T08:00:00Z",
+  "readiness_status": "needs_review",
+  "organization": {
+    "public_name": "Replace with public organization name",
+    "entity_evidence_ref": null
+  },
+  "offering": {
+    "name": "Replace with offering name",
+    "description": "Describe the enterprise-facing agent capability and deployment boundary.",
+    "deployment_model": "unknown",
+    "production_authority_granted": false
+  },
+  "controls": [
+    {
+      "id": "control-security-owner",
+      "category": "security",
+      "assertion": "A named owner is responsible for security evidence and buyer responses.",
+      "status": "missing",
+      "evidence_ids": [],
+      "owner": "unassigned",
+      "notes": "Starter record intentionally makes no security certification or audit claim."
+    },
+    {
+      "id": "control-agent-authority",
+      "category": "identity_authority",
+      "assertion": "Agent identities and tool permissions are inventoried and bounded by explicit authority.",
+      "status": "missing",
+      "evidence_ids": [],
+      "owner": "unassigned",
+      "notes": "Connect to AGENT_IDENTITY_TRUST.md and AGENT_AUTHORITY_DELEGATION.md when implemented."
+    },
+    {
+      "id": "control-incident-response",
+      "category": "incident_response",
+      "assertion": "A documented incident response and customer-notification process exists for the offering.",
+      "status": "missing",
+      "evidence_ids": [],
+      "owner": "unassigned",
+      "notes": null
+    }
+  ],
+  "evidence": [],
+  "certifications": [
+    {
+      "name": "SOC 2",
+      "status": "not_held",
+      "scope": "No SOC 2 claim is made by this starter.",
+      "evidence_ids": []
+    },
+    {
+      "name": "ISO/IEC 27001",
+      "status": "not_held",
+      "scope": "No ISO/IEC 27001 claim is made by this starter.",
+      "evidence_ids": []
+    }
+  ],
+  "subprocessors": [],
+  "data_handling": {
+    "customer_data_used_for_training": "unknown",
+    "input_retention": "Unresolved; document provider and product behavior before buyer submission.",
+    "output_retention": "Unresolved; document provider and product behavior before buyer submission.",
+    "residency_claim": "Unknown; do not make a residency commitment until supported by current evidence.",
+    "evidence_ids": []
+  },
+  "agent_governance": {
+    "identity_model": "Unresolved; document how humans, agents, workloads, and service accounts are identified.",
+    "tool_authority_model": "Unresolved; document least-privilege tool access and revocation.",
+    "human_oversight": "Unresolved; document approval boundaries for consequential actions.",
+    "change_control": "Unresolved; document model, prompt, tool, policy, and deployment change controls.",
+    "rollback": "Unresolved; document how unsafe or degraded agent behavior is contained and rolled back.",
+    "evidence_ids": []
+  },
+  "questionnaire_answers": [],
+  "pilot_to_production": {
+    "pilot_data_scope": "No customer production data approved by this starter.",
+    "pilot_authority_scope": "No production authority approved by this starter.",
+    "production_data_approved": false,
+    "production_authority_approved": false,
+    "security_review_complete": false,
+    "legal_commercial_review_complete": false
+  },
+  "privacy": {
+    "public_safe": true,
+    "contains_secrets": false,
+    "contains_credentials": false,
+    "contains_private_customer_questionnaire": false,
+    "contains_restricted_security_report": false,
+    "contains_private_architecture": false
+  }
+}

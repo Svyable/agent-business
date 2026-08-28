@@ -44,5 +44,8 @@ jobs:
       - name: Validate customer success template
         run: python scripts/validate_customer_success.py templates/CUSTOMER_SUCCESS_RECORD.json
 
+      - name: Validate enterprise vendor readiness template
+        run: python scripts/validate_vendor_readiness.py templates/VENDOR_READINESS_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
