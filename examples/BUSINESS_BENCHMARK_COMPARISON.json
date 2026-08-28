@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "benchmark_id": "synthetic-revenue-ops-comparison-v1",
+  "status": "reviewed",
+  "updated_at": "2026-08-28T16:57:00Z",
+  "repository_resources": ["business-benchmarks", "workflow-roi", "revenue-ops"],
+  "scenario": {
+    "pack_id": "agent-business-core",
+    "pack_version": "1.0.0",
+    "scenario_id": "revenue-ops.qualification-handoff.v1",
+    "scenario_version": "1.0.0",
+    "visibility": "public",
+    "fixture_version": "synthetic-1.0.0"
+  },
+  "provenance": {
+    "harness_version": "synthetic-harness-1.0.0",
+    "environment_version": "sandbox-fixtures-1.0.0",
+    "seed_policy": "fixed",
+    "observed_from": "2026-08-28T15:00:00Z",
+    "observed_to": "2026-08-28T15:30:00Z"
+  },
+  "authority": {"simulation_only": true, "real_world_authority_granted": false},
+  "configurations": [
+    {
+      "configuration_id": "fictional-lean",
+      "agent_revision": "fictional-rev-a",
+      "provider": "fictional-provider",
+      "model": "fictional-model-small",
+      "prompt_policy_ref": "fictional-policy-v1",
+      "tool_versions": ["fixture-reader-1", "crm-sandbox-1"],
+      "run_count": 5,
+      "successful_runs": 4,
+      "partial_runs": 1,
+      "failed_runs": 0,
+      "failure_counts": {"hallucinated_completion":0,"wrong_tool_success_claim":0,"policy_violation":0,"timeout":0,"retry_storm":0,"partial_side_effect":0,"stale_data":0,"cross_tenant_leakage":0,"recovery_failure":0,"human_takeover":1,"other":0},
+      "metrics": {"total_cost_minor":500,"currency":"USD","p50_latency_ms":7000,"p95_latency_ms":12000,"human_review_minutes":10,"escalations":1,"policy_violations":0,"unsafe_side_effects":0,"recovery_attempts":1,"successful_recoveries":1},
+      "thresholds": {"max_cost_per_success_minor":150,"max_p95_latency_ms":15000,"max_review_minutes_per_run":3,"max_policy_violations":0,"min_recovery_success_rate":1},
+      "capability_score": 90,
+      "component_passes": {"cost":true,"latency":true,"human_review":true,"policy":true,"recovery":true}
+    },
+    {
+      "configuration_id": "fictional-heavy",
+      "agent_revision": "fictional-rev-b",
+      "provider": "fictional-provider",
+      "model": "fictional-model-large",
+      "prompt_policy_ref": "fictional-policy-v2",
+      "tool_versions": ["fixture-reader-1", "crm-sandbox-1", "review-assistant-1"],
+      "run_count": 5,
+      "successful_runs": 5,
+      "partial_runs": 0,
+      "failed_runs": 0,
+      "failure_counts": {"hallucinated_completion":0,"wrong_tool_success_claim":0,"policy_violation":0,"timeout":0,"retry_storm":0,"partial_side_effect":0,"stale_data":0,"cross_tenant_leakage":0,"recovery_failure":0,"human_takeover":2,"other":0},
+      "metrics": {"total_cost_minor":1200,"currency":"USD","p50_latency_ms":8000,"p95_latency_ms":11000,"human_review_minutes":25,"escalations":2,"policy_violations":0,"unsafe_side_effects":0,"recovery_attempts":1,"successful_recoveries":1},
+      "thresholds": {"max_cost_per_success_minor":250,"max_p95_latency_ms":15000,"max_review_minutes_per_run":3,"max_policy_violations":0,"min_recovery_success_rate":1},
+      "capability_score": 100,
+      "component_passes": {"cost":true,"latency":true,"human_review":false,"policy":true,"recovery":true}
+    }
+  ],
+  "comparison": {
+    "measured_result": "In this synthetic five-run example, fictional-heavy completed all five runs while fictional-lean completed four and partially completed one. Fictional-heavy used more than twice the total spend and 2.5 times the human-review minutes.",
+    "estimates": [],
+    "interpretation": "The higher completion score does not erase the review-burden trade-off. A founder should choose based on the workflow's cost and review constraints and rerun with more repetitions before claiming superiority.",
+    "claims_statistical_superiority": false
+  },
+  "evidence": [
+    {"id":"synthetic-run-a","type":"run_summary","status":"current","observed_at":"2026-08-28T15:20:00Z","description":"Synthetic aggregate for fictional-lean; illustrative only."},
+    {"id":"synthetic-run-b","type":"run_summary","status":"current","observed_at":"2026-08-28T15:25:00Z","description":"Synthetic aggregate for fictional-heavy; illustrative only."},
+    {"id":"synthetic-review","type":"review_record","status":"current","observed_at":"2026-08-28T15:30:00Z","description":"Synthetic review confirming arithmetic and interpretation boundaries."}
+  ],
+  "privacy": {"contains_credentials":false,"contains_private_customer_data":false,"contains_secret_prompts":false,"contains_restricted_answer_keys":false,"public_disclosure_confirmed":true}
+}
