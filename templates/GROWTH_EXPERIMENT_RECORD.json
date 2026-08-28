@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "experiment_id": "draft-growth-001",
+  "status": "draft",
+  "updated_at": "2026-08-28T12:00:00Z",
+  "owner": null,
+  "repository_resources": ["sell", "revenue-ops", "ip-data-rights"],
+  "hypothesis": {
+    "statement": "Replace with a falsifiable audience, offer, channel, and expected-outcome hypothesis.",
+    "primary_metric": "qualified_opportunities",
+    "success_threshold": "Replace with a declared threshold before launch.",
+    "guardrails": ["Do not optimize vanity metrics at the expense of consent, brand, or margin."]
+  },
+  "audience": {
+    "icp": "Replace with the intended ICP.",
+    "source": "Replace with an authorized audience source.",
+    "consent_basis": "unknown",
+    "suppression_enforced": true,
+    "customer_data_use": "unknown"
+  },
+  "channel": {
+    "type": "other",
+    "account_or_surface": "not configured",
+    "claims_reviewed": false,
+    "brand_assets_authorized": false
+  },
+  "metrics": {
+    "spend_minor": 0,
+    "currency": "USD",
+    "impressions": 0,
+    "clicks": 0,
+    "qualified_leads": 0,
+    "qualified_opportunities": 0,
+    "observed_revenue_minor": 0,
+    "platform_attributed_revenue_minor": 0,
+    "revenue_opportunity_ids": []
+  },
+  "budget": {
+    "daily_cap_minor": 0,
+    "lifetime_cap_minor": 0,
+    "reallocation_cap_bps": 0,
+    "stop_loss_minor": 0
+  },
+  "attribution": {
+    "source_platform": "none",
+    "model": "none",
+    "lookback_window_days": 0,
+    "identity_resolution": "No identity resolution configured.",
+    "incrementality_method": "none",
+    "causal_claim": false,
+    "known_blind_spots": ["Draft record has no attribution evidence."]
+  },
+  "authority": {
+    "can_publish": false,
+    "can_spend": false,
+    "max_spend_minor": 0,
+    "can_reallocate_budget": false,
+    "can_change_audience": false,
+    "can_change_claims": false,
+    "authority_evidence_ids": []
+  },
+  "evidence": [],
+  "decision": {
+    "action": "none",
+    "reason": "Draft starter grants no launch, spend, audience, or claims authority.",
+    "evidence_ids": []
+  },
+  "privacy": {
+    "contains_raw_contacts": false,
+    "contains_credentials": false,
+    "contains_private_customer_data": false,
+    "public_disclosure_confirmed": true
+  }
+}
