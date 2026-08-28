@@ -1,0 +1,23 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://github.com/Svyable/agent-business/schemas/data-residency-record.schema.json",
+  "title":"Agent Data Residency Record",
+  "type":"object",
+  "additionalProperties":true,
+  "required":["schema_version","record_id","status","updated_at","tenant_scope","requirements","data_paths","failover","change_control","authority","evidence","privacy"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},
+    "record_id":{"type":"string","minLength":1},
+    "status":{"enum":["inventory","requirements_mapped","architecture_selected","configured","tested","active","changed","suspended","retired"]},
+    "updated_at":{"type":"string","format":"date-time"},
+    "repository_resources":{"type":"array","items":{"type":"string"}},
+    "tenant_scope":{"type":"object","required":["tenant_id","constrained"],"properties":{"tenant_id":{"type":"string"},"constrained":{"type":"boolean"}}},
+    "requirements":{"type":"array","items":{"type":"object","required":["id","allowed_geographies","evidence_ids"],"properties":{"id":{"type":"string"},"allowed_geographies":{"type":"array","items":{"type":"string"}},"evidence_ids":{"type":"array","items":{"type":"string"}}}}},
+    "data_paths":{"type":"array","items":{"type":"object","required":["id","data_class","material","storage_region","processing_region","routing_mode","telemetry_region","control_plane_region","backup_regions","failover_regions","provider","requirement_id","evidence_ids"],"properties":{"id":{"type":"string"},"data_class":{"type":"string"},"material":{"type":"boolean"},"storage_region":{"type":"string"},"processing_region":{"type":"string"},"routing_mode":{"enum":["regional","multi_region","global","unknown"]},"telemetry_region":{"type":"string"},"control_plane_region":{"type":"string"},"backup_regions":{"type":"array","items":{"type":"string"}},"failover_regions":{"type":"array","items":{"type":"string"}},"provider":{"type":"string"},"subprocessor_location":{"type":"string"},"support_admin_geography":{"type":"string"},"requirement_id":{"type":"string"},"evidence_ids":{"type":"array","items":{"type":"string"}}}}},
+    "failover":{"type":"object","required":["compliant","tested","evidence_ids"],"properties":{"compliant":{"type":"boolean"},"tested":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"}}}},
+    "change_control":{"type":"object","required":["material_change_detected","re_review_required"],"properties":{"material_change_detected":{"type":"boolean"},"re_review_required":{"type":"boolean"}}},
+    "authority":{"type":"object","required":["can_activate","evidence_ids"],"properties":{"can_activate":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"}}}},
+    "evidence":{"type":"array","items":{"type":"object","required":["id","type","status","observed_at","reference"],"properties":{"id":{"type":"string"},"type":{"type":"string"},"status":{"enum":["current","stale","superseded"]},"observed_at":{"type":"string","format":"date-time"},"reference":{"type":"string"}}}},
+    "privacy":{"type":"object","required":["contains_credentials","contains_private_customer_data","contains_raw_private_prompts","contains_keys","contains_unpublished_legal_advice","public_disclosure_confirmed"],"properties":{"contains_credentials":{"const":false},"contains_private_customer_data":{"const":false},"contains_raw_private_prompts":{"const":false},"contains_keys":{"const":false},"contains_unpublished_legal_advice":{"const":false},"public_disclosure_confirmed":{"const":true}}}
+  }
+}
