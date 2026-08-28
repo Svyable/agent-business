@@ -27,6 +27,10 @@ Fiscal transaction evidence schema: ./schemas/fiscal-transaction-evidence.schema
 Entity governance: ./docs/AGENT_ENTITY_GOVERNANCE.md
 Entity governance template: ./templates/ENTITY_GOVERNANCE_RECORD.json
 Entity governance schema: ./schemas/entity-governance-record.schema.json
+IP, model licensing, and data rights: ./docs/AGENT_IP_DATA_RIGHTS.md
+IP rights template: ./templates/IP_RIGHTS_RECORD.json
+IP rights schema: ./schemas/ip-rights-record.schema.json
+IP rights validator: ./scripts/validate_ip_rights.py
 Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 Contribution guide: ./CONTRIBUTING.md
 Voluntary adoption report: ./.github/ISSUE_TEMPLATE/agent-adoption.yml
@@ -71,8 +75,9 @@ The bootstrap performs no network requests and emits no telemetry. Generated pac
 12. For post-sale work, use `docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md`; keep account-health evidence, model inference, communications eligibility, incidents, renewal recommendations, approvals, and real commercial authority separate. A health score or renewal recommendation never grants authority.
 13. For taxable/invoiceable/payable transactions, use `docs/AGENT_FISCAL_OPERATIONS.md`; unresolved jurisdiction, registration, tax, invoice, withholding, platform-reporting, or FX evidence must remain `draft`/`needs_review`, not silently become an operational tax answer.
 14. For entity formation, ownership, signatory authority, statutory filings, or material corporate actions, use `docs/AGENT_ENTITY_GOVERNANCE.md`; an unresolved entity record must remain `needs_review`, not be treated as proof of legal existence, good standing, ownership, or authority.
-15. Never infer real-world authority from repository templates or guidance.
-16. Never put secrets, credentials, private prompts, payment data, raw government IDs, signatures, bank credentials, or private founder/customer evidence into public GitHub artifacts.
+15. For models, code, datasets, RAG sources, customer inputs, generated outputs, and other IP-bearing assets, use `docs/AGENT_IP_DATA_RIGHTS.md`; public availability is not proof of commercial, redistribution, training, or customer-deliverable rights, and unresolved rights must not become `commercial_ready`.
+16. Never infer real-world authority from repository templates or guidance.
+17. Never put secrets, credentials, private prompts, payment data, raw government IDs, signatures, bank credentials, private contract text, restricted dataset content, or private founder/customer evidence into public GitHub artifacts.
 
 ## GitHub is the canonical product surface
 
@@ -146,6 +151,10 @@ They are not required for canonical GitHub-native use.
 - Entity governance — `docs/AGENT_ENTITY_GOVERNANCE.md`
 - Entity governance template — `templates/ENTITY_GOVERNANCE_RECORD.json`
 - Entity governance schema — `schemas/entity-governance-record.schema.json`
+- IP, model licensing, and data rights — `docs/AGENT_IP_DATA_RIGHTS.md`
+- IP rights template — `templates/IP_RIGHTS_RECORD.json`
+- IP rights schema — `schemas/ip-rights-record.schema.json`
+- IP rights validator — `scripts/validate_ip_rights.py`
 - Diligence protocol — `docs/AGENT_DILIGENCE_DEAL_ROOM.md`
 - Diligence room template — `templates/DILIGENCE_ROOM.json`
 - Diligence room schema — `schemas/diligence-room.schema.json`
@@ -174,6 +183,8 @@ python scripts/validate_fiscal_evidence.py templates/FISCAL_TRANSACTION_EVIDENCE
 python scripts/validate_entity_governance.py templates/ENTITY_GOVERNANCE_RECORD.json
 python scripts/workflow_roi.py templates/WORKFLOW_ROI_ANALYSIS.json --validate-only
 python scripts/validate_customer_success.py templates/CUSTOMER_SUCCESS_RECORD.json
+python scripts/validate_vendor_readiness.py templates/VENDOR_READINESS_RECORD.json
+python scripts/validate_ip_rights.py templates/IP_RIGHTS_RECORD.json
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 
@@ -186,6 +197,8 @@ python scripts/workflow_roi.py <workflow-roi-analysis>
 python scripts/validate_customer_success.py <customer-success-record>
 python scripts/validate_fiscal_evidence.py <fiscal-transaction-record>
 python scripts/validate_entity_governance.py <entity-governance-record>
+python scripts/validate_vendor_readiness.py <vendor-readiness-record>
+python scripts/validate_ip_rights.py <ip-rights-record>
 python scripts/validate_diligence_room.py <room>
 python scripts/validate_service_contract.py <contract>
 python scripts/validate_authority_envelope.py <authority>
