@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/pricing-package.schema.json",
+  "title": "Agent Business Pricing Package",
+  "description": "Machine-readable pricing, packaging, meter, economics, budget-control, and deal-desk evidence record. Repository templates never grant commercial authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","package_id","updated_at","status","currency","pricing_model","customer_segment","meter","commercial_terms","economics","budget_controls","authority","evidence","privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "package_id": {"type":"string","minLength":3,"maxLength":128,"pattern":"^[A-Za-z0-9._-]+$"},
+    "updated_at": {"type":"string","format":"date-time"},
+    "status": {"enum":["draft","needs_review","quote_ready","active","retired"]},
+    "currency": {"type":"string","pattern":"^[A-Z]{3}$"},
+    "pricing_model": {"enum":["subscription","usage","outcome","hybrid","setup_recurring","marketplace_take_rate","enterprise_commitment"]},
+    "customer_segment": {"type":"string","minLength":1,"maxLength":240},
+    "meter": {
+      "type":"object","additionalProperties":false,
+      "required":["name","unit","trigger","definition","deduplication_key","customer_verifiable","exclusions"],
+      "properties": {
+        "name":{"type":"string","minLength":1,"maxLength":160},
+        "unit":{"type":"string","minLength":1,"maxLength":80},
+        "trigger":{"enum":["attempted_action","completed_workflow","verified_outcome","elapsed_usage","transaction_value"]},
+        "definition":{"type":"string","minLength":20,"maxLength":1600},
+        "deduplication_key":{"type":"string","minLength":3,"maxLength":160},
+        "customer_verifiable":{"type":"boolean"},
+        "acceptance_window_hours":{"type":["number","null"],"minimum":0},
+        "exclusions":{"type":"array","items":{"type":"string","minLength":1,"maxLength":320}}
+      }
+    },
+    "outcome_policy": {
+      "type":["object","null"],"additionalProperties":false,
+      "properties": {
+        "success_definition":{"type":"string","minLength":20,"maxLength":1600},
+        "attribution_rule":{"type":"string","minLength":20,"maxLength":1600},
+        "customer_failure_exclusions":{"type":"array","items":{"type":"string","minLength":1,"maxLength":320}},
+        "dispute_window_hours":{"type":"number","minimum":0},
+        "evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+      }
+    },
+    "commercial_terms": {
+      "type":"object","additionalProperties":false,
+      "required":["billing_period","base_fee_minor","minimum_commitment_minor","included_units","unit_price_minor","overage_price_minor","hard_spend_cap_minor","effective_from","quote_expires_at","discount_bps","setup_fee_minor","service_credit_cap_minor"],
+      "properties": {
+        "billing_period":{"enum":["one_time","monthly","quarterly","annual","custom"]},
+        "base_fee_minor":{"type":"integer","minimum":0},
+        "minimum_commitment_minor":{"type":"integer","minimum":0},
+        "included_units":{"type":"number","minimum":0},
+        "unit_price_minor":{"type":"integer","minimum":0},
+        "overage_price_minor":{"type":["integer","null"],"minimum":0},
+        "hard_spend_cap_minor":{"type":["integer","null"],"minimum":0},
+        "discount_bps":{"type":"integer","minimum":0,"maximum":10000},
+        "setup_fee_minor":{"type":"integer","minimum":0},
+        "service_credit_cap_minor":{"type":"integer","minimum":0},
+        "effective_from":{"type":"string","format":"date-time"},
+        "effective_until":{"type":["string","null"],"format":"date-time"},
+        "quote_expires_at":{"type":"string","format":"date-time"},
+        "change_notice_days":{"type":"integer","minimum":0}
+      }
+    },
+    "economics": {
+      "type":"object","additionalProperties":false,
+      "required":["expected_cost_per_billable_unit_minor","target_contribution_margin_bps","minimum_contribution_margin_bps","expected_net_price_per_unit_minor","evidence_ids"],
+      "properties": {
+        "expected_cost_per_billable_unit_minor":{"type":"integer","minimum":0},
+        "expected_net_price_per_unit_minor":{"type":"integer","minimum":0},
+        "target_contribution_margin_bps":{"type":"integer","minimum":-10000,"maximum":10000},
+        "minimum_contribution_margin_bps":{"type":"integer","minimum":-10000,"maximum":10000},
+        "workflow_roi_record":{"type":["string","null"],"maxLength":320},
+        "evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+      }
+    },
+    "budget_controls": {
+      "type":"object","additionalProperties":false,
+      "required":["usage_alert_percentages","hard_cap_behavior","overage_requires_approval","no_surprise_billing"],
+      "properties": {
+        "usage_alert_percentages":{"type":"array","uniqueItems":true,"items":{"type":"number","minimum":0,"maximum":100}},
+        "hard_cap_behavior":{"enum":["stop","throttle","downgrade","request_approval","not_configured"]},
+        "overage_requires_approval":{"type":"boolean"},
+        "no_surprise_billing":{"type":"boolean"}
+      }
+    },
+    "authority": {
+      "type":"object","additionalProperties":false,
+      "required":["source","can_issue_quote","max_discount_bps","can_waive_setup","can_change_minimum","can_grant_credits","max_credit_minor","can_activate_nonstandard_terms","reviewed_at"],
+      "properties": {
+        "source":{"type":["string","null"],"maxLength":500},
+        "can_issue_quote":{"type":"boolean"},
+        "max_discount_bps":{"type":"integer","minimum":0,"maximum":10000},
+        "can_waive_setup":{"type":"boolean"},
+        "can_change_minimum":{"type":"boolean"},
+        "can_grant_credits":{"type":"boolean"},
+        "max_credit_minor":{"type":"integer","minimum":0},
+        "can_activate_nonstandard_terms":{"type":"boolean"},
+        "reviewed_at":{"type":["string","null"],"format":"date-time"}
+      }
+    },
+    "evidence": {
+      "type":"array","items":{
+        "type":"object","additionalProperties":false,"required":["id","type","description","status","observed_at"],
+        "properties": {
+          "id":{"type":"string","minLength":1,"maxLength":128},
+          "type":{"enum":["customer_evidence","workflow_economics","contract","pricing_experiment","public_source","editorial_assumption"]},
+          "description":{"type":"string","minLength":1,"maxLength":1200},
+          "status":{"enum":["current","stale","disputed","draft"]},
+          "observed_at":{"type":"string","format":"date-time"},
+          "public_url":{"type":["string","null"],"format":"uri"}
+        }
+      }
+    },
+    "privacy": {
+      "type":"object","additionalProperties":false,
+      "required":["contains_secrets","contains_payment_credentials","contains_private_customer_data"],
+      "properties": {
+        "contains_secrets":{"const":false},
+        "contains_payment_credentials":{"const":false},
+        "contains_private_customer_data":{"const":false}
+      }
+    }
+  }
+}
