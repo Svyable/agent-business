@@ -89,5 +89,8 @@ jobs:
       - name: Validate platform access template
         run: python scripts/validate_platform_access.py templates/PLATFORM_ACCESS_RECORD.json
 
+      - name: Validate AI transparency template
+        run: python scripts/validate_ai_transparency.py templates/AI_TRANSPARENCY_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
