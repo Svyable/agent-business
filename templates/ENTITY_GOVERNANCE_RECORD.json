@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "draft-entity-001",
+  "updated_at": "2026-08-28T05:00:00Z",
+  "status": "needs_review",
+  "entity": {
+    "legal_name": "Replace with actual legal entity name",
+    "entity_type": "unknown until supported by formation evidence",
+    "formation_jurisdiction": "unknown",
+    "formation_effective_at": null,
+    "formation_evidence_ids": [],
+    "registry_identifier_reference": null,
+    "governing_document_evidence_ids": [],
+    "good_standing": "unknown"
+  },
+  "ownership": {
+    "cap_table_status": "unknown",
+    "cap_table_evidence_ids": [],
+    "beneficial_ownership_status": "unknown",
+    "beneficial_ownership_evidence_ids": [],
+    "equity_instrument_count": 0,
+    "last_reconciled_at": null
+  },
+  "authority": {
+    "governance_body": "unknown until governing documents are reviewed",
+    "material_actions_require_approval": true,
+    "banking_authority_status": "unknown",
+    "signatory_evidence_ids": [],
+    "delegation_evidence_ids": []
+  },
+  "obligations": [],
+  "corporate_actions": [],
+  "evidence": [],
+  "privacy": {
+    "contains_raw_government_id": false,
+    "contains_signature": false,
+    "contains_bank_credentials": false,
+    "contains_private_beneficial_owner_documents": false,
+    "contains_secrets": false
+  },
+  "review": {
+    "human_review_required": true,
+    "reviewed_at": null,
+    "review_notes": "Starter record only. Do not treat this as proof of formation, ownership, authority, good standing, or filing compliance."
+  }
+}
