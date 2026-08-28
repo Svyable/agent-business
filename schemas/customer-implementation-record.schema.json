@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/customer-implementation-record.schema.json",
+  "title": "Agent Business Customer Implementation Record",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version","implementation_id","status","updated_at","commercial_handoff","environments","integrations","data_readiness","evals","rollout","adoption","go_live","hypercare","customer_success_handoff","economics","evidence","privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "implementation_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["sold","implementation_planning","configuring","validating","rollout_ready","live","hypercare","handed_to_customer_success","rolled_back"]},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "repository_resources": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "commercial_handoff": {"type":"object","required":["accepted_scope","success_criteria","handoff_evidence_ids"],"properties":{"opportunity_id":{"type":"string"},"accepted_scope":{"type":"array","minItems":1,"items":{"type":"string"}},"success_criteria":{"type":"array","minItems":1,"items":{"type":"string"}},"handoff_evidence_ids":{"$ref":"#/$defs/evidenceRefs"}}},
+    "environments": {"type":"array","minItems":1,"items":{"type":"object","required":["name","promotion_state","production","evidence_ids"],"properties":{"name":{"type":"string"},"promotion_state":{"enum":["not_started","configured","validated","approved","rolled_back"]},"production":{"type":"boolean"},"evidence_ids":{"$ref":"#/$defs/evidenceRefs"}}}},
+    "integrations": {"type":"array","items":{"type":"object","required":["id","status","rate_limits_defined","failure_behavior_defined","evidence_ids"],"properties":{"id":{"type":"string"},"status":{"enum":["planned","configured","validated","production","disabled"]},"rate_limits_defined":{"type":"boolean"},"failure_behavior_defined":{"type":"boolean"},"evidence_ids":{"$ref":"#/$defs/evidenceRefs"}}}},
+    "data_readiness": {"type":"object"},
+    "evals":{"type":"object"},
+    "rollout":{"type":"object"},
+    "adoption":{"type":"object"},
+    "go_live":{"type":"object"},
+    "hypercare":{"type":"object"},
+    "customer_success_handoff":{"type":"object"},
+    "economics":{"type":"object"},
+    "evidence": {"type":"array","items":{"$ref":"#/$defs/evidence"}},
+    "privacy": {"type":"object","required":["contains_credentials","contains_private_customer_data","contains_private_prompts","public_disclosure_confirmed"]}
+  },
+  "$defs": {
+    "evidenceRefs": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "evidence": {"type":"object","required":["id","type","status","observed_at"],"properties":{"id":{"type":"string","minLength":1},"type":{"enum":["buyer_acceptance","commercial_record","eval_result","security_review","privacy_review","environment_promotion","integration_test","authority_grant","monitoring_evidence","training_record","support_plan","incident_record","handoff_record","public_artifact"]},"status":{"enum":["current","stale","revoked"]},"observed_at":{"type":"string","format":"date-time"},"public_url":{"type":["string","null"]}}}
+  }
+}
