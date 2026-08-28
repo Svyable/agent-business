@@ -28,3 +28,6 @@ jobs:
 
       - name: Validate economic integrity assets
         run: python scripts/validate_economic_integrity.py
+
+      - name: Test discovery runtime
+        run: python -m unittest discover -s tests -p 'test_*.py'

@@ -325,6 +325,16 @@
       "next": []
     },
     {
+      "id": "discovery-runtime",
+      "type": "meta",
+      "name": "Agent Discovery Runtime",
+      "goal": "Run and test the machine discovery surface, self-declared agent handshake, signed pseudonymous sessions, privacy gates, and activation-event ingestion before production deployment.",
+      "path": "docs/AGENT_DISCOVERY_RUNTIME.md",
+      "prerequisites": ["discovery-observability"],
+      "outputs": ["Runnable reference service, endpoint contract, fail-closed production readiness rules, privacy controls, and CI-tested synthetic agent journey"],
+      "next": []
+    },
+    {
       "id": "economic-action-policy",
       "type": "template",
       "name": "Economic Action Policy",
