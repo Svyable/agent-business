@@ -16,6 +16,9 @@ Case study registry: ./case-studies/README.md
 Fiscal operations: ./docs/AGENT_FISCAL_OPERATIONS.md
 Fiscal transaction evidence template: ./templates/FISCAL_TRANSACTION_EVIDENCE.json
 Fiscal transaction evidence schema: ./schemas/fiscal-transaction-evidence.schema.json
+Entity governance: ./docs/AGENT_ENTITY_GOVERNANCE.md
+Entity governance template: ./templates/ENTITY_GOVERNANCE_RECORD.json
+Entity governance schema: ./schemas/entity-governance-record.schema.json
 Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 Contribution guide: ./CONTRIBUTING.md
 Voluntary adoption report: ./.github/ISSUE_TEMPLATE/agent-adoption.yml
@@ -57,8 +60,9 @@ The bootstrap performs no network requests and emits no telemetry. Generated pac
 9. When reporting a public founder outcome, use `docs/FOUNDER_OUTCOME_CASE_STUDIES.md` and keep observed facts, self-reported claims, estimates, and editorial interpretation separate.
 10. Never publish a founder outcome record as `published` until `python scripts/validate_founder_outcome.py <record>` succeeds without `--allow-draft`.
 11. For taxable/invoiceable/payable transactions, use `docs/AGENT_FISCAL_OPERATIONS.md`; unresolved jurisdiction, registration, tax, invoice, withholding, platform-reporting, or FX evidence must remain `draft`/`needs_review`, not silently become an operational tax answer.
-12. Never infer real-world authority from repository templates or guidance.
-13. Never put secrets, credentials, private prompts, payment data, or private founder/customer evidence into public GitHub artifacts.
+12. For entity formation, ownership, signatory authority, statutory filings, or material corporate actions, use `docs/AGENT_ENTITY_GOVERNANCE.md`; an unresolved entity record must remain `needs_review`, not be treated as proof of legal existence, good standing, ownership, or authority.
+13. Never infer real-world authority from repository templates or guidance.
+14. Never put secrets, credentials, private prompts, payment data, raw government IDs, signatures, bank credentials, or private founder/customer evidence into public GitHub artifacts.
 
 ## GitHub is the canonical product surface
 
@@ -121,6 +125,9 @@ They are not required for canonical GitHub-native use.
 - Fiscal operations — `docs/AGENT_FISCAL_OPERATIONS.md`
 - Fiscal transaction evidence template — `templates/FISCAL_TRANSACTION_EVIDENCE.json`
 - Fiscal transaction evidence schema — `schemas/fiscal-transaction-evidence.schema.json`
+- Entity governance — `docs/AGENT_ENTITY_GOVERNANCE.md`
+- Entity governance template — `templates/ENTITY_GOVERNANCE_RECORD.json`
+- Entity governance schema — `schemas/entity-governance-record.schema.json`
 - Diligence protocol — `docs/AGENT_DILIGENCE_DEAL_ROOM.md`
 - Diligence room template — `templates/DILIGENCE_ROOM.json`
 - Diligence room schema — `schemas/diligence-room.schema.json`
@@ -146,6 +153,7 @@ python scripts/validate_discovery_assets.py
 python scripts/validate_economic_integrity.py
 python scripts/validate_founder_outcome.py templates/FOUNDER_OUTCOME_RECORD.json --allow-draft
 python scripts/validate_fiscal_evidence.py templates/FISCAL_TRANSACTION_EVIDENCE.json
+python scripts/validate_entity_governance.py templates/ENTITY_GOVERNANCE_RECORD.json
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 
@@ -155,6 +163,7 @@ Validate live artifacts with:
 python scripts/agent_business.py validate <founder-packet>
 python scripts/validate_founder_outcome.py <founder-outcome-record>
 python scripts/validate_fiscal_evidence.py <fiscal-transaction-record>
+python scripts/validate_entity_governance.py <entity-governance-record>
 python scripts/validate_diligence_room.py <room>
 python scripts/validate_service_contract.py <contract>
 python scripts/validate_authority_envelope.py <authority>

@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/entity-governance-record.schema.json",
+  "title": "Agent Business Entity Governance Record",
+  "description": "Machine-readable, privacy-minimizing evidence record for legal-entity formation, governance authority, ownership provenance, statutory obligations, and corporate actions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "record_id", "updated_at", "status", "entity", "ownership", "authority", "obligations", "evidence", "privacy", "review"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["draft", "needs_review", "operational", "suspended", "dissolved"]},
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["legal_name", "entity_type", "formation_jurisdiction", "formation_effective_at", "formation_evidence_ids", "good_standing"],
+      "properties": {
+        "legal_name": {"type": "string", "minLength": 1, "maxLength": 240},
+        "entity_type": {"type": "string", "minLength": 1, "maxLength": 120},
+        "formation_jurisdiction": {"type": "string", "minLength": 2, "maxLength": 160},
+        "formation_effective_at": {"type": ["string", "null"], "format": "date-time"},
+        "formation_evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "registry_identifier_reference": {"type": ["string", "null"], "maxLength": 240},
+        "governing_document_evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "good_standing": {"enum": ["unknown", "current", "not_current", "not_applicable"]}
+      }
+    },
+    "ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cap_table_status", "cap_table_evidence_ids", "beneficial_ownership_status", "beneficial_ownership_evidence_ids"],
+      "properties": {
+        "cap_table_status": {"enum": ["unknown", "current", "needs_reconciliation", "not_applicable"]},
+        "cap_table_evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "beneficial_ownership_status": {"enum": ["unknown", "current", "needs_review", "not_applicable"]},
+        "beneficial_ownership_evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "equity_instrument_count": {"type": "integer", "minimum": 0},
+        "last_reconciled_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["governance_body", "material_actions_require_approval", "banking_authority_status", "signatory_evidence_ids"],
+      "properties": {
+        "governance_body": {"type": "string", "minLength": 1, "maxLength": 160},
+        "material_actions_require_approval": {"const": true},
+        "banking_authority_status": {"enum": ["unknown", "current", "needs_review", "not_applicable"]},
+        "signatory_evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "delegation_evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "obligations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "jurisdiction", "status", "due_at", "evidence_ids"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "type": {"enum": ["annual_report", "confirmation_statement", "beneficial_ownership", "registered_agent", "business_license", "foreign_qualification", "franchise_or_registry_fee", "identity_verification", "other"]},
+          "jurisdiction": {"type": "string", "minLength": 2, "maxLength": 160},
+          "status": {"enum": ["unknown", "not_due", "due", "filed", "not_applicable", "needs_review"]},
+          "due_at": {"type": ["string", "null"], "format": "date-time"},
+          "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "corporate_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "action_type", "effective_at", "approval_evidence_ids", "status"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "action_type": {"enum": ["equity_issuance", "debt_or_safe", "banking_change", "officer_or_director_change", "address_change", "name_change", "foreign_qualification", "conversion", "dissolution", "material_contract", "other"]},
+          "effective_at": {"type": ["string", "null"], "format": "date-time"},
+          "approval_evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "status": {"enum": ["proposed", "approved", "effective", "rejected", "cancelled"]}
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "description", "observed_at", "effective_from", "status", "sensitivity"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "type": {"enum": ["registry_record", "formation_document", "governing_document", "cap_table", "consent_or_resolution", "bank_authority", "filing_receipt", "official_guidance", "professional_review", "other"]},
+          "description": {"type": "string", "minLength": 1, "maxLength": 1200},
+          "public_url": {"type": ["string", "null"], "format": "uri"},
+          "private_reference": {"type": ["string", "null"], "maxLength": 240},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "effective_from": {"type": "string", "format": "date-time"},
+          "expires_at": {"type": ["string", "null"], "format": "date-time"},
+          "status": {"enum": ["current", "stale", "disputed", "superseded", "draft"]},
+          "sensitivity": {"enum": ["public", "private_reference_only"]}
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contains_raw_government_id", "contains_signature", "contains_bank_credentials", "contains_private_beneficial_owner_documents", "contains_secrets"],
+      "properties": {
+        "contains_raw_government_id": {"const": false},
+        "contains_signature": {"const": false},
+        "contains_bank_credentials": {"const": false},
+        "contains_private_beneficial_owner_documents": {"const": false},
+        "contains_secrets": {"const": false}
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["human_review_required", "reviewed_at", "review_notes"],
+      "properties": {
+        "human_review_required": {"type": "boolean"},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "review_notes": {"type": ["string", "null"], "maxLength": 1600}
+      }
+    }
+  }
+}

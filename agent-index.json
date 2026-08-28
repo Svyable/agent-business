@@ -345,6 +345,16 @@
       "next": []
     },
     {
+      "id": "entity-governance",
+      "type": "meta",
+      "name": "Agent Entity Formation, Corporate Governance, and Statutory Operations",
+      "goal": "Keep legal-entity formation, ownership, authority, statutory obligations, corporate actions, and private evidence references synchronized without inferring legal status from stale or incomplete records.",
+      "path": "docs/AGENT_ENTITY_GOVERNANCE.md",
+      "prerequisites": ["govern", "finance"],
+      "outputs": ["Validated entity-governance record, ownership/control state, approval and signatory evidence map, statutory calendar, and escalation decision"],
+      "next": []
+    },
+    {
       "id": "tool-directory",
       "type": "directory",
       "name": "Agent Founder Tool Directory",
