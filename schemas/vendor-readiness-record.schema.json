@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/vendor-readiness-record.schema.json",
+  "title": "Agent Business Enterprise Vendor Readiness Record",
+  "description": "Portable evidence record for enterprise security, procurement, privacy, AI-governance, and pilot-to-production readiness. It must not be treated as a certification or grant of customer production authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_id","updated_at","readiness_status","organization","offering","controls","evidence","certifications","subprocessors","data_handling","agent_governance","questionnaire_answers","pilot_to_production","privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"type":"string","minLength":8,"maxLength":128,"pattern":"^[a-zA-Z0-9._-]+$"},
+    "updated_at": {"type":"string","format":"date-time"},
+    "readiness_status": {"enum":["draft","needs_review","buyer_ready","retired"]},
+    "organization": {
+      "type":"object","additionalProperties":false,
+      "required":["public_name","entity_evidence_ref"],
+      "properties":{"public_name":{"type":"string","minLength":1,"maxLength":200},"entity_evidence_ref":{"type":["string","null"],"maxLength":300}}
+    },
+    "offering": {
+      "type":"object","additionalProperties":false,
+      "required":["name","description","deployment_model","production_authority_granted"],
+      "properties": {
+        "name":{"type":"string","minLength":1,"maxLength":200},
+        "description":{"type":"string","minLength":1,"maxLength":1200},
+        "deployment_model":{"enum":["vendor_saas","customer_cloud","customer_vpc","on_prem","hybrid","other","unknown"]},
+        "production_authority_granted":{"const":false}
+      }
+    },
+    "controls": {
+      "type":"array","minItems":1,
+      "items": {
+        "type":"object","additionalProperties":false,
+        "required":["id","category","assertion","status","evidence_ids","owner"],
+        "properties": {
+          "id":{"type":"string","minLength":1,"maxLength":128},
+          "category":{"enum":["company","security","privacy","data","identity_authority","observability","incident_response","reliability","bcp_dr","support","commercial","ai_governance"]},
+          "assertion":{"type":"string","minLength":1,"maxLength":1200},
+          "status":{"enum":["verified","self_attested","not_applicable","missing","expired"]},
+          "evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}},
+          "owner":{"type":"string","minLength":1,"maxLength":160},
+          "notes":{"type":["string","null"],"maxLength":1200}
+        }
+      }
+    },
+    "evidence": {
+      "type":"array",
+      "items": {
+        "type":"object","additionalProperties":false,
+        "required":["id","type","description","observed_at","status","scope"],
+        "properties": {
+          "id":{"type":"string","minLength":1,"maxLength":128},
+          "type":{"enum":["public_artifact","internal_reference","third_party_audit","penetration_test","policy","architecture_record","log_sample","contractual_document","self_attestation","customer_specific"]},
+          "description":{"type":"string","minLength":1,"maxLength":1200},
+          "public_url":{"type":["string","null"],"format":"uri"},
+          "observed_at":{"type":"string","format":"date-time"},
+          "expires_at":{"type":["string","null"],"format":"date-time"},
+          "status":{"enum":["current","expired","superseded","disputed"]},
+          "scope":{"type":"string","minLength":1,"maxLength":1000}
+        }
+      }
+    },
+    "certifications": {
+      "type":"array",
+      "items": {
+        "type":"object","additionalProperties":false,
+        "required":["name","status","scope","evidence_ids"],
+        "properties": {
+          "name":{"type":"string","minLength":1,"maxLength":160},
+          "status":{"enum":["held","not_held","in_progress","not_applicable"]},
+          "scope":{"type":"string","minLength":1,"maxLength":800},
+          "evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+        }
+      }
+    },
+    "subprocessors": {
+      "type":"array",
+      "items": {
+        "type":"object","additionalProperties":false,
+        "required":["name","purpose","data_categories","processing_regions","status","evidence_ids"],
+        "properties": {
+          "name":{"type":"string","minLength":1,"maxLength":200},
+          "purpose":{"type":"string","minLength":1,"maxLength":800},
+          "data_categories":{"type":"array","items":{"type":"string","minLength":1,"maxLength":120}},
+          "processing_regions":{"type":"array","items":{"type":"string","minLength":1,"maxLength":120}},
+          "status":{"enum":["current","planned","removed","unknown"]},
+          "evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+        }
+      }
+    },
+    "data_handling": {
+      "type":"object","additionalProperties":false,
+      "required":["customer_data_used_for_training","input_retention","output_retention","residency_claim","evidence_ids"],
+      "properties": {
+        "customer_data_used_for_training":{"enum":["yes","no","configurable","unknown"]},
+        "input_retention":{"type":"string","minLength":1,"maxLength":500},
+        "output_retention":{"type":"string","minLength":1,"maxLength":500},
+        "residency_claim":{"type":"string","minLength":1,"maxLength":800},
+        "evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+      }
+    },
+    "agent_governance": {
+      "type":"object","additionalProperties":false,
+      "required":["identity_model","tool_authority_model","human_oversight","change_control","rollback","evidence_ids"],
+      "properties": {
+        "identity_model":{"type":"string","minLength":1,"maxLength":800},
+        "tool_authority_model":{"type":"string","minLength":1,"maxLength":800},
+        "human_oversight":{"type":"string","minLength":1,"maxLength":800},
+        "change_control":{"type":"string","minLength":1,"maxLength":800},
+        "rollback":{"type":"string","minLength":1,"maxLength":800},
+        "evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}}
+      }
+    },
+    "questionnaire_answers": {
+      "type":"array",
+      "items": {
+        "type":"object","additionalProperties":false,
+        "required":["id","question","answer","answer_type","evidence_ids","owner_reviewed"],
+        "properties": {
+          "id":{"type":"string","minLength":1,"maxLength":128},
+          "question":{"type":"string","minLength":1,"maxLength":1200},
+          "answer":{"type":"string","minLength":1,"maxLength":2400},
+          "answer_type":{"enum":["reusable","customer_specific"]},
+          "evidence_ids":{"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}},
+          "owner_reviewed":{"type":"boolean"}
+        }
+      }
+    },
+    "pilot_to_production": {
+      "type":"object","additionalProperties":false,
+      "required":["pilot_data_scope","pilot_authority_scope","production_data_approved","production_authority_approved","security_review_complete","legal_commercial_review_complete"],
+      "properties": {
+        "pilot_data_scope":{"type":"string","minLength":1,"maxLength":800},
+        "pilot_authority_scope":{"type":"string","minLength":1,"maxLength":800},
+        "production_data_approved":{"type":"boolean"},
+        "production_authority_approved":{"type":"boolean"},
+        "security_review_complete":{"type":"boolean"},
+        "legal_commercial_review_complete":{"type":"boolean"}
+      }
+    },
+    "privacy": {
+      "type":"object","additionalProperties":false,
+      "required":["public_safe","contains_secrets","contains_credentials","contains_private_customer_questionnaire","contains_restricted_security_report","contains_private_architecture"],
+      "properties": {
+        "public_safe":{"const":true},
+        "contains_secrets":{"const":false},
+        "contains_credentials":{"const":false},
+        "contains_private_customer_questionnaire":{"const":false},
+        "contains_restricted_security_report":{"const":false},
+        "contains_private_architecture":{"const":false}
+      }
+    }
+  }
+}
