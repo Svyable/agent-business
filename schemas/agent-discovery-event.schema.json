@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/agent-discovery-event.schema.json",
+  "title": "Agent Business Discovery Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "event_type", "occurred_at", "actor", "source", "privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "event_id": {"type": "string", "minLength": 8, "maxLength": 128},
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "manifest_fetch",
+        "index_fetch",
+        "schema_fetch",
+        "template_fetch",
+        "resource_fetch",
+        "agent_hello",
+        "stage_selected",
+        "resource_sequence_started",
+        "founder_packet_started",
+        "founder_packet_validated",
+        "operating_artifact_created",
+        "returning_agent",
+        "commercial_intent",
+        "checkout_started",
+        "paid_conversion"
+      ]
+    },
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "session_id": {"type": "string", "minLength": 8, "maxLength": 128},
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confidence"],
+      "properties": {
+        "confidence": {
+          "type": "string",
+          "enum": ["unknown", "suspected_machine", "self_declared_agent", "verified_agent"]
+        },
+        "declared_runtime": {"type": "string", "maxLength": 128},
+        "declared_runtime_version": {"type": "string", "maxLength": 64},
+        "identity_reference": {"type": "string", "maxLength": 512}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["channel"],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "enum": ["github", "raw_github", "website", "registry", "enterprise_catalog", "partner", "direct", "unknown"]
+        },
+        "referrer_class": {"type": "string", "maxLength": 128},
+        "registry": {"type": "string", "maxLength": 128}
+      }
+    },
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "maxLength": 512},
+        "resource_id": {"type": "string", "maxLength": 128},
+        "stage": {"type": "integer", "minimum": 1}
+      }
+    },
+    "engagement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intent": {
+          "type": "string",
+          "enum": ["explore", "start_business", "resume_business", "evaluate_resource", "procure", "commercial", "unknown"]
+        },
+        "return_visit_count": {"type": "integer", "minimum": 0},
+        "artifact_type": {"type": "string", "maxLength": 128}
+      }
+    },
+    "commercial": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "offer_id": {"type": "string", "maxLength": 128},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "amount_minor": {"type": "integer", "minimum": 0}
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_ip_retained", "raw_user_agent_retained", "contains_prompt_content", "contains_secrets"],
+      "properties": {
+        "raw_ip_retained": {"const": false},
+        "raw_user_agent_retained": {"type": "boolean"},
+        "contains_prompt_content": {"const": false},
+        "contains_secrets": {"const": false},
+        "identifier_policy": {
+          "type": "string",
+          "enum": ["none", "rotating_pseudonymous", "authenticated_integration"]
+        },
+        "retention_days": {"type": "integer", "minimum": 0, "maximum": 3650}
+      }
+    }
+  }
+}
