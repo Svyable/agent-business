@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/revenue-opportunity-record.schema.json",
+  "title": "Agent Business Revenue Opportunity Record",
+  "description": "Portable evidence-backed opportunity, pipeline, forecast, and commercial-authority record for agent-assisted revenue operations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "opportunity_id", "updated_at", "record_status", "stage", "account", "stakeholders", "qualification", "forecast", "next_action", "commercial", "authority", "evidence", "privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "opportunity_id": {"type": "string", "minLength": 4, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "record_status": {"enum": ["draft", "active", "closed"]},
+    "stage": {"enum": ["target_account", "lead", "qualified_opportunity", "evaluation", "commercial_review", "commit", "won", "lost", "nurture"]},
+    "account": {
+      "type": "object", "additionalProperties": false,
+      "required": ["public_alias", "segment", "duplicate_key"],
+      "properties": {
+        "public_alias": {"type": "string", "minLength": 1, "maxLength": 160},
+        "segment": {"type": "string", "minLength": 1, "maxLength": 160},
+        "duplicate_key": {"type": "string", "minLength": 1, "maxLength": 160}
+      }
+    },
+    "stakeholders": {
+      "type": "array", "uniqueItems": true,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["role", "identity_state", "evidence_ids"],
+        "properties": {
+          "role": {"enum": ["champion", "economic_buyer", "user", "technical_buyer", "procurement", "security", "legal", "executive_sponsor", "other"]},
+          "identity_state": {"enum": ["unknown", "inferred", "observed"]},
+          "public_alias": {"type": ["string", "null"], "maxLength": 160},
+          "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "qualification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["problem", "value", "timing", "decision_process", "stage_evidence_ids"],
+      "properties": {
+        "problem": {"enum": ["unknown", "inferred", "observed"]},
+        "value": {"enum": ["unknown", "estimated", "observed"]},
+        "timing": {"enum": ["unknown", "inferred", "observed"]},
+        "decision_process": {"enum": ["unknown", "inferred", "observed"]},
+        "expected_value_minor": {"type": ["integer", "null"], "minimum": 0},
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "stage_evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "forecast": {
+      "type": "object", "additionalProperties": false,
+      "required": ["category", "probability_bps", "close_date", "evidence_ids", "seller_confidence"],
+      "properties": {
+        "category": {"enum": ["pipeline", "best_case", "commit", "closed"]},
+        "probability_bps": {"type": "integer", "minimum": 0, "maximum": 10000},
+        "close_date": {"type": ["string", "null"], "format": "date"},
+        "seller_confidence": {"enum": ["low", "medium", "high"]},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "next_action": {
+      "type": "object", "additionalProperties": false,
+      "required": ["type", "due_at", "owner", "requires_external_contact", "evidence_ids"],
+      "properties": {
+        "type": {"enum": ["research", "qualify", "contact", "meeting", "follow_up", "security_review", "procurement", "quote", "contract", "handoff", "close_out", "none"]},
+        "due_at": {"type": ["string", "null"], "format": "date-time"},
+        "owner": {"type": "string", "minLength": 1, "maxLength": 160},
+        "requires_external_contact": {"type": "boolean"},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "commercial": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pricing_package_id", "quote_status", "accepted_scope", "success_criteria", "blockers"],
+      "properties": {
+        "pricing_package_id": {"type": ["string", "null"], "maxLength": 128},
+        "quote_status": {"enum": ["none", "draft", "approved", "sent", "accepted", "expired", "rejected"]},
+        "accepted_scope": {"type": ["string", "null"], "maxLength": 2000},
+        "success_criteria": {"type": ["string", "null"], "maxLength": 1600},
+        "blockers": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 320}}
+      }
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["can_write_crm", "can_contact", "can_change_stage", "can_send_quote", "can_make_pricing_claims", "can_commit_forecast", "can_mark_won_lost", "source", "reviewed_at"],
+      "properties": {
+        "can_write_crm": {"type": "boolean"},
+        "can_contact": {"type": "boolean"},
+        "can_change_stage": {"type": "boolean"},
+        "can_send_quote": {"type": "boolean"},
+        "can_make_pricing_claims": {"type": "boolean"},
+        "can_commit_forecast": {"type": "boolean"},
+        "can_mark_won_lost": {"type": "boolean"},
+        "source": {"type": ["string", "null"], "maxLength": 500},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "type", "status", "observed_at", "description"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "type": {"enum": ["buyer_statement", "meeting_note", "crm_event", "public_signal", "contract", "quote", "payment", "seller_inference", "other"]},
+          "status": {"enum": ["current", "stale", "disputed", "draft"]},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "description": {"type": "string", "minLength": 1, "maxLength": 1200},
+          "public_url": {"type": ["string", "null"], "format": "uri"}
+        }
+      }
+    },
+    "privacy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contains_secrets", "contains_private_contact_data", "contains_raw_customer_content", "public_example_safe"],
+      "properties": {
+        "contains_secrets": {"const": false},
+        "contains_private_contact_data": {"const": false},
+        "contains_raw_customer_content": {"const": false},
+        "public_example_safe": {"const": true}
+      }
+    }
+  }
+}
