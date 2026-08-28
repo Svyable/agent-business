@@ -25,3 +25,6 @@ jobs:
 
       - name: Validate discovery assets
         run: python scripts/validate_discovery_assets.py
+
+      - name: Validate economic integrity assets
+        run: python scripts/validate_economic_integrity.py
