@@ -335,6 +335,16 @@
       "next": []
     },
     {
+      "id": "workflow-roi",
+      "type": "meta",
+      "name": "Agentic Workflow ROI and Cost-versus-Value",
+      "goal": "Compare competing workflow designs using customer-visible outcomes, fully loaded cost, evidence-backed uncertainty ranges, contribution economics, first-year ROI, and incremental payback rather than token spend or activity counts.",
+      "path": "docs/AGENT_WORKFLOW_ROI.md",
+      "prerequisites": ["profit", "founder-outcomes"],
+      "outputs": ["Validated workflow ROI analysis, pessimistic/base/optimistic scenario economics, cost per success, contribution per success, economic surplus ranking, and incremental payback decision"],
+      "next": []
+    },
+    {
       "id": "fiscal-ops",
       "type": "meta",
       "name": "Agent Tax, Invoicing, and Cross-Border Fiscal Operations",
