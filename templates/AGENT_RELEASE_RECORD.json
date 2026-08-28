@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "release_id": "release-draft",
+  "revision_id": "revision-draft",
+  "parent_revision_id": null,
+  "status": "proposed",
+  "updated_at": "2026-08-28T12:00:00Z",
+  "repository_resources": ["run", "secure", "interoperate", "source"],
+  "change": {
+    "summary": "Describe the proposed production change without including private prompts or secrets.",
+    "classifications": ["patch"],
+    "risk_level": "low",
+    "affected_components": {
+      "models": [],
+      "tools": [],
+      "prompts": [],
+      "policies": [],
+      "contracts": [],
+      "memory_or_state": []
+    }
+  },
+  "baseline": {
+    "production_revision_id": null,
+    "evidence_ids": []
+  },
+  "dependencies": [],
+  "authority": {
+    "widened": false,
+    "change_summary": "No authority expansion is granted by this record.",
+    "reapproved": false,
+    "evidence_ids": []
+  },
+  "evaluation": {
+    "baseline_compared": false,
+    "regression_suite_passed": false,
+    "safety_policy_passed": false,
+    "tool_use_checked": false,
+    "latency_delta_checked": false,
+    "cost_delta_checked": false,
+    "human_review_delta_checked": false,
+    "critical_regressions": [],
+    "evidence_ids": []
+  },
+  "rollout": {
+    "canary_required": true,
+    "canary_percent": 0,
+    "current_percent": 0,
+    "hold_period_minutes": 0,
+    "promotion_criteria": [],
+    "stop_conditions": [],
+    "rollback_revision_id": null,
+    "production_metrics_evidence_ids": []
+  },
+  "customer_impact": {
+    "material": false,
+    "dimensions": ["none"],
+    "communication_required": false,
+    "communication_complete": false,
+    "evidence_ids": []
+  },
+  "compatibility": {
+    "machine_contracts_checked": false,
+    "stored_state_checked": false,
+    "integrations_checked": false,
+    "downstream_consumers_checked": false,
+    "breaking_change": false,
+    "migration_path_defined": false,
+    "evidence_ids": []
+  },
+  "rollback": {
+    "defined": false,
+    "tested": false,
+    "state_migration_reversible": true,
+    "irreversible_changes": [],
+    "owner_defined": false,
+    "evidence_ids": []
+  },
+  "deprecation": {
+    "notice_required": false,
+    "notice_complete": false,
+    "support_window_defined": false,
+    "migration_path_defined": false,
+    "migration_complete": false,
+    "sunset_criteria_defined": false,
+    "evidence_ids": []
+  },
+  "observability": {
+    "error_rate": false,
+    "quality_safety": false,
+    "latency": false,
+    "cost_per_success": false,
+    "escalation_rate": false,
+    "rollback_rate": false,
+    "adoption": false,
+    "customer_incidents": false
+  },
+  "evidence": [],
+  "privacy": {
+    "contains_credentials": false,
+    "contains_private_customer_data": false,
+    "contains_private_prompts": false,
+    "public_disclosure_confirmed": true
+  }
+}
