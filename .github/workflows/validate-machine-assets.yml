@@ -65,5 +65,8 @@ jobs:
       - name: Validate agent release template
         run: python scripts/validate_agent_release.py templates/AGENT_RELEASE_RECORD.json
 
+      - name: Validate tenant operations template
+        run: python scripts/validate_tenant_operations.py templates/TENANT_OPERATIONS_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
