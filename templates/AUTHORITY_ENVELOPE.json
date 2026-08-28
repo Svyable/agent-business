@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "authority_id": "auth_example_replace_me",
+  "parent_authority_id": null,
+  "principal": {"id": "principal_replace_me", "type": "organization"},
+  "delegate": {"id": "agent_replace_me", "type": "agent"},
+  "purpose": "Replace with the specific approved business purpose",
+  "validity": {
+    "not_before": "2026-01-01T00:00:00Z",
+    "expires_at": "2026-01-01T01:00:00Z"
+  },
+  "status": {
+    "state": "draft",
+    "revoked_at": null,
+    "revocation_reason": null
+  },
+  "scopes": {
+    "actions": {
+      "allowed": ["read_public_information"],
+      "prohibited": ["sign_contract", "change_bank_account", "create_credentials"]
+    },
+    "tools": {
+      "allowed": ["public_web_search"],
+      "prohibited": ["production_admin", "secrets_manager"]
+    },
+    "data": {
+      "allowed": ["public_data"],
+      "prohibited": ["secrets", "special_category_personal_data"],
+      "purpose_limitation": "Replace with approved purpose",
+      "retention_days": 0,
+      "onward_sharing": "none",
+      "consent_reference": null
+    },
+    "communications": {
+      "channels": [],
+      "audiences": [],
+      "requires_approval_for": ["external_message", "public_statement", "legal_commitment"]
+    },
+    "spend": {
+      "currency": "USD",
+      "per_action_max": 0,
+      "total_max": 0,
+      "approval_threshold": 0
+    },
+    "geography": {
+      "allowed": [],
+      "prohibited": []
+    }
+  },
+  "delegation": {
+    "permitted": false,
+    "max_depth": 0,
+    "current_depth": 0,
+    "child_must_narrow": true
+  },
+  "replay": {
+    "mode": "single_use",
+    "nonce": "replace_with_unique_nonce",
+    "max_uses": 1
+  },
+  "audit": {
+    "issued_at": "2026-01-01T00:00:00Z",
+    "issued_by": "replace_with_actual_authorizer",
+    "evidence_reference": null,
+    "signature_reference": null
+  }
+}
