@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/business-benchmark-record.schema.json",
+  "title": "Agent Business Benchmark Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "benchmark_id", "status", "updated_at", "scenario", "provenance", "authority", "configurations", "comparison", "evidence", "privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "benchmark_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "scenario_ready", "executed", "reviewed", "published", "superseded"]},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "repository_resources": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pack_id", "pack_version", "scenario_id", "scenario_version", "visibility", "fixture_version"],
+      "properties": {
+        "pack_id": {"type": "string", "minLength": 1},
+        "pack_version": {"type": "string", "minLength": 1},
+        "scenario_id": {"type": "string", "minLength": 1},
+        "scenario_version": {"type": "string", "minLength": 1},
+        "visibility": {"enum": ["public", "held_out"]},
+        "fixture_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["harness_version", "environment_version", "seed_policy", "observed_from", "observed_to"],
+      "properties": {
+        "harness_version": {"type": "string", "minLength": 1},
+        "environment_version": {"type": "string", "minLength": 1},
+        "seed_policy": {"enum": ["fixed", "recorded", "provider_unavailable", "not_applicable"]},
+        "observed_from": {"type": "string", "format": "date-time"},
+        "observed_to": {"type": "string", "format": "date-time"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["simulation_only", "real_world_authority_granted"],
+      "properties": {
+        "simulation_only": {"const": true},
+        "real_world_authority_granted": {"const": false}
+      }
+    },
+    "configurations": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["configuration_id", "agent_revision", "provider", "model", "prompt_policy_ref", "tool_versions", "run_count", "successful_runs", "partial_runs", "failed_runs", "failure_counts", "metrics", "thresholds", "capability_score"],
+        "properties": {
+          "configuration_id": {"type": "string", "minLength": 1},
+          "agent_revision": {"type": "string", "minLength": 1},
+          "provider": {"type": "string", "minLength": 1},
+          "model": {"type": "string", "minLength": 1},
+          "prompt_policy_ref": {"type": "string", "minLength": 1},
+          "tool_versions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "run_count": {"type": "integer", "minimum": 0},
+          "successful_runs": {"type": "integer", "minimum": 0},
+          "partial_runs": {"type": "integer", "minimum": 0},
+          "failed_runs": {"type": "integer", "minimum": 0},
+          "failure_counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["hallucinated_completion", "wrong_tool_success_claim", "policy_violation", "timeout", "retry_storm", "partial_side_effect", "stale_data", "cross_tenant_leakage", "recovery_failure", "human_takeover", "other"],
+            "properties": {
+              "hallucinated_completion": {"type": "integer", "minimum": 0},
+              "wrong_tool_success_claim": {"type": "integer", "minimum": 0},
+              "policy_violation": {"type": "integer", "minimum": 0},
+              "timeout": {"type": "integer", "minimum": 0},
+              "retry_storm": {"type": "integer", "minimum": 0},
+              "partial_side_effect": {"type": "integer", "minimum": 0},
+              "stale_data": {"type": "integer", "minimum": 0},
+              "cross_tenant_leakage": {"type": "integer", "minimum": 0},
+              "recovery_failure": {"type": "integer", "minimum": 0},
+              "human_takeover": {"type": "integer", "minimum": 0},
+              "other": {"type": "integer", "minimum": 0}
+            }
+          },
+          "metrics": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["total_cost_minor", "currency", "p50_latency_ms", "p95_latency_ms", "human_review_minutes", "escalations", "policy_violations", "unsafe_side_effects", "recovery_attempts", "successful_recoveries"],
+            "properties": {
+              "total_cost_minor": {"type": "integer", "minimum": 0},
+              "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+              "p50_latency_ms": {"type": "integer", "minimum": 0},
+              "p95_latency_ms": {"type": "integer", "minimum": 0},
+              "human_review_minutes": {"type": "number", "minimum": 0},
+              "escalations": {"type": "integer", "minimum": 0},
+              "policy_violations": {"type": "integer", "minimum": 0},
+              "unsafe_side_effects": {"type": "integer", "minimum": 0},
+              "recovery_attempts": {"type": "integer", "minimum": 0},
+              "successful_recoveries": {"type": "integer", "minimum": 0}
+            }
+          },
+          "thresholds": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["max_cost_per_success_minor", "max_p95_latency_ms", "max_review_minutes_per_run", "max_policy_violations", "min_recovery_success_rate"],
+            "properties": {
+              "max_cost_per_success_minor": {"type": "integer", "minimum": 0},
+              "max_p95_latency_ms": {"type": "integer", "minimum": 0},
+              "max_review_minutes_per_run": {"type": "number", "minimum": 0},
+              "max_policy_violations": {"type": "integer", "minimum": 0},
+              "min_recovery_success_rate": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          },
+          "capability_score": {"type": "number", "minimum": 0, "maximum": 100},
+          "component_passes": {"type": "object", "additionalProperties": {"type": "boolean"}}
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["measured_result", "estimates", "interpretation", "claims_statistical_superiority"],
+      "properties": {
+        "measured_result": {"type": "string"},
+        "estimates": {"type": "array", "items": {"type": "string"}},
+        "interpretation": {"type": "string"},
+        "claims_statistical_superiority": {"type": "boolean"}
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "status", "observed_at", "description"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "type": {"enum": ["harness_output", "run_summary", "review_record", "public_artifact"]},
+          "status": {"enum": ["current", "stale"]},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "description": {"type": "string", "minLength": 1},
+          "public_url": {"type": "string", "format": "uri"}
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contains_credentials", "contains_private_customer_data", "contains_secret_prompts", "contains_restricted_answer_keys", "public_disclosure_confirmed"],
+      "properties": {
+        "contains_credentials": {"const": false},
+        "contains_private_customer_data": {"const": false},
+        "contains_secret_prompts": {"const": false},
+        "contains_restricted_answer_keys": {"const": false},
+        "public_disclosure_confirmed": {"const": true}
+      }
+    }
+  }
+}
