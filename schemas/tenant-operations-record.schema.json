@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/tenant-operations-record.schema.json",
+  "title": "Agent Business Tenant Operations Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","tenant_ref","status","updated_at","deployment","context_propagation","boundaries","quotas","entitlements","cost_attribution","observability","isolation_tests","offboarding","authority","privacy","evidence"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "tenant_ref": {"type": "string", "minLength": 1},
+    "status": {"enum": ["needs_review","provisioning","operational","suspended","offboarding","offboarded"]},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "repository_resources": {"type": "array", "items": {"type":"string"}, "uniqueItems": true},
+    "deployment": {
+      "type":"object","additionalProperties":false,
+      "required":["mode","service_tier","region","residency_status"],
+      "properties":{"mode":{"enum":["dedicated","pooled","hybrid"]},"service_tier":{"type":"string"},"region":{"type":"string"},"residency_status":{"enum":["verified","needs_review","not_applicable"]}}
+    },
+    "context_propagation": {
+      "type":"object","additionalProperties":false,
+      "required":["identity_source","prompt_text_authoritative","layers"],
+      "properties":{"identity_source":{"enum":["authenticated_claim","trusted_gateway_binding","dedicated_runtime_binding","needs_review"]},"prompt_text_authoritative":{"const":false},"layers":{"type":"array","items":{"enum":["edge","orchestrator","model_session","retrieval","memory","cache","tools","queues","billing","observability","release_config"]},"uniqueItems":true}}
+    },
+    "boundaries": {
+      "type":"array","minItems":1,
+      "items":{"type":"object","additionalProperties":false,"required":["layer","isolation_method","authorization_checked","tenant_scoped","evidence_ids"],"properties":{"layer":{"enum":["runtime","model","retrieval","memory","cache","tools","queue","data_store"]},"isolation_method":{"type":"string","minLength":1},"authorization_checked":{"type":"boolean"},"tenant_scoped":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}}}
+    },
+    "quotas": {
+      "type":"array","minItems":1,
+      "items":{"type":"object","additionalProperties":false,"required":["layer","metric","limit","window","enforced","evidence_ids"],"properties":{"layer":{"enum":["edge","inference","memory","tools","queue","background_jobs","spend","human_review"]},"metric":{"type":"string","minLength":1},"limit":{"type":"number","minimum":0},"window":{"type":"string","minLength":1},"enforced":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}}}
+    },
+    "entitlements": {
+      "type":"object","additionalProperties":false,
+      "required":["model_scope","tool_scope","feature_scope","policy_version","release_config_scoped"],
+      "properties":{"model_scope":{"type":"array","items":{"type":"string"}},"tool_scope":{"type":"array","items":{"type":"string"}},"feature_scope":{"type":"array","items":{"type":"string"}},"policy_version":{"type":"string"},"release_config_scoped":{"type":"boolean"}}
+    },
+    "cost_attribution": {
+      "type":"object","additionalProperties":false,
+      "required":["inference","tools","storage_memory","retrieval","retries","background_jobs","human_review","shared_overhead_method"],
+      "properties":{"inference":{"type":"boolean"},"tools":{"type":"boolean"},"storage_memory":{"type":"boolean"},"retrieval":{"type":"boolean"},"retries":{"type":"boolean"},"background_jobs":{"type":"boolean"},"human_review":{"type":"boolean"},"shared_overhead_method":{"type":"string"}}
+    },
+    "observability": {
+      "type":"object","additionalProperties":false,
+      "required":["tenant_scoped","metrics","missing_context_alert"],
+      "properties":{"tenant_scoped":{"type":"boolean"},"metrics":{"type":"array","items":{"type":"string"}},"missing_context_alert":{"type":"boolean"}}
+    },
+    "isolation_tests": {
+      "type":"array",
+      "items":{"type":"object","additionalProperties":false,"required":["test","status","observed_at","evidence_ids"],"properties":{"test":{"enum":["missing_context","cross_tenant_retrieval","memory_collision","cache_leakage","unauthorized_tool_routing","downstream_quota_bypass","noisy_neighbor","billing_attribution","release_leakage","offboarding_cleanup"]},"status":{"enum":["pass","fail","not_run"]},"observed_at":{"type":"string","format":"date-time"},"evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}}}
+    },
+    "offboarding": {
+      "type":"object","additionalProperties":false,
+      "required":["admission_disabled","credentials_revoked","jobs_disabled","data_disposition_complete","memory_cleanup_complete","billing_closed","audit_retention_resolved","evidence_ids"],
+      "properties":{"admission_disabled":{"type":"boolean"},"credentials_revoked":{"type":"boolean"},"jobs_disabled":{"type":"boolean"},"data_disposition_complete":{"type":"boolean"},"memory_cleanup_complete":{"type":"boolean"},"billing_closed":{"type":"boolean"},"audit_retention_resolved":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}}
+    },
+    "authority": {
+      "type":"object","additionalProperties":false,
+      "required":["can_activate","can_change_entitlements","can_change_quotas","can_offboard","authority_evidence_ids"],
+      "properties":{"can_activate":{"type":"boolean"},"can_change_entitlements":{"type":"boolean"},"can_change_quotas":{"type":"boolean"},"can_offboard":{"type":"boolean"},"authority_evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}}
+    },
+    "privacy": {
+      "type":"object","additionalProperties":false,
+      "required":["contains_credentials","contains_private_customer_data","contains_private_prompts","contains_sensitive_tenant_identifiers","public_disclosure_confirmed"],
+      "properties":{"contains_credentials":{"const":false},"contains_private_customer_data":{"const":false},"contains_private_prompts":{"const":false},"contains_sensitive_tenant_identifiers":{"const":false},"public_disclosure_confirmed":{"const":true}}
+    },
+    "evidence": {
+      "type":"array",
+      "items":{"type":"object","additionalProperties":false,"required":["id","type","status","observed_at"],"properties":{"id":{"type":"string","minLength":1},"type":{"enum":["identity_config","authorization_test","isolation_test","quota_test","observability_snapshot","billing_reconciliation","release_config","revocation_receipt","deletion_receipt","platform_documentation","other"]},"status":{"enum":["current","stale","superseded"]},"observed_at":{"type":"string","format":"date-time"},"public_url":{"type":"string","format":"uri"}}}
+    }
+  }
+}

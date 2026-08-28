@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "tenant_ref": "tenant-public-opaque-ref",
+  "status": "needs_review",
+  "updated_at": "2026-08-28T13:54:00Z",
+  "repository_resources": ["run", "remember", "bill"],
+  "deployment": {
+    "mode": "pooled",
+    "service_tier": "unassigned",
+    "region": "needs_review",
+    "residency_status": "needs_review"
+  },
+  "context_propagation": {
+    "identity_source": "needs_review",
+    "prompt_text_authoritative": false,
+    "layers": ["edge"]
+  },
+  "boundaries": [
+    {
+      "layer": "runtime",
+      "isolation_method": "needs_review",
+      "authorization_checked": false,
+      "tenant_scoped": false,
+      "evidence_ids": []
+    }
+  ],
+  "quotas": [
+    {
+      "layer": "edge",
+      "metric": "requests",
+      "limit": 0,
+      "window": "disabled",
+      "enforced": false,
+      "evidence_ids": []
+    }
+  ],
+  "entitlements": {
+    "model_scope": [],
+    "tool_scope": [],
+    "feature_scope": [],
+    "policy_version": "needs_review",
+    "release_config_scoped": false
+  },
+  "cost_attribution": {
+    "inference": false,
+    "tools": false,
+    "storage_memory": false,
+    "retrieval": false,
+    "retries": false,
+    "background_jobs": false,
+    "human_review": false,
+    "shared_overhead_method": "needs_review"
+  },
+  "observability": {
+    "tenant_scoped": false,
+    "metrics": [],
+    "missing_context_alert": false
+  },
+  "isolation_tests": [],
+  "offboarding": {
+    "admission_disabled": false,
+    "credentials_revoked": false,
+    "jobs_disabled": false,
+    "data_disposition_complete": false,
+    "memory_cleanup_complete": false,
+    "billing_closed": false,
+    "audit_retention_resolved": false,
+    "evidence_ids": []
+  },
+  "authority": {
+    "can_activate": false,
+    "can_change_entitlements": false,
+    "can_change_quotas": false,
+    "can_offboard": false,
+    "authority_evidence_ids": []
+  },
+  "privacy": {
+    "contains_credentials": false,
+    "contains_private_customer_data": false,
+    "contains_private_prompts": false,
+    "contains_sensitive_tenant_identifiers": false,
+    "public_disclosure_confirmed": true
+  },
+  "evidence": []
+}
