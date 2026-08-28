@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/audit-evidence-record.schema.json",
+  "title": "Agent Audit Evidence Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","policy_id","status","updated_at","scope","integrity","roles","retention","export","completeness","evidence","events","privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "policy_id": {"type":"string","minLength":1},
+    "status": {"enum":["draft","active","suspended","retired"]},
+    "updated_at": {"type":"string","format":"date-time"},
+    "repository_resources": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "scope": {
+      "type":"object","additionalProperties":false,
+      "required":["stream_id","tenant_scope","event_classes","required_context_fields"],
+      "properties": {
+        "stream_id":{"type":"string","minLength":1},
+        "tenant_scope":{"type":"string","minLength":1},
+        "event_classes":{"type":"array","minItems":1,"uniqueItems":true,"items":{"enum":["agent_run","model_call","tool_call","approval","refusal","authority_decision","policy_decision","retrieval_access","memory_write","side_effect","billing_metering","release_selection","incident"]}},
+        "required_context_fields":{"type":"array","minItems":1,"uniqueItems":true,"items":{"enum":["run_id","tenant_ref","agent_id","principal_ref","release_id","policy_version","authority_ref","trace_id","side_effect_receipt_ref"]}}
+      }
+    },
+    "integrity": {
+      "type":"object","additionalProperties":false,
+      "required":["level","mode","algorithm","trust_boundary","integrity_proven","verification_evidence_ids"],
+      "properties": {
+        "level":{"enum":["observed_unverified","internally_checked","independently_verifiable","externally_anchored"]},
+        "mode":{"enum":["none","hash_chain","signed_hash_chain","external_anchor"]},
+        "algorithm":{"enum":["none","sha256"]},
+        "trust_boundary":{"type":"string","minLength":1},
+        "integrity_proven":{"type":"boolean"},
+        "verification_evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}
+      }
+    },
+    "roles": {
+      "type":"object","additionalProperties":false,
+      "required":["runtime_writer","evidence_custodian","verifier","export_authority","can_delete","can_change_retention","can_release_hold","authority_evidence_ids"],
+      "properties": {
+        "runtime_writer":{"type":"string","minLength":1},
+        "evidence_custodian":{"type":"string","minLength":1},
+        "verifier":{"type":"string","minLength":1},
+        "export_authority":{"type":"string","minLength":1},
+        "can_delete":{"type":"boolean"},
+        "can_change_retention":{"type":"boolean"},
+        "can_release_hold":{"type":"boolean"},
+        "authority_evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}
+      }
+    },
+    "retention": {
+      "type":"object","additionalProperties":false,
+      "required":["classes","active_hold","hold_reference","deletion_requested"],
+      "properties": {
+        "classes":{"type":"array","minItems":1,"items":{"type":"object","additionalProperties":false,"required":["id","min_days","max_days","deletion_eligible","storage_boundary","cost_owner"],"properties":{"id":{"type":"string","minLength":1},"min_days":{"type":"integer","minimum":0},"max_days":{"type":["integer","null"],"minimum":0},"deletion_eligible":{"type":"boolean"},"storage_boundary":{"type":"string","minLength":1},"cost_owner":{"type":"string","minLength":1},"contract_constraints":{"type":"array","items":{"type":"string"}}}}},
+        "active_hold":{"type":"boolean"},
+        "hold_reference":{"type":["string","null"]},
+        "deletion_requested":{"type":"boolean"}
+      }
+    },
+    "export": {
+      "type":"object","additionalProperties":false,
+      "required":["cross_tenant_allowed","include_raw_prompts","include_credentials","include_private_customer_data","chain_of_custody_required"],
+      "properties": {
+        "cross_tenant_allowed":{"type":"boolean"},
+        "include_raw_prompts":{"type":"boolean"},
+        "include_credentials":{"type":"boolean"},
+        "include_private_customer_data":{"type":"boolean"},
+        "chain_of_custody_required":{"type":"boolean"}
+      }
+    },
+    "completeness": {
+      "type":"object","additionalProperties":false,
+      "required":["claim","scope_start","scope_end","expected_event_count","captured_event_count","orphan_tool_calls","missing_authority_links"],
+      "properties": {
+        "claim":{"enum":["unknown","partial","complete_for_declared_scope"]},
+        "scope_start":{"type":["string","null"],"format":"date-time"},
+        "scope_end":{"type":["string","null"],"format":"date-time"},
+        "expected_event_count":{"type":["integer","null"],"minimum":0},
+        "captured_event_count":{"type":"integer","minimum":0},
+        "orphan_tool_calls":{"type":"integer","minimum":0},
+        "missing_authority_links":{"type":"integer","minimum":0}
+      }
+    },
+    "evidence": {
+      "type":"array","items":{"type":"object","additionalProperties":false,"required":["id","type","status","observed_at","reference"],"properties":{"id":{"type":"string","minLength":1},"type":{"enum":["authority","integrity_verification","signature_verification","external_anchor","coverage_report","retention_policy","hold_order","custody_receipt","provider_receipt","incident_artifact"]},"status":{"enum":["current","superseded","unverified"]},"observed_at":{"type":"string","format":"date-time"},"reference":{"type":"string","minLength":1}}}
+    },
+    "events": {
+      "type":"array","items":{"type":"object","additionalProperties":false,"required":["event_id","sequence","occurred_at","event_type","run_id","tenant_ref","agent_id","principal_ref","release_id","policy_version","authority_ref","trace_id","side_effect_receipt_ref","payload_digest","prev_hash","event_hash","integrity_status"],"properties":{"event_id":{"type":"string","minLength":1},"sequence":{"type":"integer","minimum":1},"occurred_at":{"type":"string","format":"date-time"},"event_type":{"enum":["agent_run","model_call","tool_call","approval","refusal","authority_decision","policy_decision","retrieval_access","memory_write","side_effect","billing_metering","release_selection","incident"]},"run_id":{"type":"string","minLength":1},"tenant_ref":{"type":"string","minLength":1},"agent_id":{"type":"string","minLength":1},"principal_ref":{"type":"string"},"release_id":{"type":"string"},"policy_version":{"type":"string"},"authority_ref":{"type":"string"},"trace_id":{"type":"string"},"side_effect_receipt_ref":{"type":"string"},"payload_digest":{"type":"string","pattern":"^[a-f0-9]{64}$"},"prev_hash":{"type":"string"},"event_hash":{"type":"string"},"integrity_status":{"enum":["unverified","verified","failed"]}}}
+    },
+    "privacy": {
+      "type":"object","additionalProperties":false,
+      "required":["contains_credentials","contains_raw_prompts","contains_private_customer_data","contains_executable_commands","public_disclosure_confirmed"],
+      "properties":{"contains_credentials":{"const":false},"contains_raw_prompts":{"const":false},"contains_private_customer_data":{"const":false},"contains_executable_commands":{"const":false},"public_disclosure_confirmed":{"const":true}}
+    }
+  }
+}
