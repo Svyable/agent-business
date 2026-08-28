@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/platform-access-record.schema.json",
+  "title": "Agent third-party platform access record",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version","record_id","status","updated_at","platform","business_purpose","principal_delegation","platform_authorization","access_method","terms_policy","identity","credentials","actions","limits","signals","authority","evidence","privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["proposed","platform_review","authorized_method_selected","configured","tested","active","restricted","suspended","retired"]},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "platform": {
+      "type": "object",
+      "required": ["name","account_reference","counterparty_reference"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "account_reference": {"type": ["string","null"]},
+        "counterparty_reference": {"type": ["string","null"]}
+      }
+    },
+    "business_purpose": {"type": "string", "minLength": 1},
+    "principal_delegation": {
+      "type": "object",
+      "required": ["basis","evidence_ids","status"],
+      "properties": {
+        "basis": {"type": "string"},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "status": {"enum": ["unknown","current","revoked","expired"]}
+      }
+    },
+    "platform_authorization": {
+      "type": "object",
+      "required": ["basis","evidence_ids","status"],
+      "properties": {
+        "basis": {"type": "string"},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "status": {"enum": ["unknown","current","revoked","expired","disputed"]}
+      }
+    },
+    "access_method": {
+      "type": "object",
+      "required": ["type","reason","tested"],
+      "properties": {
+        "type": {"enum": ["official_api","partner_integration","oauth_delegated_app","browser_automation","user_controlled_browser","scraping_or_crawling","email_or_messaging_interface","mcp_or_tool_endpoint","other"]},
+        "reason": {"type": "string"},
+        "tested": {"type": "boolean"}
+      }
+    },
+    "terms_policy": {
+      "type": "object",
+      "required": ["reference","retrieved_at","review_due_at","automation_reviewed","robots_signal"],
+      "properties": {
+        "reference": {"type": ["string","null"]},
+        "retrieved_at": {"type": ["string","null"], "format": "date-time"},
+        "review_due_at": {"type": ["string","null"], "format": "date-time"},
+        "automation_reviewed": {"type": "boolean"},
+        "robots_signal": {"enum": ["not_applicable","unknown","allows_relevant_crawl","disallows_relevant_crawl","mixed"]}
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": ["mode","automation_disclosed","spoofs_human_identity"],
+      "properties": {
+        "mode": {"enum": ["registered_app","agent_identity","service_account","delegated_user_plus_app","truthful_user_agent","user_browser","other","unknown"]},
+        "automation_disclosed": {"type": "boolean"},
+        "spoofs_human_identity": {"type": "boolean"}
+      }
+    },
+    "credentials": {
+      "type": "object",
+      "required": ["reference","embedded_secret_material"],
+      "properties": {
+        "reference": {"type": ["string","null"]},
+        "embedded_secret_material": {"type": "boolean"}
+      }
+    },
+    "actions": {
+      "type": "object",
+      "required": ["read_search","write_update","message","upload_download","purchase_order","account_change","permission_change","delete_destroy"],
+      "additionalProperties": {"enum": ["allowed","blocked","review_required"]}
+    },
+    "limits": {
+      "type": "object",
+      "required": ["max_retries","backoff_required","challenge_action","block_action"],
+      "properties": {
+        "max_retries": {"type": "integer", "minimum": 0},
+        "backoff_required": {"type": "boolean"},
+        "challenge_action": {"enum": ["stop_and_escalate","human_review","not_applicable"]},
+        "block_action": {"enum": ["suspend","restrict","stop_and_escalate"]}
+      }
+    },
+    "signals": {
+      "type": "object",
+      "required": ["explicit_objection","blocked","challenge_present","authorization_uncertain","policy_changed"],
+      "properties": {
+        "explicit_objection": {"type": "boolean"},
+        "blocked": {"type": "boolean"},
+        "challenge_present": {"type": "boolean"},
+        "authorization_uncertain": {"type": "boolean"},
+        "policy_changed": {"type": "boolean"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "required": ["can_activate","can_resume","can_write","can_transact","can_delete","evidence_ids"],
+      "properties": {
+        "can_activate": {"type": "boolean"},
+        "can_resume": {"type": "boolean"},
+        "can_write": {"type": "boolean"},
+        "can_transact": {"type": "boolean"},
+        "can_delete": {"type": "boolean"},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id","type","status","observed_at","reference"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "type": {"enum": ["principal_delegation","platform_terms","platform_policy","api_docs","oauth_grant","partner_approval","written_approval","test_result","platform_signal","authority","audit_event","other"]},
+          "status": {"enum": ["current","stale","revoked","disputed"]},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "reference": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "required": ["contains_credentials","contains_session_tokens","contains_private_customer_data","contains_private_platform_content","public_disclosure_confirmed"],
+      "properties": {
+        "contains_credentials": {"const": false},
+        "contains_session_tokens": {"const": false},
+        "contains_private_customer_data": {"const": false},
+        "contains_private_platform_content": {"const": false},
+        "public_disclosure_confirmed": {"const": true}
+      }
+    }
+  }
+}

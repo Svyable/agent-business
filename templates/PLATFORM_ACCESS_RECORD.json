@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "platform-access-example",
+  "status": "proposed",
+  "updated_at": "2026-08-28T19:55:00Z",
+  "repository_resources": ["platform-access"],
+  "platform": {
+    "name": "example-third-party-platform",
+    "account_reference": null,
+    "counterparty_reference": null
+  },
+  "business_purpose": "Evaluate whether an approved third-party integration can support a customer workflow.",
+  "principal_delegation": {
+    "basis": "not yet established",
+    "evidence_ids": [],
+    "status": "unknown"
+  },
+  "platform_authorization": {
+    "basis": "not yet established",
+    "evidence_ids": [],
+    "status": "unknown"
+  },
+  "access_method": {
+    "type": "official_api",
+    "reason": "Placeholder only; confirm an authorized supported method before configuration.",
+    "tested": false
+  },
+  "terms_policy": {
+    "reference": null,
+    "retrieved_at": null,
+    "review_due_at": null,
+    "automation_reviewed": false,
+    "robots_signal": "not_applicable"
+  },
+  "identity": {
+    "mode": "unknown",
+    "automation_disclosed": false,
+    "spoofs_human_identity": false
+  },
+  "credentials": {
+    "reference": null,
+    "embedded_secret_material": false
+  },
+  "actions": {
+    "read_search": "blocked",
+    "write_update": "blocked",
+    "message": "blocked",
+    "upload_download": "blocked",
+    "purchase_order": "blocked",
+    "account_change": "blocked",
+    "permission_change": "blocked",
+    "delete_destroy": "blocked"
+  },
+  "limits": {
+    "max_retries": 0,
+    "backoff_required": true,
+    "challenge_action": "stop_and_escalate",
+    "block_action": "suspend"
+  },
+  "signals": {
+    "explicit_objection": false,
+    "blocked": false,
+    "challenge_present": false,
+    "authorization_uncertain": true,
+    "policy_changed": false
+  },
+  "authority": {
+    "can_activate": false,
+    "can_resume": false,
+    "can_write": false,
+    "can_transact": false,
+    "can_delete": false,
+    "evidence_ids": []
+  },
+  "evidence": [],
+  "privacy": {
+    "contains_credentials": false,
+    "contains_session_tokens": false,
+    "contains_private_customer_data": false,
+    "contains_private_platform_content": false,
+    "public_disclosure_confirmed": true
+  }
+}
