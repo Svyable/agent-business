@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_id": "draft-workflow-roi-001",
+  "updated_at": "2026-08-28T06:00:00Z",
+  "status": "draft",
+  "currency": "USD",
+  "outcome": {
+    "name": "Example completed customer outcome",
+    "success_event": "Replace with a customer-visible completion event that can be measured consistently.",
+    "measurement_window": "Replace with a stable observation window, such as trailing 30 days.",
+    "customer_value_notes": "Draft example only. Define what the completed outcome is worth and do not treat task volume or token volume as customer value.",
+    "founder_outcome_record": null
+  },
+  "baseline_scenario_id": "manual-baseline",
+  "evidence": [],
+  "assumptions": [
+    {
+      "id": "assumption-volume",
+      "description": "Illustrative annual request volume for the safe starter.",
+      "reason": "No real business evidence is bundled with the public template.",
+      "owner": "founder",
+      "revisit_trigger": "Replace when an actual baseline observation window is available."
+    },
+    {
+      "id": "assumption-success",
+      "description": "Illustrative success-rate range only.",
+      "reason": "The template must not invent real production success data.",
+      "owner": "founder",
+      "revisit_trigger": "Replace after a representative eval or production measurement."
+    },
+    {
+      "id": "assumption-value",
+      "description": "Illustrative revenue/value per successful outcome.",
+      "reason": "Real willingness-to-pay or avoided-cost evidence is not available in the starter.",
+      "owner": "founder",
+      "revisit_trigger": "Replace after customer/payment or defensible avoided-cost evidence exists."
+    },
+    {
+      "id": "assumption-costs",
+      "description": "Illustrative model, tool, review, support, recovery, fixed, and implementation costs.",
+      "reason": "Provider prices and workflow behavior vary by implementation and over time.",
+      "owner": "founder",
+      "revisit_trigger": "Replace with dated provider bills, traces, labor rates, and incident/review measurements."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "manual-baseline",
+      "name": "Manual / existing workflow baseline",
+      "description": "Represents the current way the customer-visible outcome is completed before agentic automation.",
+      "annual_requested_outcomes": {"value": 1000, "low": 1000, "high": 1000, "classification": "estimate", "basis_ids": ["assumption-volume"]},
+      "success_rate": {"value": 0.9, "low": 0.8, "high": 0.95, "classification": "estimate", "basis_ids": ["assumption-success"]},
+      "average_attempts_per_request": {"value": 1, "low": 1, "high": 1, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+      "revenue_per_success_minor": {"value": 10000, "low": 8000, "high": 12000, "classification": "estimate", "basis_ids": ["assumption-value"]},
+      "non_revenue_value_per_success_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-value"]},
+      "attempt_costs": {
+        "inference_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "context_retrieval_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "tools_api_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "data_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "compute_storage_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "other_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]}
+      },
+      "human_review": {
+        "review_rate": {"value": 1, "low": 1, "high": 1, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "minutes_per_review": {"value": 30, "low": 20, "high": 45, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "reviewer_hourly_cost_minor": {"value": 4000, "low": 3000, "high": 6000, "classification": "estimate", "basis_ids": ["assumption-costs"]}
+      },
+      "failure_recovery_cost_per_failed_request_minor": {"value": 1000, "low": 500, "high": 2500, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+      "variable_support_cost_per_request_minor": {"value": 200, "low": 100, "high": 500, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+      "annual_fixed_costs": {
+        "infrastructure_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "orchestration_maintenance_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "eval_security_compliance_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "other_minor": {"value": 50000, "low": 25000, "high": 100000, "classification": "estimate", "basis_ids": ["assumption-costs"]}
+      },
+      "implementation_investment_minor": {"value": 0, "low": 0, "high": 0, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+      "constraints": ["Replace all illustrative ranges before using this analysis for a real decision."]
+    },
+    {
+      "id": "agent-balanced",
+      "name": "Agentic workflow with targeted review",
+      "description": "Illustrative alternative that includes model/tool spend, retries, human review, failure recovery, fixed operations, and implementation investment.",
+      "annual_requested_outcomes": {"value": 1000, "low": 1000, "high": 1000, "classification": "estimate", "basis_ids": ["assumption-volume"]},
+      "success_rate": {"value": 0.92, "low": 0.75, "high": 0.97, "classification": "estimate", "basis_ids": ["assumption-success"]},
+      "average_attempts_per_request": {"value": 1.25, "low": 1.05, "high": 1.8, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+      "revenue_per_success_minor": {"value": 10000, "low": 8000, "high": 12000, "classification": "estimate", "basis_ids": ["assumption-value"]},
+      "non_revenue_value_per_success_minor": {"value": 500, "low": 0, "high": 1500, "classification": "estimate", "basis_ids": ["assumption-value"]},
+      "attempt_costs": {
+        "inference_minor": {"value": 50, "low": 20, "high": 150, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "context_retrieval_minor": {"value": 15, "low": 5, "high": 50, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "tools_api_minor": {"value": 30, "low": 10, "high": 100, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "data_minor": {"value": 20, "low": 0, "high": 80, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "compute_storage_minor": {"value": 10, "low": 5, "high": 40, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "other_minor": {"value": 5, "low": 0, "high": 30, "classification": "estimate", "basis_ids": ["assumption-costs"]}
+      },
+      "human_review": {
+        "review_rate": {"value": 0.2, "low": 0.1, "high": 0.45, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "minutes_per_review": {"value": 8, "low": 4, "high": 18, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "reviewer_hourly_cost_minor": {"value": 4000, "low": 3000, "high": 6000, "classification": "estimate", "basis_ids": ["assumption-costs"]}
+      },
+      "failure_recovery_cost_per_failed_request_minor": {"value": 1500, "low": 500, "high": 6000, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+      "variable_support_cost_per_request_minor": {"value": 100, "low": 50, "high": 300, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+      "annual_fixed_costs": {
+        "infrastructure_minor": {"value": 120000, "low": 60000, "high": 240000, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "orchestration_maintenance_minor": {"value": 180000, "low": 90000, "high": 360000, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "eval_security_compliance_minor": {"value": 120000, "low": 60000, "high": 300000, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+        "other_minor": {"value": 30000, "low": 10000, "high": 90000, "classification": "estimate", "basis_ids": ["assumption-costs"]}
+      },
+      "implementation_investment_minor": {"value": 1000000, "low": 500000, "high": 2500000, "classification": "estimate", "basis_ids": ["assumption-costs"]},
+      "constraints": ["Do not reduce review unless quality/risk evidence supports the lower review rate.", "Bound retries and tool loops independently from the ROI model."]
+    }
+  ],
+  "decision": {
+    "recommended_scenario_id": null,
+    "decision_rule": "Replace with a rule that selects the highest-value design subject to required quality, safety, latency, authority, and cash constraints.",
+    "notes": "Draft starter only. Run the calculator to inspect mechanics, then replace every illustrative assumption before making a real business decision.",
+    "reviewed_at": null
+  }
+}

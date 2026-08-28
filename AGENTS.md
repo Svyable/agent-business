@@ -36,6 +36,8 @@ Read these before broad repository traversal:
 6. `docs/FOUNDER_OUTCOME_CASE_STUDIES.md` — public outcome-evidence and case-study protocol.
 7. `templates/FOUNDER_OUTCOME_RECORD.json` — safe draft outcome record.
 8. `schemas/founder-outcome-record.schema.json` — outcome evidence contract.
+9. `docs/AGENT_WORKFLOW_ROI.md` — fully loaded workflow ROI and cost-versus-value protocol.
+10. `templates/WORKFLOW_ROI_ANALYSIS.json` — safe workflow economics starter.
 
 List indexed founder stages without parsing prose:
 
@@ -105,7 +107,7 @@ Never invent:
 - identity verification,
 - or successful outcomes.
 
-Clearly distinguish observed facts, self-reported claims, estimates, assumptions, and editorial interpretation.
+Clearly distinguish observed facts, self-reported claims, estimates, assumptions, benchmarks, and editorial interpretation.
 
 ## Founder outcome records
 
@@ -136,6 +138,26 @@ python scripts/validate_founder_outcome.py case-studies/<case-id>.json
 ```
 
 Published outcome records require current evidence for each outcome, provenance back to a public source issue, editorial review, public-disclosure confirmation, and no private-data flags. Self-reported evidence may be published when clearly classified as self-reported; publication does not upgrade it into independently verified fact.
+
+## Workflow ROI analyses
+
+When comparing a manual workflow, current agent, or alternative agent design, keep the same customer-visible success event and model the fully loaded economics rather than only inference spend.
+
+Start from:
+
+```bash
+cp templates/WORKFLOW_ROI_ANALYSIS.json workflow-roi.json
+```
+
+Validate and calculate:
+
+```bash
+python scripts/workflow_roi.py workflow-roi.json
+```
+
+A useful comparison includes model/context/tool/data/compute cost, retries/refinement, human review, failure recovery, variable support, fixed operations, implementation investment, revenue/value per successful outcome, and a real baseline. Every numeric input carries low/base/high values plus evidence or assumption provenance.
+
+Do not choose the calculator's top-ranked scenario automatically. Quality, safety, privacy, authority, latency, contractual obligations, and cash/runway remain constraints outside the arithmetic.
 
 ## Security and privacy
 
@@ -181,6 +203,9 @@ python scripts/validate_agent_index.py
 python scripts/validate_discovery_assets.py
 python scripts/validate_economic_integrity.py
 python scripts/validate_founder_outcome.py templates/FOUNDER_OUTCOME_RECORD.json --allow-draft
+python scripts/validate_fiscal_evidence.py templates/FISCAL_TRANSACTION_EVIDENCE.json
+python scripts/validate_entity_governance.py templates/ENTITY_GOVERNANCE_RECORD.json
+python scripts/workflow_roi.py templates/WORKFLOW_ROI_ANALYSIS.json --validate-only
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 
@@ -191,6 +216,9 @@ If a core indexed resource is added, renamed, removed, or materially repurposed,
 ```bash
 python scripts/validate_launch_packet.py <packet>
 python scripts/validate_founder_outcome.py <outcome-record>
+python scripts/workflow_roi.py <workflow-roi-analysis>
+python scripts/validate_fiscal_evidence.py <fiscal-record>
+python scripts/validate_entity_governance.py <entity-record>
 python scripts/validate_diligence_room.py <room>
 python scripts/validate_service_contract.py <contract>
 python scripts/validate_authority_envelope.py <authority>
@@ -204,6 +232,7 @@ Progress is not more documents or more agent activity by itself. Prefer changes 
 - quality of customer evidence,
 - speed to a commercial signal,
 - reproducibility of operating decisions,
+- fully loaded economics per successful customer outcome,
 - safety of autonomous execution,
 - contribution quality,
 - evidence-backed founder outcomes.

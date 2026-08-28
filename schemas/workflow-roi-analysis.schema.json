@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/workflow-roi-analysis.schema.json",
+  "title": "Agent Business Workflow ROI Analysis",
+  "description": "Machine-readable comparison of fully loaded agentic workflow economics. Monetary values are integer minor currency units. Every decision-relevant input carries a range and provenance basis.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "updated_at",
+    "status",
+    "currency",
+    "outcome",
+    "baseline_scenario_id",
+    "evidence",
+    "assumptions",
+    "scenarios",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "analysis_id": {"type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["draft", "candidate", "decision_ready", "retired"]},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "success_event", "measurement_window", "customer_value_notes"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1, "maxLength": 200},
+        "success_event": {"type": "string", "minLength": 1, "maxLength": 500},
+        "measurement_window": {"type": "string", "minLength": 1, "maxLength": 240},
+        "customer_value_notes": {"type": "string", "minLength": 1, "maxLength": 1200},
+        "founder_outcome_record": {"type": ["string", "null"], "maxLength": 300}
+      }
+    },
+    "baseline_scenario_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "evidence": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/evidence"}
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/assumption"}
+    },
+    "scenarios": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"$ref": "#/$defs/scenario"}
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recommended_scenario_id", "decision_rule", "notes", "reviewed_at"],
+      "properties": {
+        "recommended_scenario_id": {"type": ["string", "null"], "maxLength": 128},
+        "decision_rule": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "notes": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    }
+  },
+  "$defs": {
+    "estimate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "low", "high", "classification", "basis_ids"],
+      "properties": {
+        "value": {"type": "number"},
+        "low": {"type": "number"},
+        "high": {"type": "number"},
+        "classification": {"enum": ["observed_fact", "self_reported", "estimate", "benchmark"]},
+        "basis_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 128}
+        }
+      }
+    },
+    "nonnegativeEstimate": {
+      "allOf": [
+        {"$ref": "#/$defs/estimate"},
+        {
+          "properties": {
+            "value": {"minimum": 0},
+            "low": {"minimum": 0},
+            "high": {"minimum": 0}
+          }
+        }
+      ]
+    },
+    "ratioEstimate": {
+      "allOf": [
+        {"$ref": "#/$defs/estimate"},
+        {
+          "properties": {
+            "value": {"minimum": 0, "maximum": 1},
+            "low": {"minimum": 0, "maximum": 1},
+            "high": {"minimum": 0, "maximum": 1}
+          }
+        }
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "description", "observed_at", "status"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "type": {"enum": ["public_metric", "public_artifact", "reproducible_calculation", "self_report", "benchmark", "internal_measurement"]},
+        "description": {"type": "string", "minLength": 1, "maxLength": 1200},
+        "public_url": {"type": ["string", "null"], "format": "uri"},
+        "observed_at": {"type": "string", "format": "date-time"},
+        "status": {"enum": ["current", "stale", "disputed", "superseded"]}
+      }
+    },
+    "assumption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "reason", "owner", "revisit_trigger"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "description": {"type": "string", "minLength": 1, "maxLength": 800},
+        "reason": {"type": "string", "minLength": 1, "maxLength": 800},
+        "owner": {"type": "string", "minLength": 1, "maxLength": 160},
+        "revisit_trigger": {"type": "string", "minLength": 1, "maxLength": 500}
+      }
+    },
+    "attemptCosts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inference_minor", "context_retrieval_minor", "tools_api_minor", "data_minor", "compute_storage_minor", "other_minor"],
+      "properties": {
+        "inference_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "context_retrieval_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "tools_api_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "data_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "compute_storage_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "other_minor": {"$ref": "#/$defs/nonnegativeEstimate"}
+      }
+    },
+    "fixedCosts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["infrastructure_minor", "orchestration_maintenance_minor", "eval_security_compliance_minor", "other_minor"],
+      "properties": {
+        "infrastructure_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "orchestration_maintenance_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "eval_security_compliance_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "other_minor": {"$ref": "#/$defs/nonnegativeEstimate"}
+      }
+    },
+    "humanReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["review_rate", "minutes_per_review", "reviewer_hourly_cost_minor"],
+      "properties": {
+        "review_rate": {"$ref": "#/$defs/ratioEstimate"},
+        "minutes_per_review": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "reviewer_hourly_cost_minor": {"$ref": "#/$defs/nonnegativeEstimate"}
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "description",
+        "annual_requested_outcomes",
+        "success_rate",
+        "average_attempts_per_request",
+        "revenue_per_success_minor",
+        "non_revenue_value_per_success_minor",
+        "attempt_costs",
+        "human_review",
+        "failure_recovery_cost_per_failed_request_minor",
+        "variable_support_cost_per_request_minor",
+        "annual_fixed_costs",
+        "implementation_investment_minor",
+        "constraints"
+      ],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+        "name": {"type": "string", "minLength": 1, "maxLength": 200},
+        "description": {"type": "string", "minLength": 1, "maxLength": 1200},
+        "annual_requested_outcomes": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "success_rate": {"$ref": "#/$defs/ratioEstimate"},
+        "average_attempts_per_request": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "revenue_per_success_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "non_revenue_value_per_success_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "attempt_costs": {"$ref": "#/$defs/attemptCosts"},
+        "human_review": {"$ref": "#/$defs/humanReview"},
+        "failure_recovery_cost_per_failed_request_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "variable_support_cost_per_request_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "annual_fixed_costs": {"$ref": "#/$defs/fixedCosts"},
+        "implementation_investment_minor": {"$ref": "#/$defs/nonnegativeEstimate"},
+        "constraints": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1, "maxLength": 500}
+        }
+      }
+    }
+  }
+}

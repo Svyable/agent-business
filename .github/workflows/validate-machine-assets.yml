@@ -38,5 +38,8 @@ jobs:
       - name: Validate entity governance template
         run: python scripts/validate_entity_governance.py templates/ENTITY_GOVERNANCE_RECORD.json
 
+      - name: Validate workflow ROI template
+        run: python scripts/workflow_roi.py templates/WORKFLOW_ROI_ANALYSIS.json --validate-only
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
