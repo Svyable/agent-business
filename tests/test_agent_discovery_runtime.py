@@ -102,7 +102,7 @@ class DiscoveryRuntimeTests(unittest.TestCase):
         self.assertTrue(headers["Content-Type"].startswith("text/plain"))
         status, _, index = call_wsgi(app, "GET", "/agent-index.json")
         self.assertEqual(status, 200)
-        self.assertIn("Svyable/agent-business", index)
+        self.assertEqual(index["repository"], "Svyable/agent-business")
         self.assertEqual([event["event_type"] for event in sink.events], ["manifest_fetch", "index_fetch"])
         for event in sink.events:
             self.assertEqual(event["actor"]["confidence"], "unknown")
