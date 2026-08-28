@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "draft-fiscal-001",
+  "updated_at": "2026-08-28T04:10:00Z",
+  "status": "needs_review",
+  "transaction": {
+    "transaction_id": "example-transaction-001",
+    "occurred_at": "2026-08-28T04:10:00Z",
+    "type": "service",
+    "description": "Draft example only. Replace with the actual transaction description before operational use.",
+    "amount_minor": 0,
+    "currency": "USD",
+    "original_transaction_id": null
+  },
+  "parties": {
+    "seller": {
+      "party_id": "seller-example",
+      "country": null,
+      "tax_registration_status": "unknown",
+      "tax_id_reference": null,
+      "entity_type": null
+    },
+    "buyer": {
+      "party_id": "buyer-example",
+      "country": null,
+      "tax_registration_status": "unknown",
+      "tax_id_reference": null,
+      "entity_type": null
+    },
+    "platform": null
+  },
+  "jurisdiction": {
+    "determination_status": "unknown",
+    "seller_country": null,
+    "buyer_country": null,
+    "supply_country": null,
+    "subdivision": null,
+    "ruleset": null,
+    "ruleset_version": null,
+    "valid_from": null,
+    "valid_until": null,
+    "evidence_ids": []
+  },
+  "tax_determination": {
+    "status": "unknown",
+    "tax_type": "none",
+    "treatment": "unknown",
+    "rate_bps": null,
+    "tax_amount_minor": null,
+    "reason": "No tax treatment is authorized by this starter record. Obtain current jurisdiction evidence and qualified review when required.",
+    "registration_required": "unknown",
+    "registration_reference": null,
+    "exemption_reference": null,
+    "reverse_charge_reference": null,
+    "evidence_ids": []
+  },
+  "invoice": {
+    "required": "unknown",
+    "status": "not_started",
+    "document_type": "none",
+    "invoice_id": null,
+    "issue_date": null,
+    "format": null,
+    "profile": null,
+    "original_invoice_id": null,
+    "evidence_ids": []
+  },
+  "withholding": {
+    "status": "unknown",
+    "rate_bps": null,
+    "amount_minor": null,
+    "form_or_certificate": null,
+    "evidence_ids": []
+  },
+  "platform_reporting": {
+    "status": "unknown",
+    "regime": null,
+    "seller_reportable": "unknown",
+    "reporting_period": null,
+    "evidence_ids": []
+  },
+  "currency": {
+    "transaction_currency": "USD",
+    "accounting_currency": "USD",
+    "fx_required": false,
+    "rate": null,
+    "rate_source": null,
+    "rate_observed_at": null,
+    "evidence_ids": []
+  },
+  "evidence": [],
+  "approvals": {
+    "human_review_required": true,
+    "review_status": "pending",
+    "review_reason": "Jurisdiction, tax treatment, invoice requirements, withholding, and platform-reporting obligations are unresolved in the starter record.",
+    "reviewed_at": null,
+    "reviewer_role": null
+  },
+  "privacy": {
+    "contains_payment_credentials": false,
+    "contains_secrets": false,
+    "contains_private_prompts": false,
+    "contains_unnecessary_personal_data": false
+  }
+}
