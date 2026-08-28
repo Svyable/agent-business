@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0.0",
+  "benchmark_id": "example-draft-business-benchmark",
+  "status": "draft",
+  "updated_at": "2026-08-28T16:57:00Z",
+  "repository_resources": ["business-benchmarks", "workflow-roi", "secure"],
+  "scenario": {
+    "pack_id": "agent-business-core",
+    "pack_version": "1.0.0",
+    "scenario_id": "revenue-ops.qualification-handoff.v1",
+    "scenario_version": "1.0.0",
+    "visibility": "public",
+    "fixture_version": "1.0.0"
+  },
+  "provenance": {
+    "harness_version": "unconfigured",
+    "environment_version": "unconfigured",
+    "seed_policy": "not_applicable",
+    "observed_from": "2026-08-28T16:57:00Z",
+    "observed_to": "2026-08-28T16:57:00Z"
+  },
+  "authority": {
+    "simulation_only": true,
+    "real_world_authority_granted": false
+  },
+  "configurations": [
+    {
+      "configuration_id": "candidate-a",
+      "agent_revision": "unconfigured",
+      "provider": "unconfigured",
+      "model": "unconfigured",
+      "prompt_policy_ref": "unconfigured",
+      "tool_versions": [],
+      "run_count": 0,
+      "successful_runs": 0,
+      "partial_runs": 0,
+      "failed_runs": 0,
+      "failure_counts": {
+        "hallucinated_completion": 0,
+        "wrong_tool_success_claim": 0,
+        "policy_violation": 0,
+        "timeout": 0,
+        "retry_storm": 0,
+        "partial_side_effect": 0,
+        "stale_data": 0,
+        "cross_tenant_leakage": 0,
+        "recovery_failure": 0,
+        "human_takeover": 0,
+        "other": 0
+      },
+      "metrics": {
+        "total_cost_minor": 0,
+        "currency": "USD",
+        "p50_latency_ms": 0,
+        "p95_latency_ms": 0,
+        "human_review_minutes": 0,
+        "escalations": 0,
+        "policy_violations": 0,
+        "unsafe_side_effects": 0,
+        "recovery_attempts": 0,
+        "successful_recoveries": 0
+      },
+      "thresholds": {
+        "max_cost_per_success_minor": 0,
+        "max_p95_latency_ms": 0,
+        "max_review_minutes_per_run": 0,
+        "max_policy_violations": 0,
+        "min_recovery_success_rate": 0
+      },
+      "capability_score": 0,
+      "component_passes": {}
+    },
+    {
+      "configuration_id": "candidate-b",
+      "agent_revision": "unconfigured",
+      "provider": "unconfigured",
+      "model": "unconfigured",
+      "prompt_policy_ref": "unconfigured",
+      "tool_versions": [],
+      "run_count": 0,
+      "successful_runs": 0,
+      "partial_runs": 0,
+      "failed_runs": 0,
+      "failure_counts": {
+        "hallucinated_completion": 0,
+        "wrong_tool_success_claim": 0,
+        "policy_violation": 0,
+        "timeout": 0,
+        "retry_storm": 0,
+        "partial_side_effect": 0,
+        "stale_data": 0,
+        "cross_tenant_leakage": 0,
+        "recovery_failure": 0,
+        "human_takeover": 0,
+        "other": 0
+      },
+      "metrics": {
+        "total_cost_minor": 0,
+        "currency": "USD",
+        "p50_latency_ms": 0,
+        "p95_latency_ms": 0,
+        "human_review_minutes": 0,
+        "escalations": 0,
+        "policy_violations": 0,
+        "unsafe_side_effects": 0,
+        "recovery_attempts": 0,
+        "successful_recoveries": 0
+      },
+      "thresholds": {
+        "max_cost_per_success_minor": 0,
+        "max_p95_latency_ms": 0,
+        "max_review_minutes_per_run": 0,
+        "max_policy_violations": 0,
+        "min_recovery_success_rate": 0
+      },
+      "capability_score": 0,
+      "component_passes": {}
+    }
+  ],
+  "comparison": {
+    "measured_result": "No benchmark runs have been executed.",
+    "estimates": [],
+    "interpretation": "Draft starter only; do not rank or select a configuration from this record.",
+    "claims_statistical_superiority": false
+  },
+  "evidence": [],
+  "privacy": {
+    "contains_credentials": false,
+    "contains_private_customer_data": false,
+    "contains_secret_prompts": false,
+    "contains_restricted_answer_keys": false,
+    "public_disclosure_confirmed": true
+  }
+}
