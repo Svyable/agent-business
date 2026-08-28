@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import copy
 import unittest
 
 from scripts.validate_growth_experiment import validate
@@ -25,7 +24,7 @@ def valid_record() -> dict:
         "status": "analyzed",
         "updated_at": "2026-08-28T12:00:00Z",
         "owner": "growth owner",
-        "repository_resources": ["growth-ops", "revenue-ops"],
+        "repository_resources": ["sell", "revenue-ops", "ip-data-rights"],
         "hypothesis": {
             "statement": "A narrower problem-led search campaign will produce qualified opportunities within the declared budget.",
             "primary_metric": "qualified_opportunities",
