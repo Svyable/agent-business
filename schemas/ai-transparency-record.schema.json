@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/ai-transparency-record.schema.json",
+  "title": "Agent AI Transparency Record",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version","record_id","status","updated_at","use_case","audience","jurisdictions","role","interaction","content","decision","rulesets","disclosure","provenance","human_review","change_control","authority","evidence","privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["assessed","disclosure_required","disclosure_not_required","configured","tested","active","changed","suspended","retired"]},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "repository_resources": {"type":"array","items":{"type":"string"}},
+    "use_case": {"type":"string","minLength":1},
+    "audience": {"type":"object","required":["natural_person_direct_interaction","public_audience"],"properties":{"natural_person_direct_interaction":{"type":"boolean"},"public_audience":{"type":"boolean"}}},
+    "jurisdictions": {"type":"array","items":{"type":"string"}},
+    "role": {"type":"object","required":["classification","evidence_ids"],"properties":{"classification":{"enum":["provider","deployer","provider_and_deployer","other","unknown"]},"evidence_ids":{"type":"array","items":{"type":"string"}}}},
+    "interaction": {"type":"object","required":["channel","first_material_interaction_disclosure_required"],"properties":{"channel":{"enum":["web_chat","app_chat","voice","email","sms","dm","social","marketplace","embedded","api_mediated","other"]},"first_material_interaction_disclosure_required":{"type":"boolean"}}},
+    "content": {"type":"object","required":["modalities","deepfake_like","public_interest_text","emotion_recognition","biometric_categorisation"],"properties":{"modalities":{"type":"array","items":{"enum":["text","image","audio","video","multimodal"]}},"deepfake_like":{"type":"boolean"},"public_interest_text":{"type":"boolean"},"emotion_recognition":{"type":"boolean"},"biometric_categorisation":{"type":"boolean"}}},
+    "decision": {"type":"object","required":["result","rationale","evidence_ids"],"properties":{"result":{"enum":["required","not_required","review_required"]},"rationale":{"type":"string"},"evidence_ids":{"type":"array","items":{"type":"string"}}}},
+    "rulesets": {"type":"array","items":{"type":"object","required":["id","jurisdiction","reference","retrieved_at","review_due_at","status"],"properties":{"id":{"type":"string"},"jurisdiction":{"type":"string"},"reference":{"type":"string"},"retrieved_at":{"type":"string","format":"date-time"},"review_due_at":{"type":"string","format":"date-time"},"status":{"enum":["current","superseded","unknown"]}}}},
+    "disclosure": {"type":"object","required":["configured","surface","timing","accessible","customer_can_disable","render_test_evidence_ids"],"properties":{"configured":{"type":"boolean"},"surface":{"type":["string","null"]},"timing":{"enum":["before_first_material_interaction","at_first_material_interaction","after_material_interaction","not_applicable","unknown"]},"accessible":{"type":"boolean"},"customer_can_disable":{"type":"boolean"},"render_test_evidence_ids":{"type":"array","items":{"type":"string"}}}},
+    "provenance": {"type":"object","required":["required","method","configured","export_survival_tested","evidence_ids"],"properties":{"required":{"type":"boolean"},"method":{"type":["string","null"]},"configured":{"type":"boolean"},"export_survival_tested":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"}}}},
+    "human_review": {"type":"object","required":["required","basis_for_exception","review_evidence_ids"],"properties":{"required":{"type":"boolean"},"basis_for_exception":{"type":"boolean"},"review_evidence_ids":{"type":"array","items":{"type":"string"}}}},
+    "change_control": {"type":"object","required":["material_change_detected","re_review_required"],"properties":{"material_change_detected":{"type":"boolean"},"re_review_required":{"type":"boolean"}}},
+    "authority": {"type":"object","required":["can_activate_transparency_configuration","can_publish","evidence_ids"],"properties":{"can_activate_transparency_configuration":{"type":"boolean"},"can_publish":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"}}}},
+    "evidence": {"type":"array","items":{"type":"object","required":["id","type","status","observed_at","reference"],"properties":{"id":{"type":"string"},"type":{"type":"string"},"status":{"enum":["current","stale","superseded"]},"observed_at":{"type":"string","format":"date-time"},"reference":{"type":"string"}}}},
+    "privacy": {"type":"object","required":["contains_credentials","contains_private_customer_data","contains_raw_private_prompts","contains_unpublished_legal_advice","public_disclosure_confirmed"],"properties":{"contains_credentials":{"const":false},"contains_private_customer_data":{"const":false},"contains_raw_private_prompts":{"const":false},"contains_unpublished_legal_advice":{"const":false},"public_disclosure_confirmed":{"const":true}}}
+  }
+}

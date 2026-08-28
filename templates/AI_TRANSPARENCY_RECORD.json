@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "ai-transparency-example",
+  "status": "assessed",
+  "updated_at": "2026-08-28T20:55:00Z",
+  "repository_resources": ["ai-transparency"],
+  "use_case": "Assess a customer-facing AI interaction before production activation.",
+  "audience": {"natural_person_direct_interaction": true, "public_audience": false},
+  "jurisdictions": [],
+  "role": {"classification": "unknown", "evidence_ids": []},
+  "interaction": {"channel": "web_chat", "first_material_interaction_disclosure_required": true},
+  "content": {"modalities": ["text"], "deepfake_like": false, "public_interest_text": false, "emotion_recognition": false, "biometric_categorisation": false},
+  "decision": {"result": "review_required", "rationale": "Ruleset, role, and jurisdiction assessment are incomplete.", "evidence_ids": []},
+  "rulesets": [],
+  "disclosure": {"configured": false, "surface": null, "timing": "unknown", "accessible": false, "customer_can_disable": false, "render_test_evidence_ids": []},
+  "provenance": {"required": false, "method": null, "configured": false, "export_survival_tested": false, "evidence_ids": []},
+  "human_review": {"required": false, "basis_for_exception": false, "review_evidence_ids": []},
+  "change_control": {"material_change_detected": false, "re_review_required": true},
+  "authority": {"can_activate_transparency_configuration": false, "can_publish": false, "evidence_ids": []},
+  "evidence": [],
+  "privacy": {"contains_credentials": false, "contains_private_customer_data": false, "contains_raw_private_prompts": false, "contains_unpublished_legal_advice": false, "public_disclosure_confirmed": true}
+}
