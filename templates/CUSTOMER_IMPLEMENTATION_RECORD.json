@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "implementation_id": "impl-example-draft",
+  "status": "implementation_planning",
+  "updated_at": "2026-08-28T12:00:00Z",
+  "repository_resources": ["revenue-ops", "customer-success", "secure", "run"],
+  "commercial_handoff": {
+    "opportunity_id": "replace-with-won-opportunity-id",
+    "accepted_scope": ["replace with the customer-accepted workflow scope"],
+    "success_criteria": ["replace with measurable accepted success criteria"],
+    "handoff_evidence_ids": []
+  },
+  "environments": [
+    {"name": "sandbox", "promotion_state": "not_started", "production": false, "evidence_ids": []},
+    {"name": "production", "promotion_state": "not_started", "production": true, "evidence_ids": []}
+  ],
+  "integrations": [],
+  "data_readiness": {
+    "source_authority_resolved": false,
+    "minimum_necessary_defined": false,
+    "retention_defined": false,
+    "residency_resolved": false,
+    "customer_data_training_use": "unknown",
+    "deletion_path_defined": false,
+    "test_data_policy_defined": false,
+    "evidence_ids": []
+  },
+  "evals": {
+    "representative_set": false,
+    "regression_suite": false,
+    "safety_policy_cases": false,
+    "human_review_defined": false,
+    "acceptance_thresholds_defined": false,
+    "known_limitations_documented": false,
+    "production_monitoring_aligned": false,
+    "production_grade_passed": false,
+    "evidence_ids": []
+  },
+  "rollout": {
+    "strategy": "none",
+    "exposure_cap_percent": 0,
+    "rollback_defined": false,
+    "kill_switch_defined": false,
+    "rollback_triggers": [],
+    "evidence_ids": []
+  },
+  "adoption": {
+    "affected_roles": [],
+    "training_complete": false,
+    "communications_complete": false,
+    "sop_updates_complete": false,
+    "human_escalation_defined": false,
+    "adoption_metrics_defined": false,
+    "evidence_ids": []
+  },
+  "go_live": {
+    "requested": false,
+    "approved": false,
+    "customer_acceptance_evidence_ids": [],
+    "production_authority_evidence_ids": [],
+    "security_privacy_ready": false,
+    "reliability_ready": false,
+    "observability_ready": false,
+    "support_owner_defined": false,
+    "critical_blockers": []
+  },
+  "hypercare": {
+    "active": false,
+    "incident_thresholds_defined": false,
+    "review_cadence_defined": false,
+    "customer_communications_defined": false,
+    "exit_criteria_defined": false,
+    "evidence_ids": []
+  },
+  "customer_success_handoff": {
+    "ready": false,
+    "activation_baseline_defined": false,
+    "actual_permissions_recorded": false,
+    "support_escalation_map_defined": false,
+    "known_limitations_handed_off": false,
+    "first_value_milestone_defined": false,
+    "evidence_ids": []
+  },
+  "economics": {
+    "currency": "USD",
+    "implementation_cost_minor": 0,
+    "rework_cost_minor": 0,
+    "delay_cost_minor": 0,
+    "contracted_implementation_revenue_minor": 0,
+    "time_to_live_days": null
+  },
+  "evidence": [],
+  "privacy": {
+    "contains_credentials": false,
+    "contains_private_customer_data": false,
+    "contains_private_prompts": false,
+    "public_disclosure_confirmed": true
+  }
+}

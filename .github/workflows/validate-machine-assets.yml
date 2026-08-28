@@ -59,5 +59,8 @@ jobs:
       - name: Validate growth experiment template
         run: python scripts/validate_growth_experiment.py templates/GROWTH_EXPERIMENT_RECORD.json
 
+      - name: Validate customer implementation template
+        run: python scripts/validate_customer_implementation.py templates/CUSTOMER_IMPLEMENTATION_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
