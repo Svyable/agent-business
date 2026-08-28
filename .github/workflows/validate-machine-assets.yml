@@ -83,5 +83,8 @@ jobs:
       - name: Verify audit evidence template
         run: python scripts/verify_audit_evidence.py templates/AUDIT_EVIDENCE_RECORD.json
 
+      - name: Validate privacy request template
+        run: python scripts/validate_privacy_request.py templates/PRIVACY_REQUEST_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
