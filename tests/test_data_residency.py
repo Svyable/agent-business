@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 SPEC=importlib.util.spec_from_file_location("validate_data_residency",ROOT/"scripts"/"validate_data_residency.py")
 MOD=importlib.util.module_from_spec(SPEC); assert SPEC.loader is not None; SPEC.loader.exec_module(MOD)
-STARTER=json.loads((ROOT/"templates"/"DATA_RESIDENCY_RECORD.json").read_text())
+STARTER=json.loads((ROOT/"templates"/"DATA_RESIDENCY_PROFILE.json").read_text())
 
 def evidence(eid,etype="config",status="current"):
     return {"id":eid,"type":etype,"status":status,"observed_at":"2026-08-28T21:45:00Z","reference":f"https://example.com/{eid}"}
