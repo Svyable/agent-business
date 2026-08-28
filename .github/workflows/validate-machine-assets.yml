@@ -35,5 +35,8 @@ jobs:
       - name: Validate fiscal evidence template
         run: python scripts/validate_fiscal_evidence.py templates/FISCAL_TRANSACTION_EVIDENCE.json
 
+      - name: Validate entity governance template
+        run: python scripts/validate_entity_governance.py templates/ENTITY_GOVERNANCE_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
