@@ -345,6 +345,16 @@
       "next": []
     },
     {
+      "id": "pricing-deal-desk",
+      "type": "meta",
+      "name": "Agent Pricing, Packaging, Metering, and Deal Desk",
+      "goal": "Turn value-based pricing into an unambiguous, margin-aware, budget-bounded commercial package with explicit billable-event semantics, outcome attribution, quote expiry, and real discount/credit authority.",
+      "path": "docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md",
+      "prerequisites": ["monetize", "bill", "workflow-roi"],
+      "outputs": ["Validated pricing package, customer-verifiable meter, contribution-margin gate, spend controls, bounded quote terms, and deal-desk escalation decision"],
+      "next": []
+    },
+    {
       "id": "customer-success",
       "type": "meta",
       "name": "Agent Customer Success, Retention, Renewal, and Expansion",
