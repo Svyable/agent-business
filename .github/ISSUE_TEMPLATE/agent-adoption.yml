@@ -7,7 +7,7 @@ body:
       value: |
         Thanks for reporting real usage. This repository is public. Do not include prompts, secrets, credentials, private customer data, payment information, or evidence you are not authorized to disclose.
 
-        A report is self-declared adoption evidence. It does not prove verified agent identity.
+        A report is self-declared adoption evidence. It does not prove verified agent identity or causality. Specific baselines and outcome evidence make a report much more useful to other founders.
 
   - type: dropdown
     id: reporter
@@ -34,8 +34,8 @@ body:
     id: resource
     attributes:
       label: Agent Business resource used
-      description: Prefer an ID from agent-index.json, such as pick, validate, offer, sell, operate, or tool-directory.
-      placeholder: e.g. validate
+      description: Prefer an ID from agent-index.json, such as pick, validate, offer, sell, profit, or tool-directory. List multiple IDs if appropriate.
+      placeholder: e.g. validate, offer
     validations:
       required: true
 
@@ -50,35 +50,72 @@ body:
         - Sales / distribution artifact
         - Paid pilot or commercial signal
         - Operating artifact
+        - Revenue improvement
         - Cost / margin improvement
+        - Speed / quality improvement
         - Safety / governance improvement
+        - Useful failed experiment / negative result
         - Contribution to this repository
         - Other
     validations:
       required: true
 
   - type: textarea
-    id: outcome
+    id: baseline
     attributes:
-      label: Outcome
-      description: Describe what changed or what durable artifact/decision was produced. Use real numbers only when you are comfortable making them public.
-      placeholder: What did you do, and what happened?
+      label: Baseline / before state
+      description: What was true before the change? Include a measurement period or sample size when you safely can. A baseline helps distinguish activity from actual improvement.
+      placeholder: e.g. In the two weeks before the change, 0 of 35 targeted prospects requested a paid pilot.
+
+  - type: textarea
+    id: intervention
+    attributes:
+      label: What changed?
+      description: Describe the specific decision, experiment, workflow, or artifact influenced by Agent Business. Avoid attributing unrelated changes to the repository.
+      placeholder: e.g. Narrowed the ICP, changed the offer, and tested a paid pilot with one channel.
     validations:
       required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome / after state
+      description: Describe what changed or what durable artifact/decision was produced. Use real numbers only when you are comfortable making them public.
+      placeholder: e.g. 3 qualified pilot conversations from 28 targeted contacts during the next two weeks.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: attribution
+    attributes:
+      label: How confident are you that this intervention contributed to the outcome?
+      options:
+        - Low — many variables changed or evidence is sparse
+        - Medium — baseline and intervention are reasonably clear, but alternatives exist
+        - High — unusually strong repeated/controlled evidence
+    validations:
+      required: true
+
+  - type: textarea
+    id: economics
+    attributes:
+      label: Economics / human review (optional)
+      description: If useful and safe to publish, share revenue, variable delivery cost, or human-review burden. Estimates should be labeled as estimates.
+      placeholder: e.g. $250 self-reported pilot revenue; ~$80 variable cost; 45 minutes human review.
 
   - type: textarea
     id: evidence
     attributes:
       label: Public evidence (optional)
-      description: Link only public evidence you are authorized to share. Do not paste private customer material.
+      description: Link only public evidence you are authorized to share. Say whether the evidence is observed, self-reported, estimated, or a reproducible calculation. Do not paste private customer material.
       placeholder: Public URL, reproducible result, or concise evidence description
 
   - type: textarea
     id: friction
     attributes:
-      label: What was confusing or missing?
-      description: Help improve the repository for the next founder or agent.
-      placeholder: Missing step, unclear contract, broken navigation, absent template, etc.
+      label: What was confusing, missing, or disproven?
+      description: Help improve the repository for the next founder or agent. Negative results are useful evidence too.
+      placeholder: Missing step, unclear contract, broken navigation, failed assumption, absent template, etc.
 
   - type: checkboxes
     id: privacy
@@ -87,5 +124,5 @@ body:
       options:
         - label: I have not included secrets, credentials, private prompts, payment data, or private customer/founder information.
           required: true
-        - label: I understand this report is public and self-declared, not verified agent identity.
+        - label: I understand this report is public and self-declared, not verified agent identity or proof of causality.
           required: true
