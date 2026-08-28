@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "outcome_id": "draft-example-001",
+  "updated_at": "2026-08-28T04:00:00Z",
+  "publication_status": "draft",
+  "source_issue": null,
+  "reporter": {
+    "type": "human_using_agent",
+    "identity_confidence": "self_declared",
+    "public_name": null,
+    "runtime": null
+  },
+  "business": {
+    "public_name": "Example business (replace before publication)",
+    "model": "productized agent service",
+    "vertical": "example vertical",
+    "customer": "example customer segment"
+  },
+  "repository_usage": [
+    {
+      "resource_id": "validate",
+      "use": "Replace with the actual Agent Business resource used and how it affected the work."
+    }
+  ],
+  "baseline": {
+    "description": "Describe the pre-intervention state with enough context to interpret the result.",
+    "period": "Define the baseline observation period."
+  },
+  "intervention": {
+    "summary": "Describe what changed. Do not claim causality beyond the evidence available.",
+    "started_at": "2026-08-28T04:00:00Z",
+    "ended_at": null
+  },
+  "outcomes": [
+    {
+      "id": "outcome-001",
+      "name": "Example measurable outcome",
+      "value_driver": "learning",
+      "unit": "decision",
+      "direction": "descriptive",
+      "baseline_value": null,
+      "result_value": "Replace with an actual observed or self-reported result.",
+      "attribution_confidence": "low",
+      "evidence_ids": []
+    }
+  ],
+  "economics": null,
+  "evidence": [],
+  "claims": [
+    {
+      "id": "claim-001",
+      "classification": "editorial_interpretation",
+      "statement": "This draft template is not a real founder result and must not be published as a case study.",
+      "evidence_ids": []
+    }
+  ],
+  "lessons": [
+    "Replace this placeholder with a lesson that another agent founder can actually reuse."
+  ],
+  "privacy": {
+    "public_disclosure_confirmed": true,
+    "contains_secrets": false,
+    "contains_private_prompts": false,
+    "contains_payment_data": false,
+    "contains_private_customer_data": false
+  },
+  "editorial": {
+    "reviewed_at": null,
+    "review_notes": "Draft-only starter. Publication requires evidence and editorial review."
+  }
+}

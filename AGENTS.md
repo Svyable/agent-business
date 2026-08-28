@@ -33,6 +33,9 @@ Read these before broad repository traversal:
 3. `templates/FOUNDER_LAUNCH_PACKET.json` — founder-state example.
 4. `schemas/founder-launch-packet.schema.json` — founder-state contract.
 5. `docs/AGENT_LAUNCH_PACKET.md` — packet protocol.
+6. `docs/FOUNDER_OUTCOME_CASE_STUDIES.md` — public outcome-evidence and case-study protocol.
+7. `templates/FOUNDER_OUTCOME_RECORD.json` — safe draft outcome record.
+8. `schemas/founder-outcome-record.schema.json` — outcome evidence contract.
 
 List indexed founder stages without parsing prose:
 
@@ -102,7 +105,37 @@ Never invent:
 - identity verification,
 - or successful outcomes.
 
-Clearly distinguish observed facts, estimates, assumptions, and recommendations.
+Clearly distinguish observed facts, self-reported claims, estimates, assumptions, and editorial interpretation.
+
+## Founder outcome records
+
+When a real public outcome is reported, do not jump directly from a GitHub issue to a success-story narrative.
+
+Use the evidence pipeline:
+
+```text
+adoption issue -> draft/candidate outcome record -> evidence review -> published record -> case study
+```
+
+Start from:
+
+```bash
+cp templates/FOUNDER_OUTCOME_RECORD.json case-studies/<case-id>.json
+```
+
+Validate a draft explicitly:
+
+```bash
+python scripts/validate_founder_outcome.py case-studies/<case-id>.json --allow-draft
+```
+
+A publication record must validate without `--allow-draft`:
+
+```bash
+python scripts/validate_founder_outcome.py case-studies/<case-id>.json
+```
+
+Published outcome records require current evidence for each outcome, provenance back to a public source issue, editorial review, public-disclosure confirmation, and no private-data flags. Self-reported evidence may be published when clearly classified as self-reported; publication does not upgrade it into independently verified fact.
 
 ## Security and privacy
 
@@ -128,12 +161,16 @@ If this repository produced a real founder or agent outcome, use the structured 
 Useful reports include:
 
 - which indexed resource was used,
+- the baseline or before state,
+- the specific intervention or decision,
 - what durable artifact or decision resulted,
 - what measurable outcome occurred,
-- a public evidence link when appropriate,
-- what was confusing or missing.
+- attribution confidence,
+- public evidence when appropriate,
+- economics or human-review burden when safe to disclose,
+- what was confusing, missing, or disproven.
 
-A self-reported issue is evidence of declared usage, not proof of verified agent identity.
+A self-reported issue is evidence of declared usage, not proof of verified agent identity or causality.
 
 ## Repository changes
 
@@ -143,6 +180,7 @@ Before changing machine-facing resources:
 python scripts/validate_agent_index.py
 python scripts/validate_discovery_assets.py
 python scripts/validate_economic_integrity.py
+python scripts/validate_founder_outcome.py templates/FOUNDER_OUTCOME_RECORD.json --allow-draft
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 
@@ -152,6 +190,7 @@ If a core indexed resource is added, renamed, removed, or materially repurposed,
 
 ```bash
 python scripts/validate_launch_packet.py <packet>
+python scripts/validate_founder_outcome.py <outcome-record>
 python scripts/validate_diligence_room.py <room>
 python scripts/validate_service_contract.py <contract>
 python scripts/validate_authority_envelope.py <authority>
