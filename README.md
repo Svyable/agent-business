@@ -6,6 +6,29 @@ An agent should be able to land here with no business idea, pick an opportunity,
 
 > **Core principle:** do not start with code. Start with a painful customer problem and a path to revenue.
 
+## Agent quickstart
+
+Agent Business is intentionally **public, free, and GitHub-native**. A local clone plus Python is enough to start; there is no required hosted service, account, database, or hidden telemetry.
+
+```bash
+python scripts/agent_business.py init --name "My Agent Business"
+python scripts/agent_business.py validate founder-packet.json
+python scripts/agent_business.py next founder-packet.json
+```
+
+The generated founder packet defaults to **no customer-contact authority, no spend authority, and no contract authority**. Repository guidance never grants real-world permission.
+
+For deterministic agent instructions, read [AGENTS.md](AGENTS.md). For machine navigation, read [agent-index.json](agent-index.json) or [llms.txt](llms.txt).
+
+Useful machine commands:
+
+```bash
+python scripts/agent_business.py catalog --type founder_stage --json
+python scripts/agent_business.py stage pick --json
+```
+
+If this repository produces a real outcome, use the structured **Agent / founder adoption report** GitHub Issue form. Reports are public and self-declared; do not include prompts, secrets, credentials, payment data, or private customer/founder evidence.
+
 ## Start here
 
 | Stage | Goal | Resource |
@@ -36,6 +59,7 @@ An agent should be able to land here with no business idea, pick an opportunity,
 | 24. Partner | Grow through referrals, resellers, embedded distribution, and agent-to-agent recommendations without losing attribution, margin, or trust | [Agent Partnerships, Referrals, Rev-Share & Channel Operations](docs/AGENT_PARTNER_CHANNELS.md) |
 | 25. Source | Know, qualify, monitor, substitute, and contain the external dependencies behind paid outcomes | [Agent Dependency, Vendor & Supply-Chain Operations](docs/AGENT_DEPENDENCY_SUPPLY_CHAIN.md) |
 | 26. Prove | Turn capability claims into scoped, fresh, reproducible evidence autonomous buyers can verify | [Agent Capability Benchmarking, Certification & Assurance](docs/AGENT_CAPABILITY_ASSURANCE.md) |
+| 27. Defend | Keep autonomous economic actions inside explicit fraud-loss, abuse, authority, evidence, and review boundaries | [Agent Economic Integrity, Fraud & Abuse Controls](docs/AGENT_ECONOMIC_INTEGRITY.md) |
 
 ## The agent-business loop
 
@@ -146,6 +170,17 @@ This repository should remain genuinely useful for free. Revenue should come fro
 
 The monetization rule: **the free repo must be strong enough to earn trust before any paid layer can work.**
 
+## GitHub-native adoption model
+
+GitHub is the canonical public product surface. We prefer explicit, inspectable signals over hidden product telemetry:
+
+- stars and forks are weak discovery signals,
+- issues and pull requests are stronger engagement signals,
+- structured adoption reports are self-declared usage evidence,
+- evidence-backed founder outcome reports are activation/outcome evidence.
+
+These signals do **not** prove unique-agent counts, returning-agent cohorts, or verified agent identity. The optional discovery runtime remains in the repository as a reference implementation for future operators, not as a dependency for using Agent Business.
+
 ## Principles
 
 - Revenue before vanity metrics.
@@ -177,6 +212,8 @@ The monetization rule: **the free repo must be strong enough to earn trust befor
 
 Contributions should be concrete and evidence-backed. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
+If Agent Business produced a real outcome, use the structured **Agent / founder adoption report** issue form so the next agent or founder can learn from it. Share only public evidence you are authorized to disclose.
+
 ---
 
-**Next action:** open the [Business Ideas & Models](docs/BUSINESS_MODELS.md), pick one narrow customer/problem pair, then run the [Validation Playbook](docs/VALIDATION.md) before building.
+**Next action:** run `python scripts/agent_business.py init --name "My Agent Business"`, then open the [Business Ideas & Models](docs/BUSINESS_MODELS.md) and produce one commercial signal before building deeply.
