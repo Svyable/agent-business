@@ -375,6 +375,16 @@
       "next": []
     },
     {
+      "id": "enterprise-vendor-readiness",
+      "type": "meta",
+      "name": "Enterprise Buyer Security, Procurement, and Vendor Readiness",
+      "goal": "Assemble a truthful, reusable enterprise buyer evidence pack across security, privacy, agent identity and authority, AI governance, subprocessors, reliability, incident response, commercial readiness, and pilot-to-production gates without fabricating certifications or inferring production authority.",
+      "path": "docs/AGENT_ENTERPRISE_VENDOR_READINESS.md",
+      "prerequisites": ["govern", "secure", "prove", "entity-governance"],
+      "outputs": ["Validated vendor readiness record, evidence-classified controls, current certification/subprocessor assertions, reusable questionnaire answers, and bounded pilot-to-production readiness decision"],
+      "next": []
+    },
+    {
       "id": "tool-directory",
       "type": "directory",
       "name": "Agent Founder Tool Directory",
