@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "draft-customer-001",
+  "updated_at": "2026-08-28T07:00:00Z",
+  "status": "draft",
+  "account": {
+    "public_alias": "Example account",
+    "tenant_key": "tenant-example",
+    "product_or_service": "Replace with the purchased outcome or service"
+  },
+  "lifecycle": {
+    "stage": "sold",
+    "stage_started_at": "2026-08-28T07:00:00Z",
+    "activation_definition": "Replace with a measurable customer-specific activation definition before use.",
+    "activated_at": null,
+    "value_realized_at": null
+  },
+  "value": {
+    "promised_outcome": "Replace with the promised customer outcome before use.",
+    "evidence_ids": []
+  },
+  "signals": [],
+  "health": {
+    "risk_level": "unknown",
+    "score": null,
+    "score_method": "No health score is available until real evidence and a documented scoring method exist.",
+    "evidence_ids": [],
+    "next_review_at": "2026-08-29T07:00:00Z"
+  },
+  "renewal": {
+    "contract_end_at": null,
+    "notice_deadline_at": null,
+    "recommendation": "none",
+    "confidence": "unknown",
+    "evidence_ids": [],
+    "action_status": "none",
+    "expansion_proposed": false,
+    "discount_bps": 0,
+    "approval": null
+  },
+  "incidents": [],
+  "communications": {
+    "proactive_contact_allowed": false,
+    "suppressed": false,
+    "last_contact_at": null,
+    "next_contact_at": null,
+    "basis_ref": null
+  },
+  "economics": {
+    "currency": "USD",
+    "period": "replace before analysis",
+    "starting_recurring_revenue_minor": 0,
+    "retained_recurring_revenue_minor": 0,
+    "expansion_revenue_minor": 0,
+    "contraction_revenue_minor": 0,
+    "churned_revenue_minor": 0,
+    "cost_to_serve_minor": 0,
+    "human_review_minutes": 0
+  },
+  "authority": {
+    "can_contact": false,
+    "can_offer_discount": false,
+    "can_renew_contract": false,
+    "can_issue_credit": false,
+    "can_expand_scope": false,
+    "evidence_ref": null
+  },
+  "privacy": {
+    "contains_secrets": false,
+    "contains_private_prompts": false,
+    "contains_payment_credentials": false,
+    "contains_raw_customer_content": false,
+    "tenant_isolation_confirmed": true
+  }
+}

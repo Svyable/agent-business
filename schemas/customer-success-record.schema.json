@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/customer-success-record.schema.json",
+  "title": "Agent Business Customer Success Record",
+  "description": "Portable evidence record for post-sale activation, account health, renewal, retention, expansion, service recovery, and retention economics. Health scores and recommendations are decision aids, not customer facts or authority grants.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","record_id","updated_at","status","account","lifecycle","value","signals","health","renewal","incidents","communications","economics","authority","privacy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["draft","active","renewal_review","closed"]},
+    "account": {
+      "type": "object", "additionalProperties": false,
+      "required": ["public_alias","tenant_key","product_or_service"],
+      "properties": {
+        "public_alias": {"type": "string", "minLength": 1, "maxLength": 160},
+        "tenant_key": {"type": "string", "minLength": 1, "maxLength": 128},
+        "product_or_service": {"type": "string", "minLength": 1, "maxLength": 240}
+      }
+    },
+    "lifecycle": {
+      "type": "object", "additionalProperties": false,
+      "required": ["stage","stage_started_at","activation_definition","activated_at","value_realized_at"],
+      "properties": {
+        "stage": {"enum": ["sold","onboarding","activated","value_realized","healthy","at_risk","renewal","retained","churned","expanded"]},
+        "stage_started_at": {"type": "string", "format": "date-time"},
+        "activation_definition": {"type": "string", "minLength": 1, "maxLength": 800},
+        "activated_at": {"type": ["string","null"], "format": "date-time"},
+        "value_realized_at": {"type": ["string","null"], "format": "date-time"}
+      }
+    },
+    "value": {
+      "type": "object", "additionalProperties": false,
+      "required": ["promised_outcome","evidence_ids"],
+      "properties": {
+        "promised_outcome": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "signals": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id","classification","kind","description","observed_at","status"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "classification": {"enum": ["observed","self_reported","derived","model_inference"]},
+          "kind": {"enum": ["activation","usage","outcome","support","billing","sentiment","renewal","expansion","incident","other"]},
+          "description": {"type": "string", "minLength": 1, "maxLength": 1200},
+          "source_ref": {"type": ["string","null"], "maxLength": 500},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "status": {"enum": ["current","stale","disputed","superseded"]}
+        }
+      }
+    },
+    "health": {
+      "type": "object", "additionalProperties": false,
+      "required": ["risk_level","score","score_method","evidence_ids","next_review_at"],
+      "properties": {
+        "risk_level": {"enum": ["unknown","low","medium","high","critical"]},
+        "score": {"type": ["number","null"], "minimum": 0, "maximum": 100},
+        "score_method": {"type": "string", "minLength": 1, "maxLength": 800},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "next_review_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "renewal": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contract_end_at","notice_deadline_at","recommendation","confidence","evidence_ids","action_status","expansion_proposed","discount_bps","approval"],
+      "properties": {
+        "contract_end_at": {"type": ["string","null"], "format": "date-time"},
+        "notice_deadline_at": {"type": ["string","null"], "format": "date-time"},
+        "recommendation": {"enum": ["none","retain","renew","renegotiate","expand","churn_risk"]},
+        "confidence": {"enum": ["unknown","low","medium","high"]},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "action_status": {"enum": ["none","needs_review","approved","executed"]},
+        "expansion_proposed": {"type": "boolean"},
+        "discount_bps": {"type": "integer", "minimum": 0, "maximum": 10000},
+        "approval": {
+          "type": ["object","null"], "additionalProperties": false,
+          "properties": {
+            "approved_by": {"type": "string", "minLength": 1, "maxLength": 160},
+            "approved_at": {"type": "string", "format": "date-time"},
+            "scope": {"type": "string", "minLength": 1, "maxLength": 800}
+          },
+          "required": ["approved_by","approved_at","scope"]
+        }
+      }
+    },
+    "incidents": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id","severity","status","summary","opened_at"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "severity": {"enum": ["low","medium","high","critical"]},
+          "status": {"enum": ["open","mitigated","resolved"]},
+          "summary": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "opened_at": {"type": "string", "format": "date-time"},
+          "resolved_at": {"type": ["string","null"], "format": "date-time"}
+        }
+      }
+    },
+    "communications": {
+      "type": "object", "additionalProperties": false,
+      "required": ["proactive_contact_allowed","suppressed","last_contact_at","next_contact_at","basis_ref"],
+      "properties": {
+        "proactive_contact_allowed": {"type": "boolean"},
+        "suppressed": {"type": "boolean"},
+        "last_contact_at": {"type": ["string","null"], "format": "date-time"},
+        "next_contact_at": {"type": ["string","null"], "format": "date-time"},
+        "basis_ref": {"type": ["string","null"], "maxLength": 500}
+      }
+    },
+    "economics": {
+      "type": "object", "additionalProperties": false,
+      "required": ["currency","period","starting_recurring_revenue_minor","retained_recurring_revenue_minor","expansion_revenue_minor","contraction_revenue_minor","churned_revenue_minor","cost_to_serve_minor","human_review_minutes"],
+      "properties": {
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "period": {"type": "string", "minLength": 1, "maxLength": 160},
+        "starting_recurring_revenue_minor": {"type": "integer", "minimum": 0},
+        "retained_recurring_revenue_minor": {"type": "integer", "minimum": 0},
+        "expansion_revenue_minor": {"type": "integer", "minimum": 0},
+        "contraction_revenue_minor": {"type": "integer", "minimum": 0},
+        "churned_revenue_minor": {"type": "integer", "minimum": 0},
+        "cost_to_serve_minor": {"type": "integer", "minimum": 0},
+        "human_review_minutes": {"type": "number", "minimum": 0}
+      }
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["can_contact","can_offer_discount","can_renew_contract","can_issue_credit","can_expand_scope","evidence_ref"],
+      "properties": {
+        "can_contact": {"type": "boolean"},
+        "can_offer_discount": {"type": "boolean"},
+        "can_renew_contract": {"type": "boolean"},
+        "can_issue_credit": {"type": "boolean"},
+        "can_expand_scope": {"type": "boolean"},
+        "evidence_ref": {"type": ["string","null"], "maxLength": 500}
+      }
+    },
+    "privacy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contains_secrets","contains_private_prompts","contains_payment_credentials","contains_raw_customer_content","tenant_isolation_confirmed"],
+      "properties": {
+        "contains_secrets": {"const": false},
+        "contains_private_prompts": {"const": false},
+        "contains_payment_credentials": {"const": false},
+        "contains_raw_customer_content": {"const": false},
+        "tenant_isolation_confirmed": {"const": true}
+      }
+    }
+  }
+}

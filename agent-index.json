@@ -345,6 +345,16 @@
       "next": []
     },
     {
+      "id": "customer-success",
+      "type": "meta",
+      "name": "Agent Customer Success, Retention, Renewal, and Expansion",
+      "goal": "Operate the post-sale lifecycle from activation through value realization, health review, service recovery, renewal, retention, and expansion using evidence-backed account state and explicit commercial authority.",
+      "path": "docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md",
+      "prerequisites": ["operate", "bill", "workflow-roi"],
+      "outputs": ["Validated customer-success record, activation/value evidence, explainable account health, renewal evidence and approval state, retention economics, and bounded lifecycle actions"],
+      "next": []
+    },
+    {
       "id": "fiscal-ops",
       "type": "meta",
       "name": "Agent Tax, Invoicing, and Cross-Border Fiscal Operations",
