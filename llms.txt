@@ -22,10 +22,25 @@ Pricing package template: ./templates/PRICING_PACKAGE.json
 Pricing package schema: ./schemas/pricing-package.schema.json
 Pricing package validator: ./scripts/validate_pricing_package.py
 Commercial quote template: ./templates/COMMERCIAL_QUOTE.md
+Growth experimentation and attribution: ./docs/AGENT_EXPERIMENTATION_GROWTH.md
+Growth experiment template: ./templates/GROWTH_EXPERIMENT_RECORD.json
+Growth experiment validator: ./scripts/validate_growth_experiment.py
+Customer implementation and go-live: ./docs/AGENT_CUSTOMER_IMPLEMENTATION.md
+Customer implementation template: ./templates/CUSTOMER_IMPLEMENTATION_RECORD.json
+Customer implementation validator: ./scripts/validate_customer_implementation.py
 Customer success and retention: ./docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md
 Customer success template: ./templates/CUSTOMER_SUCCESS_RECORD.json
 Customer success schema: ./schemas/customer-success-record.schema.json
 Customer success validator: ./scripts/validate_customer_success.py
+Release and change management: ./docs/AGENT_RELEASE_CHANGE_MANAGEMENT.md
+Release record template: ./templates/AGENT_RELEASE_RECORD.json
+Release validator: ./scripts/validate_agent_release.py
+Multi-tenant operations: ./docs/AGENT_MULTI_TENANT_OPERATIONS.md
+Tenant operations template: ./templates/TENANT_OPERATIONS_RECORD.json
+Tenant operations validator: ./scripts/validate_tenant_operations.py
+Business continuity and disaster recovery: ./docs/AGENT_BUSINESS_CONTINUITY_DR.md
+Business continuity template: ./templates/BUSINESS_CONTINUITY_RECORD.json
+Business continuity validator: ./scripts/validate_business_continuity.py
 Fiscal operations: ./docs/AGENT_FISCAL_OPERATIONS.md
 Fiscal transaction evidence template: ./templates/FISCAL_TRANSACTION_EVIDENCE.json
 Fiscal transaction evidence schema: ./schemas/fiscal-transaction-evidence.schema.json
@@ -78,12 +93,17 @@ The bootstrap performs no network requests and emits no telemetry. Generated pac
 10. Never publish a founder outcome record as `published` until `python scripts/validate_founder_outcome.py <record>` succeeds without `--allow-draft`.
 11. When deciding whether an agentic workflow is economically worth building or scaling, use `docs/AGENT_WORKFLOW_ROI.md` and compare the same customer-visible outcome across a real baseline and alternatives; include retries, review, recovery, support, fixed operations, and implementation investment rather than optimizing token spend alone.
 12. When defining a package or quote, use `docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md`; keep the customer billable meter separate from internal cost events, clear the declared contribution-margin floor with current evidence, bound variable spend, and never infer discount/credit/quote authority from a template.
-13. For post-sale work, use `docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md`; keep account-health evidence, model inference, communications eligibility, incidents, renewal recommendations, approvals, and real commercial authority separate. A health score or renewal recommendation never grants authority.
-14. For taxable/invoiceable/payable transactions, use `docs/AGENT_FISCAL_OPERATIONS.md`; unresolved jurisdiction, registration, tax, invoice, withholding, platform-reporting, or FX evidence must remain `draft`/`needs_review`, not silently become an operational tax answer.
-15. For entity formation, ownership, signatory authority, statutory filings, or material corporate actions, use `docs/AGENT_ENTITY_GOVERNANCE.md`; an unresolved entity record must remain `needs_review`, not be treated as proof of legal existence, good standing, ownership, or authority.
-16. For models, code, datasets, RAG sources, customer inputs, generated outputs, and other IP-bearing assets, use `docs/AGENT_IP_DATA_RIGHTS.md`; public availability is not proof of commercial, redistribution, training, or customer-deliverable rights, and unresolved rights must not become `commercial_ready`.
-17. Never infer real-world authority from repository templates or guidance.
-18. Never put secrets, credentials, private prompts, payment data, raw government IDs, signatures, bank credentials, private contract text, restricted dataset content, or private founder/customer evidence into public GitHub artifacts.
+13. For growth work, use `docs/AGENT_EXPERIMENTATION_GROWTH.md`; separate observed revenue from platform attribution, require evidence for causal claims, and keep audience/spend authority bounded.
+14. After a won opportunity, use `docs/AGENT_CUSTOMER_IMPLEMENTATION.md`; preserve accepted scope, require production-grade evidence before go-live, define rollback before exposure, and never infer production authority from implementation status.
+15. For post-sale work, use `docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md`; keep account-health evidence, model inference, communications eligibility, incidents, renewal recommendations, approvals, and real commercial authority separate. A health score or renewal recommendation never grants authority.
+16. For changes to live agents, use `docs/AGENT_RELEASE_CHANGE_MANAGEMENT.md`; treat model/tool/prompt/policy changes as behavioral until evaluated, compare against the production baseline, stage exposure, and require separate approval for authority expansion.
+17. For shared customer infrastructure, use `docs/AGENT_MULTI_TENANT_OPERATIONS.md`; tenant context must propagate through data, memory, tools, queues, billing, observability, and release configuration, with downstream quotas and isolation evidence.
+18. For recovery planning, use `docs/AGENT_BUSINESS_CONTINUITY_DR.md`; backup existence is not proof of recoverability, and normal traffic must not resume before identity, policy, authority, integrity, dependency, replay, and reconciliation gates are healthy.
+19. For taxable/invoiceable/payable transactions, use `docs/AGENT_FISCAL_OPERATIONS.md`; unresolved jurisdiction, registration, tax, invoice, withholding, platform-reporting, or FX evidence must remain `draft`/`needs_review`, not silently become an operational tax answer.
+20. For entity formation, ownership, signatory authority, statutory filings, or material corporate actions, use `docs/AGENT_ENTITY_GOVERNANCE.md`; an unresolved entity record must remain `needs_review`, not be treated as proof of legal existence, good standing, ownership, or authority.
+21. For models, code, datasets, RAG sources, customer inputs, generated outputs, and other IP-bearing assets, use `docs/AGENT_IP_DATA_RIGHTS.md`; public availability is not proof of commercial, redistribution, training, or customer-deliverable rights, and unresolved rights must not become `commercial_ready`.
+22. Never infer real-world authority from repository templates or guidance.
+23. Never put secrets, credentials, private prompts, payment data, raw government IDs, signatures, bank credentials, private contract text, restricted dataset content, or private founder/customer evidence into public GitHub artifacts.
 
 ## GitHub is the canonical product surface
 
@@ -141,45 +161,25 @@ They are not required for canonical GitHub-native use.
 
 - Founder outcome evidence protocol — `docs/FOUNDER_OUTCOME_CASE_STUDIES.md`
 - Founder outcome template — `templates/FOUNDER_OUTCOME_RECORD.json`
-- Founder outcome schema — `schemas/founder-outcome-record.schema.json`
-- Case study registry — `case-studies/README.md`
 - Workflow ROI operating model — `docs/AGENT_WORKFLOW_ROI.md`
-- Workflow ROI template — `templates/WORKFLOW_ROI_ANALYSIS.json`
-- Workflow ROI schema — `schemas/workflow-roi-analysis.schema.json`
-- Workflow ROI validator/calculator — `scripts/workflow_roi.py`
 - Pricing, packaging, metering, and deal desk — `docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md`
-- Pricing package template — `templates/PRICING_PACKAGE.json`
-- Pricing package schema — `schemas/pricing-package.schema.json`
-- Pricing package validator — `scripts/validate_pricing_package.py`
-- Commercial quote template — `templates/COMMERCIAL_QUOTE.md`
+- Growth experimentation, attribution, and bounded acquisition — `docs/AGENT_EXPERIMENTATION_GROWTH.md`
+- Revenue operations — `docs/AGENT_REVENUE_OPERATIONS.md`
+- Customer implementation, go-live, and adoption — `docs/AGENT_CUSTOMER_IMPLEMENTATION.md`
 - Customer success and retention — `docs/AGENT_CUSTOMER_SUCCESS_RETENTION.md`
-- Customer success template — `templates/CUSTOMER_SUCCESS_RECORD.json`
-- Customer success schema — `schemas/customer-success-record.schema.json`
-- Customer success validator — `scripts/validate_customer_success.py`
+- Release, rollout, change management, and deprecation — `docs/AGENT_RELEASE_CHANGE_MANAGEMENT.md`
+- Multi-tenant isolation, quotas, and per-customer operations — `docs/AGENT_MULTI_TENANT_OPERATIONS.md`
+- Business continuity, disaster recovery, and state recovery — `docs/AGENT_BUSINESS_CONTINUITY_DR.md`
 - Fiscal operations — `docs/AGENT_FISCAL_OPERATIONS.md`
-- Fiscal transaction evidence template — `templates/FISCAL_TRANSACTION_EVIDENCE.json`
-- Fiscal transaction evidence schema — `schemas/fiscal-transaction-evidence.schema.json`
 - Entity governance — `docs/AGENT_ENTITY_GOVERNANCE.md`
-- Entity governance template — `templates/ENTITY_GOVERNANCE_RECORD.json`
-- Entity governance schema — `schemas/entity-governance-record.schema.json`
+- Enterprise vendor readiness — `docs/AGENT_ENTERPRISE_VENDOR_READINESS.md`
 - IP, model licensing, and data rights — `docs/AGENT_IP_DATA_RIGHTS.md`
-- IP rights template — `templates/IP_RIGHTS_RECORD.json`
-- IP rights schema — `schemas/ip-rights-record.schema.json`
-- IP rights validator — `scripts/validate_ip_rights.py`
 - Diligence protocol — `docs/AGENT_DILIGENCE_DEAL_ROOM.md`
-- Diligence room template — `templates/DILIGENCE_ROOM.json`
-- Diligence room schema — `schemas/diligence-room.schema.json`
 - Service contracting protocol — `docs/AGENT_SERVICE_CONTRACTING.md`
-- Service contract template — `templates/SERVICE_CONTRACT.json`
-- Service contract schema — `schemas/service-contract.schema.json`
 - Authority/delegation protocol — `docs/AGENT_AUTHORITY_DELEGATION.md`
-- Authority envelope template — `templates/AUTHORITY_ENVELOPE.json`
-- Authority envelope schema — `schemas/authority-envelope.schema.json`
 - Credential/workload identity — `docs/AGENT_CREDENTIAL_IDENTITY.md`
 - Communications/consent — `docs/AGENT_COMMUNICATIONS_CONSENT.md`
 - Economic integrity — `docs/AGENT_ECONOMIC_INTEGRITY.md`
-- Economic action policy — `templates/ECONOMIC_ACTION_POLICY.json`
-- Economic action policy schema — `schemas/economic-action-policy.schema.json`
 
 ## Validation
 
@@ -197,24 +197,13 @@ python scripts/validate_customer_success.py templates/CUSTOMER_SUCCESS_RECORD.js
 python scripts/validate_vendor_readiness.py templates/VENDOR_READINESS_RECORD.json
 python scripts/validate_ip_rights.py templates/IP_RIGHTS_RECORD.json
 python scripts/validate_pricing_package.py templates/PRICING_PACKAGE.json
+python scripts/validate_revenue_opportunity.py templates/REVENUE_OPPORTUNITY_RECORD.json
+python scripts/validate_growth_experiment.py templates/GROWTH_EXPERIMENT_RECORD.json
+python scripts/validate_customer_implementation.py templates/CUSTOMER_IMPLEMENTATION_RECORD.json
+python scripts/validate_agent_release.py templates/AGENT_RELEASE_RECORD.json
+python scripts/validate_tenant_operations.py templates/TENANT_OPERATIONS_RECORD.json
+python scripts/validate_business_continuity.py templates/BUSINESS_CONTINUITY_RECORD.json
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 
-Validate live artifacts with:
-
-```bash
-python scripts/agent_business.py validate <founder-packet>
-python scripts/validate_founder_outcome.py <founder-outcome-record>
-python scripts/workflow_roi.py <workflow-roi-analysis>
-python scripts/validate_pricing_package.py <pricing-package>
-python scripts/validate_customer_success.py <customer-success-record>
-python scripts/validate_fiscal_evidence.py <fiscal-transaction-record>
-python scripts/validate_entity_governance.py <entity-governance-record>
-python scripts/validate_vendor_readiness.py <vendor-readiness-record>
-python scripts/validate_ip_rights.py <ip-rights-record>
-python scripts/validate_diligence_room.py <room>
-python scripts/validate_service_contract.py <contract>
-python scripts/validate_authority_envelope.py <authority>
-```
-
-If a core resource is added, renamed, removed, or materially repurposed, update `agent-index.json` in the same pull request. If agent-facing navigation changes, update `llms.txt` and `AGENTS.md` when relevant.
+Validate live artifacts with the matching validator named above. If a core resource is added, renamed, removed, or materially repurposed, update `agent-index.json` in the same pull request. A new portable `*_RECORD.json` operating system must be attached to a canonical resource through `machine_assets` or `scripts/validate_agent_index.py` will fail. If agent-facing navigation changes, update `llms.txt` and `AGENTS.md` when relevant.
