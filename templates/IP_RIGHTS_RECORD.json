@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "ip-rights-draft-001",
+  "updated_at": "2026-08-28T09:00:00Z",
+  "status": "needs_review",
+  "intended_use": {
+    "product": "Replace with the commercial product or workflow under review.",
+    "commercial": true,
+    "redistribution": false,
+    "training_or_finetuning": false,
+    "customer_deliverable": true
+  },
+  "assets": [
+    {
+      "id": "asset-model-001",
+      "kind": "model_weights",
+      "name": "Unresolved model dependency",
+      "source": "Record provider/repository reference only after verifying the exact model and version.",
+      "rights_status": "unknown",
+      "commercial_use": "unknown",
+      "redistribution": "unknown",
+      "derivatives": "unknown",
+      "training_reuse": "unknown",
+      "customer_input": false,
+      "attribution_required": "unknown",
+      "attribution_text_reference": null,
+      "terms_version": null,
+      "effective_at": null,
+      "expires_at": null,
+      "evidence_ids": [],
+      "conflicts": [
+        "Commercial-use rights have not been verified."
+      ]
+    }
+  ],
+  "customer_terms": {
+    "input_use": "unknown",
+    "training_reuse": "unknown",
+    "deliverable_ownership_promise": "unknown",
+    "provider_pass_through_reviewed": false,
+    "evidence_ids": []
+  },
+  "output_rights": {
+    "provider_claim": "unknown",
+    "founder_claim": "unknown",
+    "infringement_review_required": true,
+    "human_contribution_relevant": true,
+    "evidence_ids": []
+  },
+  "evidence": [],
+  "review": {
+    "legal_review_required": true,
+    "owner_review_required": true,
+    "reviewed_at": null,
+    "blockers": [
+      "Verify exact model/provider terms and commercial-use rights.",
+      "Resolve customer input and training-reuse permissions.",
+      "Resolve buyer-facing deliverable ownership language before contracting."
+    ]
+  },
+  "privacy": {
+    "public_safe": true,
+    "contains_secret": false,
+    "contains_private_contract_text": false,
+    "contains_private_customer_content": false,
+    "contains_restricted_dataset_content": false,
+    "contains_private_prompt": false
+  }
+}

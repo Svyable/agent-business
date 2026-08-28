@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/ip-rights-record.schema.json",
+  "title": "Agent Business IP Rights Record",
+  "description": "Machine-readable, public-safe evidence record for intellectual-property, model-license, data-rights, and customer-deliverable decisions. This is an operational evidence contract, not legal advice.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "updated_at",
+    "status",
+    "intended_use",
+    "assets",
+    "customer_terms",
+    "output_rights",
+    "evidence",
+    "review",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "record_id": {"type": "string", "minLength": 8, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["draft", "needs_review", "commercial_ready", "blocked", "retired"]},
+    "intended_use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["product", "commercial", "redistribution", "training_or_finetuning", "customer_deliverable"],
+      "properties": {
+        "product": {"type": "string", "minLength": 1, "maxLength": 240},
+        "commercial": {"type": "boolean"},
+        "redistribution": {"type": "boolean"},
+        "training_or_finetuning": {"type": "boolean"},
+        "customer_deliverable": {"type": "boolean"}
+      }
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "name", "source", "rights_status", "commercial_use", "redistribution", "derivatives", "training_reuse", "customer_input", "attribution_required", "terms_version", "effective_at", "evidence_ids", "conflicts"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "kind": {"enum": ["code", "model_weights", "adapter", "prompt", "dataset", "rag_source", "customer_input", "generated_output", "brand", "human_authored_asset", "other"]},
+          "name": {"type": "string", "minLength": 1, "maxLength": 240},
+          "source": {"type": "string", "minLength": 1, "maxLength": 500},
+          "rights_status": {"enum": ["owned", "licensed", "public_domain", "permissioned", "unknown", "incompatible", "expired"]},
+          "commercial_use": {"enum": ["allowed", "prohibited", "conditional", "unknown", "not_applicable"]},
+          "redistribution": {"enum": ["allowed", "prohibited", "conditional", "unknown", "not_applicable"]},
+          "derivatives": {"enum": ["allowed", "prohibited", "conditional", "unknown", "not_applicable"]},
+          "training_reuse": {"enum": ["allowed", "prohibited", "conditional", "unknown", "not_applicable"]},
+          "customer_input": {"type": "boolean"},
+          "attribution_required": {"enum": ["yes", "no", "unknown"]},
+          "attribution_text_reference": {"type": ["string", "null"], "maxLength": 500},
+          "terms_version": {"type": ["string", "null"], "maxLength": 160},
+          "effective_at": {"type": ["string", "null"], "format": "date-time"},
+          "expires_at": {"type": ["string", "null"], "format": "date-time"},
+          "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "conflicts": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 600}}
+        }
+      }
+    },
+    "customer_terms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input_use", "training_reuse", "deliverable_ownership_promise", "provider_pass_through_reviewed", "evidence_ids"],
+      "properties": {
+        "input_use": {"enum": ["allowed_for_service", "restricted", "unknown", "not_applicable"]},
+        "training_reuse": {"enum": ["allowed", "prohibited", "conditional", "unknown", "not_applicable"]},
+        "deliverable_ownership_promise": {"enum": ["none", "license", "assignment", "customer_owns", "unknown"]},
+        "provider_pass_through_reviewed": {"type": "boolean"},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "output_rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider_claim", "founder_claim", "infringement_review_required", "human_contribution_relevant", "evidence_ids"],
+      "properties": {
+        "provider_claim": {"enum": ["provider_disclaims_ownership", "provider_assigns_or_grants", "provider_restricts", "unknown", "not_applicable"]},
+        "founder_claim": {"enum": ["no_ownership_claim", "license_only", "ownership_claim_with_review", "unknown"]},
+        "infringement_review_required": {"type": "boolean"},
+        "human_contribution_relevant": {"type": "boolean"},
+        "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "description", "observed_at", "status"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "type": {"enum": ["license", "provider_terms", "customer_contract_reference", "assignment_reference", "permission", "public_registry", "policy", "legal_review", "provenance_record", "other"]},
+          "description": {"type": "string", "minLength": 1, "maxLength": 1200},
+          "public_url": {"type": ["string", "null"], "format": "uri"},
+          "private_reference": {"type": ["string", "null"], "maxLength": 300},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "expires_at": {"type": ["string", "null"], "format": "date-time"},
+          "status": {"enum": ["current", "stale", "disputed", "superseded", "draft"]}
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["legal_review_required", "owner_review_required", "reviewed_at", "blockers"],
+      "properties": {
+        "legal_review_required": {"type": "boolean"},
+        "owner_review_required": {"type": "boolean"},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "blockers": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 600}}
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["public_safe", "contains_secret", "contains_private_contract_text", "contains_private_customer_content", "contains_restricted_dataset_content", "contains_private_prompt"],
+      "properties": {
+        "public_safe": {"const": true},
+        "contains_secret": {"const": false},
+        "contains_private_contract_text": {"const": false},
+        "contains_private_customer_content": {"const": false},
+        "contains_restricted_dataset_content": {"const": false},
+        "contains_private_prompt": {"const": false}
+      }
+    }
+  }
+}
