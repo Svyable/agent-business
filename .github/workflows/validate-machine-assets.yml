@@ -41,5 +41,8 @@ jobs:
       - name: Validate workflow ROI template
         run: python scripts/workflow_roi.py templates/WORKFLOW_ROI_ANALYSIS.json --validate-only
 
+      - name: Validate customer success template
+        run: python scripts/validate_customer_success.py templates/CUSTOMER_SUCCESS_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
