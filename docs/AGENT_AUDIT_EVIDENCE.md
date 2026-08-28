@@ -67,9 +67,9 @@ External anchoring can strengthen *when a particular digest existed*. It still d
 
 The repository verifier uses a deliberately simple dependency-free profile for portable examples. For each event, compute SHA-256 over this UTF-8 string:
 
-`sequence|event_id|occurred_at|event_type|run_id|tenant_ref|authority_ref|prev_hash|payload_digest`
+`sequence|event_id|occurred_at|event_type|run_id|tenant_ref|agent_id|principal_ref|release_id|policy_version|authority_ref|trace_id|side_effect_receipt_ref|prev_hash|payload_digest`
 
-Use an empty string for an optional value that is absent. The first event uses `GENESIS` as `prev_hash`; each later event must point to the previous `event_hash`.
+Use an empty string for an optional value that is absent. The first event uses `GENESIS` as `prev_hash`; each later event must point to the previous `event_hash`. Binding the identity, release, policy, authority, trace, and receipt context means those reconstruction fields cannot be altered without invalidating the event hash.
 
 This profile is for interoperability and testability, not a claim that SHA-256 chaining alone creates legal-grade evidence. Production systems may use Merkle structures, signed receipts, transparency logs, HSM-backed signatures, trusted timestamps, or other mechanisms. Record the actual trust boundary and verifier assumptions.
 
