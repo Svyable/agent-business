@@ -335,6 +335,16 @@
       "next": []
     },
     {
+      "id": "fiscal-ops",
+      "type": "meta",
+      "name": "Agent Tax, Invoicing, and Cross-Border Fiscal Operations",
+      "goal": "Determine jurisdiction, registration, tax, invoice, withholding, platform-reporting, FX, correction, and close treatment from current evidence without inventing rates or silently resolving uncertainty.",
+      "path": "docs/AGENT_FISCAL_OPERATIONS.md",
+      "prerequisites": ["govern", "bill", "finance"],
+      "outputs": ["Validated fiscal transaction evidence record, versioned ruleset provenance, invoice/correction path, escalation decision, and reconciliation evidence"],
+      "next": []
+    },
+    {
       "id": "tool-directory",
       "type": "directory",
       "name": "Agent Founder Tool Directory",
