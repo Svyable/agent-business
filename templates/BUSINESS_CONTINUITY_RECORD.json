@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "continuity_id": "replace-with-opaque-continuity-id",
+  "status": "needs_review",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "repository_resources": [],
+  "service": {
+    "criticality": "standard",
+    "rto_minutes": 1440,
+    "rpo_minutes": 1440,
+    "maximum_tolerable_downtime_minutes": 2880,
+    "degraded_mode_required": true
+  },
+  "state_inventory": [
+    {
+      "component": "agent_definition",
+      "recovery_class": "reconstructable",
+      "contains_customer_state": false,
+      "recovery_owner": "needs_review",
+      "procedure_defined": false,
+      "evidence_ids": []
+    }
+  ],
+  "recovery_strategy": {
+    "mode": "cold",
+    "secondary_failure_domain": "needs_review",
+    "dependency_order": ["identity","policy","data","credentials","models_tools","retrieval","agents","queues","billing","traffic"],
+    "queue_replay_requires_idempotency": true,
+    "economic_actions_require_reconciliation": true,
+    "failback_requires_convergence": true
+  },
+  "degraded_mode": {
+    "defined": false,
+    "mode": "needs_review",
+    "customer_impact_recorded": false,
+    "authority_bounded": false
+  },
+  "authority": {
+    "can_failover": false,
+    "can_restore": false,
+    "can_replay_work": false,
+    "can_switch_provider": false,
+    "can_resume_normal_traffic": false,
+    "can_failback": false,
+    "authority_evidence_ids": []
+  },
+  "drills": [],
+  "recovery_gate": {
+    "identity_ok": false,
+    "policy_ok": false,
+    "authority_ok": false,
+    "data_integrity_ok": false,
+    "dependencies_ok": false,
+    "retrieval_ok": false,
+    "queue_reconciled": false,
+    "billing_reconciled": false,
+    "customer_impact_handoff_ready": false
+  },
+  "privacy": {
+    "contains_secrets": false,
+    "contains_raw_backups": false,
+    "contains_private_customer_data": false,
+    "contains_private_prompts": false,
+    "contains_recovery_keys": false,
+    "public_disclosure_confirmed": true
+  },
+  "evidence": []
+}

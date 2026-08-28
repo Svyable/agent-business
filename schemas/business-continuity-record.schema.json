@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/business-continuity-record.schema.json",
+  "title": "Agent Business Continuity Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version","continuity_id","status","updated_at","service","state_inventory","recovery_strategy","degraded_mode","authority","drills","recovery_gate","privacy","evidence"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "continuity_id": {"type":"string","minLength":1},
+    "status": {"enum":["needs_review","planned","recovery_ready","incident","degraded","recovering","recovered"]},
+    "updated_at": {"type":"string","format":"date-time"},
+    "repository_resources": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "service": {
+      "type":"object","additionalProperties":false,
+      "required":["criticality","rto_minutes","rpo_minutes","maximum_tolerable_downtime_minutes","degraded_mode_required"],
+      "properties":{"criticality":{"enum":["critical","important","standard"]},"rto_minutes":{"type":"integer","minimum":0},"rpo_minutes":{"type":"integer","minimum":0},"maximum_tolerable_downtime_minutes":{"type":"integer","minimum":0},"degraded_mode_required":{"type":"boolean"}}
+    },
+    "state_inventory": {
+      "type":"array","minItems":1,
+      "items":{"type":"object","additionalProperties":false,"required":["component","recovery_class","contains_customer_state","recovery_owner","procedure_defined","evidence_ids"],"properties":{"component":{"enum":["agent_definition","release_config","policy_guardrails","model_tool_dependencies","retrieval_index","memory_threads","queues_jobs","tenant_entitlements","billing_metering","audit_evidence","identity_credential_refs"]},"recovery_class":{"enum":["reconstructable","backed_up","replicated","externally_owned","ephemeral","intentionally_not_restored"]},"contains_customer_state":{"type":"boolean"},"recovery_owner":{"type":"string","minLength":1},"procedure_defined":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}}}
+    },
+    "recovery_strategy": {
+      "type":"object","additionalProperties":false,
+      "required":["mode","secondary_failure_domain","dependency_order","queue_replay_requires_idempotency","economic_actions_require_reconciliation","failback_requires_convergence"],
+      "properties":{"mode":{"enum":["cold","warm_standby","active_passive","active_active"]},"secondary_failure_domain":{"type":"string","minLength":1},"dependency_order":{"type":"array","items":{"enum":["identity","policy","data","credentials","models_tools","retrieval","agents","queues","billing","traffic"]},"uniqueItems":true},"queue_replay_requires_idempotency":{"const":true},"economic_actions_require_reconciliation":{"const":true},"failback_requires_convergence":{"const":true}}
+    },
+    "degraded_mode": {
+      "type":"object","additionalProperties":false,
+      "required":["defined","mode","customer_impact_recorded","authority_bounded"],
+      "properties":{"defined":{"type":"boolean"},"mode":{"type":"string"},"customer_impact_recorded":{"type":"boolean"},"authority_bounded":{"type":"boolean"}}
+    },
+    "authority": {
+      "type":"object","additionalProperties":false,
+      "required":["can_failover","can_restore","can_replay_work","can_switch_provider","can_resume_normal_traffic","can_failback","authority_evidence_ids"],
+      "properties":{"can_failover":{"type":"boolean"},"can_restore":{"type":"boolean"},"can_replay_work":{"type":"boolean"},"can_switch_provider":{"type":"boolean"},"can_resume_normal_traffic":{"type":"boolean"},"can_failback":{"type":"boolean"},"authority_evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}}
+    },
+    "drills": {
+      "type":"array",
+      "items":{"type":"object","additionalProperties":false,"required":["scenario","status","observed_at","recovery_time_minutes","recovered_rpo_minutes","integrity_ok","reconciliation_ok","evidence_ids"],"properties":{"scenario":{"enum":["restore_failure","stale_config","dependency_unavailable","retrieval_corruption","partial_memory","control_plane_outage","regional_capacity","duplicate_replay","economic_action_replay","premature_traffic","premature_failback","provider_fallback"]},"status":{"enum":["pass","fail","not_run"]},"observed_at":{"type":"string","format":"date-time"},"recovery_time_minutes":{"type":"integer","minimum":0},"recovered_rpo_minutes":{"type":"integer","minimum":0},"integrity_ok":{"type":"boolean"},"reconciliation_ok":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"},"uniqueItems":true}}}
+    },
+    "recovery_gate": {
+      "type":"object","additionalProperties":false,
+      "required":["identity_ok","policy_ok","authority_ok","data_integrity_ok","dependencies_ok","retrieval_ok","queue_reconciled","billing_reconciled","customer_impact_handoff_ready"],
+      "properties":{"identity_ok":{"type":"boolean"},"policy_ok":{"type":"boolean"},"authority_ok":{"type":"boolean"},"data_integrity_ok":{"type":"boolean"},"dependencies_ok":{"type":"boolean"},"retrieval_ok":{"type":"boolean"},"queue_reconciled":{"type":"boolean"},"billing_reconciled":{"type":"boolean"},"customer_impact_handoff_ready":{"type":"boolean"}}
+    },
+    "privacy": {
+      "type":"object","additionalProperties":false,
+      "required":["contains_secrets","contains_raw_backups","contains_private_customer_data","contains_private_prompts","contains_recovery_keys","public_disclosure_confirmed"],
+      "properties":{"contains_secrets":{"const":false},"contains_raw_backups":{"const":false},"contains_private_customer_data":{"const":false},"contains_private_prompts":{"const":false},"contains_recovery_keys":{"const":false},"public_disclosure_confirmed":{"const":true}}
+    },
+    "evidence": {
+      "type":"array",
+      "items":{"type":"object","additionalProperties":false,"required":["id","type","status","observed_at"],"properties":{"id":{"type":"string","minLength":1},"type":{"enum":["restore_test","replication_metric","config_snapshot","integrity_check","reconciliation_record","authority_record","provider_documentation","customer_handoff","other"]},"status":{"enum":["current","stale","superseded"]},"observed_at":{"type":"string","format":"date-time"},"public_url":{"type":"string","format":"uri"}}}
+    }
+  }
+}
