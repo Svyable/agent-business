@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "request_id": "example-demand-request",
+  "request_version": "0.1.0",
+  "updated_at": "2026-08-29T00:00:00Z",
+  "status": "draft",
+  "demand_quality": "synthetic_test",
+  "buyer": {
+    "principal_ref": "example-principal",
+    "identity_confidence": "unverified",
+    "public_identity_disclosure": false
+  },
+  "outcome": {
+    "capability_category": "example-capability",
+    "business_outcome": "Describe one measurable business outcome the buyer wants completed.",
+    "quantity_min": null,
+    "quantity_max": null,
+    "quantity_unit": null,
+    "recurrence": "unknown"
+  },
+  "requirements": {
+    "inputs": [],
+    "outputs": [],
+    "hard_constraints": [],
+    "required_protocols": [],
+    "regions": [],
+    "data_constraints": [],
+    "compliance_constraints": [],
+    "human_review": "unknown",
+    "service_levels": {
+      "availability_min": null,
+      "p95_latency_max_seconds": null,
+      "completion_deadline_seconds": null
+    }
+  },
+  "budget": {
+    "currency": null,
+    "public_min_minor": null,
+    "public_max_minor": null,
+    "budget_disclosed": false
+  },
+  "timing": {
+    "bid_opens_at": null,
+    "bid_closes_at": null,
+    "delivery_due_at": null
+  },
+  "authority": {
+    "authority_state": "none",
+    "authority_evidence_ref": null,
+    "authorized_currency": null,
+    "max_authorized_spend_minor": null,
+    "effective_at": null,
+    "expires_at": null
+  },
+  "bidding": {
+    "mode": "research_only",
+    "automatic_award_allowed": false,
+    "max_autonomous_award_minor": null,
+    "award_method": "none",
+    "sponsored_ranking_separated": true
+  },
+  "award": {
+    "seller_listing_ref": null,
+    "seller_listing_version": null,
+    "proposal_ref": null,
+    "awarded_price_minor": null,
+    "awarded_currency": null,
+    "awarded_at": null
+  },
+  "acceptance": {
+    "criteria": [],
+    "acceptance_state": "not_applicable",
+    "accepted_at": null
+  },
+  "disclosure": {
+    "tier": "public",
+    "public_disclosure_confirmed": true,
+    "contains_secrets": false,
+    "contains_private_customer_data": false,
+    "contains_private_prompts": false,
+    "contains_credentials": false,
+    "contains_confidential_procurement_data": false
+  }
+}
