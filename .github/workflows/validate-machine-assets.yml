@@ -104,5 +104,8 @@ jobs:
       - name: Validate marketplace storefront template
         run: python scripts/validate_marketplace_listing.py templates/AGENT_MARKETPLACE_LISTING.json --allow-draft
 
+      - name: Validate demand exchange template
+        run: python scripts/validate_agent_demand.py templates/AGENT_DEMAND_REQUEST.json --allow-draft
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
