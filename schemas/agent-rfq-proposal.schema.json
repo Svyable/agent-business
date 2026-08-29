@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/agent-rfq-proposal.schema.json",
+  "title": "Agent Business RFQ Seller Proposal",
+  "description": "Disclosure-safe seller proposal for one versioned machine RFQ. References canonical seller listing truth and makes commercial or hard-requirement deviations machine-visible.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "proposal_id", "proposal_version", "updated_at", "status", "request", "seller", "offer", "service_levels", "compatibility", "deviations", "eligibility", "payment", "acceptance", "normalization", "selection", "disclosure"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "proposal_id": {"type": "string", "minLength": 3, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "proposal_version": {"type": "string", "minLength": 1, "maxLength": 64},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["draft", "submitted", "superseded", "withdrawn", "expired", "selected", "rejected"]},
+    "request": {
+      "type": "object", "additionalProperties": false,
+      "required": ["request_id", "request_version", "request_digest", "bid_closes_at"],
+      "properties": {
+        "request_id": {"type": "string", "minLength": 3, "maxLength": 128},
+        "request_version": {"type": "string", "minLength": 1, "maxLength": 64},
+        "request_digest": {"type": "string", "minLength": 8, "maxLength": 256},
+        "bid_closes_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "seller": {
+      "type": "object", "additionalProperties": false,
+      "required": ["listing_id", "listing_version", "listing_updated_at", "listing_evidence_state", "listing_evidence_expires_at", "authority_state", "authority_evidence_ref", "authority_effective_at", "authority_expires_at"],
+      "properties": {
+        "listing_id": {"type": "string", "minLength": 3, "maxLength": 160},
+        "listing_version": {"type": "string", "minLength": 1, "maxLength": 64},
+        "listing_updated_at": {"type": "string", "format": "date-time"},
+        "listing_evidence_state": {"enum": ["current", "stale", "disputed", "superseded", "unknown"]},
+        "listing_evidence_expires_at": {"type": ["string", "null"], "format": "date-time"},
+        "authority_state": {"enum": ["none", "unverified", "current", "expired", "revoked", "disputed"]},
+        "authority_evidence_ref": {"type": ["string", "null"], "maxLength": 500},
+        "authority_effective_at": {"type": ["string", "null"], "format": "date-time"},
+        "authority_expires_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "offer": {
+      "type": "object", "additionalProperties": false,
+      "required": ["currency", "total_price_minor", "pricing_basis", "valid_until", "submitted_at", "delivery_due_at", "capacity_units", "capacity_unit", "assumptions"],
+      "properties": {
+        "currency": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+        "total_price_minor": {"type": ["integer", "null"], "minimum": 0},
+        "pricing_basis": {"enum": ["fixed", "usage", "subscription", "outcome", "hybrid", "indicative", "undecided"]},
+        "valid_until": {"type": ["string", "null"], "format": "date-time"},
+        "submitted_at": {"type": ["string", "null"], "format": "date-time"},
+        "delivery_due_at": {"type": ["string", "null"], "format": "date-time"},
+        "capacity_units": {"type": ["number", "null"], "minimum": 0},
+        "capacity_unit": {"type": ["string", "null"], "maxLength": 120},
+        "assumptions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 500}}
+      }
+    },
+    "service_levels": {
+      "type": "object", "additionalProperties": false,
+      "required": ["availability_target", "p95_latency_seconds", "completion_deadline_seconds", "human_review"],
+      "properties": {
+        "availability_target": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "p95_latency_seconds": {"type": ["number", "null"], "minimum": 0},
+        "completion_deadline_seconds": {"type": ["number", "null"], "minimum": 0},
+        "human_review": {"enum": ["none", "exceptions_only", "always", "buyer_selectable", "unknown"]}
+      }
+    },
+    "compatibility": {
+      "type": "object", "additionalProperties": false,
+      "required": ["protocols", "regions", "data_constraints", "compliance_constraints", "dependencies"],
+      "properties": {
+        "protocols": {"type": "array", "uniqueItems": true, "items": {"enum": ["a2a", "mcp", "https_api", "other"]}},
+        "regions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 120}},
+        "data_constraints": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 320}},
+        "compliance_constraints": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 320}},
+        "dependencies": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 320}}
+      }
+    },
+    "deviations": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "dimension", "severity", "request_value", "proposed_value", "impact", "buyer_approval_required"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "dimension": {"enum": ["price", "scope", "sla", "dependency", "protocol", "payment", "acceptance", "delivery", "region", "data", "compliance", "other"]},
+          "severity": {"enum": ["commercial", "hard_requirement"]},
+          "request_value": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "proposed_value": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "impact": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "buyer_approval_required": {"type": "boolean"}
+        }
+      }
+    },
+    "eligibility": {
+      "type": "object", "additionalProperties": false,
+      "required": ["all_hard_requirements_satisfied", "eligible_for_award", "unresolved_hard_requirement_ids", "evaluated_against_request_version"],
+      "properties": {
+        "all_hard_requirements_satisfied": {"type": "boolean"},
+        "eligible_for_award": {"type": "boolean"},
+        "unresolved_hard_requirement_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}},
+        "evaluated_against_request_version": {"type": "string", "minLength": 1, "maxLength": 64}
+      }
+    },
+    "payment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["rail", "asset_or_currency", "settlement_semantics", "payment_terms"],
+      "properties": {
+        "rail": {"type": ["string", "null"], "maxLength": 160},
+        "asset_or_currency": {"type": ["string", "null"], "maxLength": 80},
+        "settlement_semantics": {"type": ["string", "null"], "maxLength": 500},
+        "payment_terms": {"type": ["string", "null"], "maxLength": 500}
+      }
+    },
+    "acceptance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["request_criteria_acknowledged", "seller_acceptance_notes"],
+      "properties": {
+        "request_criteria_acknowledged": {"type": "boolean"},
+        "seller_acceptance_notes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 500}}
+      }
+    },
+    "normalization": {
+      "type": "object", "additionalProperties": false,
+      "required": ["comparison_currency", "comparable_total_minor", "quantity", "quantity_unit", "normalization_method"],
+      "properties": {
+        "comparison_currency": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+        "comparable_total_minor": {"type": ["integer", "null"], "minimum": 0},
+        "quantity": {"type": ["number", "null"], "minimum": 0},
+        "quantity_unit": {"type": ["string", "null"], "maxLength": 120},
+        "normalization_method": {"type": "string", "minLength": 1, "maxLength": 1000}
+      }
+    },
+    "selection": {
+      "type": "object", "additionalProperties": false,
+      "required": ["buyer_selection_ref", "selected_at"],
+      "properties": {
+        "buyer_selection_ref": {"type": ["string", "null"], "maxLength": 500},
+        "selected_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "disclosure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["public_disclosure_confirmed", "contains_secrets", "contains_private_customer_data", "contains_private_prompts", "contains_credentials", "contains_confidential_bid_data"],
+      "properties": {
+        "public_disclosure_confirmed": {"const": true},
+        "contains_secrets": {"const": false},
+        "contains_private_customer_data": {"const": false},
+        "contains_private_prompts": {"const": false},
+        "contains_credentials": {"const": false},
+        "contains_confidential_bid_data": {"const": false}
+      }
+    }
+  }
+}
