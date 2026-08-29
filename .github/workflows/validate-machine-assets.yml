@@ -95,5 +95,8 @@ jobs:
       - name: Validate data residency profile
         run: python scripts/validate_data_residency.py templates/DATA_RESIDENCY_PROFILE.json
 
+      - name: Validate complaint redress template
+        run: python scripts/validate_complaint_redress.py templates/COMPLAINT_REDRESS_RECORD.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'

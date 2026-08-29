@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "complaint-redress-example",
+  "status": "received",
+  "updated_at": "2026-08-28T23:50:00Z",
+  "repository_resources": ["docs/AGENT_CUSTOMER_REDRESS.md", "schemas/complaint-redress-record.schema.json"],
+  "complainant": {
+    "safe_id": "anonymous-or-pseudonymous",
+    "channel_discoverable": true,
+    "human_escalation_available": true
+  },
+  "scope": {
+    "tenant_ref": "tenant-safe-ref",
+    "agent_id": null,
+    "release_id": null,
+    "disputed_action_id": null
+  },
+  "triage": {
+    "categories": ["other"],
+    "severity": "medium",
+    "owner": null,
+    "human_review_required": false
+  },
+  "allegation": {"summary": "Complaint received; allegation not yet established as fact."},
+  "facts": [],
+  "interpretation": {"summary": "Investigation not yet complete.", "uncertainty_material": true},
+  "decision": {
+    "disposition": "pending",
+    "rationale": "No disposition before evidence review.",
+    "decision_maker": null,
+    "independent_from_execution_agent": false,
+    "evidence_ids": []
+  },
+  "remediation": {
+    "consequential": false,
+    "requested": [],
+    "executed": [],
+    "verified": false,
+    "idempotency_key": null,
+    "evidence_ids": []
+  },
+  "appeal": {
+    "requested": false,
+    "independent_review_required": false,
+    "independent_reviewer": null,
+    "resolved": false
+  },
+  "preservation": {
+    "hold_active": false,
+    "evidence_preserved": false,
+    "deletion_blocked_while_held": true
+  },
+  "communication": {
+    "acknowledged": false,
+    "decision_delivered": false,
+    "evidence_ids": []
+  },
+  "authority": {
+    "can_approve_consequential_remedy": false,
+    "can_close": false,
+    "evidence_ids": []
+  },
+  "evidence": [],
+  "privacy": {
+    "contains_credentials": false,
+    "contains_private_customer_data": false,
+    "contains_raw_private_prompts": false,
+    "contains_payment_data": false,
+    "contains_privileged_legal_advice": false,
+    "public_disclosure_confirmed": true
+  }
+}
