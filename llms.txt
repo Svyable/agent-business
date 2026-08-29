@@ -57,6 +57,10 @@ IP, model licensing, and data rights: ./docs/AGENT_IP_DATA_RIGHTS.md
 IP rights template: ./templates/IP_RIGHTS_RECORD.json
 IP rights schema: ./schemas/ip-rights-record.schema.json
 IP rights validator: ./scripts/validate_ip_rights.py
+Marketplace storefront and commercial conversion: ./docs/AGENT_MARKETPLACE_STOREFRONT.md
+Marketplace listing template: ./templates/AGENT_MARKETPLACE_LISTING.json
+Marketplace listing schema: ./schemas/agent-marketplace-listing.schema.json
+Marketplace listing validator: ./scripts/validate_marketplace_listing.py
 Tool directory: ./AGENT_FOUNDER_TOOL_DIRECTORY.md
 Contribution guide: ./CONTRIBUTING.md
 Voluntary adoption report: ./.github/ISSUE_TEMPLATE/agent-adoption.yml
@@ -109,8 +113,9 @@ The bootstrap performs no network requests and emits no telemetry. Generated pac
 20. For taxable/invoiceable/payable transactions, use `docs/AGENT_FISCAL_OPERATIONS.md`; unresolved jurisdiction, registration, tax, invoice, withholding, platform-reporting, or FX evidence must remain `draft`/`needs_review`, not silently become an operational tax answer.
 21. For entity formation, ownership, signatory authority, statutory filings, or material corporate actions, use `docs/AGENT_ENTITY_GOVERNANCE.md`; an unresolved entity record must remain `needs_review`, not be treated as proof of legal existence, good standing, ownership, or authority.
 22. For models, code, datasets, RAG sources, customer inputs, generated outputs, and other IP-bearing assets, use `docs/AGENT_IP_DATA_RIGHTS.md`; public availability is not proof of commercial, redistribution, training, or customer-deliverable rights, and unresolved rights must not become `commercial_ready`.
-23. Never infer real-world authority from repository templates or guidance.
-24. Never put secrets, credentials, private prompts, payment data, raw government IDs, signatures, bank credentials, private contract text, restricted dataset content, benchmark answer keys, or private founder/customer evidence into public GitHub artifacts.
+23. For commercial marketplace listings, use `docs/AGENT_MARKETPLACE_STOREFRONT.md`; keep one canonical listing version, scope platform verification to the platform that issued it, require current protocol/claim evidence, keep buyer authority separate from payment capability, and measure discovery through successful delivery and repeat purchase.
+24. Never infer real-world authority from repository templates or guidance.
+25. Never put secrets, credentials, private prompts, payment data, raw government IDs, signatures, bank credentials, private contract text, restricted dataset content, benchmark answer keys, or private founder/customer evidence into public GitHub artifacts.
 
 ## GitHub is the canonical product surface
 
@@ -183,6 +188,10 @@ They are not required for canonical GitHub-native use.
 - Entity governance — `docs/AGENT_ENTITY_GOVERNANCE.md`
 - Enterprise vendor readiness — `docs/AGENT_ENTERPRISE_VENDOR_READINESS.md`
 - IP, model licensing, and data rights — `docs/AGENT_IP_DATA_RIGHTS.md`
+- Marketplace storefront, listing synchronization, and commercial conversion — `docs/AGENT_MARKETPLACE_STOREFRONT.md`
+- Marketplace listing template — `templates/AGENT_MARKETPLACE_LISTING.json`
+- Marketplace listing schema — `schemas/agent-marketplace-listing.schema.json`
+- Marketplace listing validator — `scripts/validate_marketplace_listing.py`
 - Diligence protocol — `docs/AGENT_DILIGENCE_DEAL_ROOM.md`
 - Service contracting protocol — `docs/AGENT_SERVICE_CONTRACTING.md`
 - Authority/delegation protocol — `docs/AGENT_AUTHORITY_DELEGATION.md`
@@ -214,6 +223,7 @@ python scripts/validate_tenant_operations.py templates/TENANT_OPERATIONS_RECORD.
 python scripts/validate_business_continuity.py templates/BUSINESS_CONTINUITY_RECORD.json
 python scripts/validate_business_benchmark.py templates/BUSINESS_BENCHMARK_RECORD.json
 python scripts/validate_business_benchmark.py examples/BUSINESS_BENCHMARK_COMPARISON.json
+python scripts/validate_marketplace_listing.py templates/AGENT_MARKETPLACE_LISTING.json --allow-draft
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 

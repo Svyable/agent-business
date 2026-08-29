@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "listing_id": "draft-agent-listing",
+  "listing_version": "0.1.0",
+  "updated_at": "2026-08-29T13:00:00Z",
+  "status": "draft",
+  "provider": {
+    "display_name": "Replace before publication",
+    "identity_ref": "replace-before-publication",
+    "canonical_url": "https://example.invalid/agent"
+  },
+  "capability": {
+    "capability_id": "replace.capability",
+    "name": "Replace with one narrow buyer job",
+    "summary": "Replace with a concrete capability description that states inputs, outputs, important constraints, and the business job performed.",
+    "categories": ["replace-category"],
+    "synonyms": [],
+    "inputs": ["replace-input"],
+    "outputs": ["replace-output"],
+    "human_review": "buyer_selectable",
+    "regions": ["unknown-until-reviewed"],
+    "protocols": [
+      {
+        "id": "protocol-001",
+        "protocol": "https_api",
+        "version": "draft",
+        "endpoint": "https://example.invalid/api",
+        "evidence_ids": []
+      }
+    ]
+  },
+  "pricing": {
+    "model": "undecided",
+    "currency": null,
+    "headline": null,
+    "minimum_commitment_minor": null,
+    "variable_components": [],
+    "terms_url": null
+  },
+  "buyer_qualification": {
+    "requires_authority_proof": true,
+    "automatic_purchase_allowed": false,
+    "acceptance_criteria_required": true,
+    "max_autonomous_purchase_minor": null,
+    "data_constraints": ["Do not send private customer data until data handling and authority are reviewed."]
+  },
+  "claims": [
+    {
+      "id": "claim-001",
+      "statement": "Draft only: replace this with a scoped claim supported by evidence before publication.",
+      "classification": "editorial_interpretation",
+      "marketplace_id": null,
+      "evidence_ids": [],
+      "expires_at": null
+    }
+  ],
+  "evidence": [],
+  "marketplaces": [],
+  "conversion": {
+    "events": [
+      "listing_discovered",
+      "capability_inspected",
+      "buyer_qualified",
+      "quote_or_checkout_started",
+      "paid_transaction",
+      "successful_delivery",
+      "repeat_purchase"
+    ]
+  },
+  "privacy": {
+    "public_disclosure_confirmed": true,
+    "contains_secrets": false,
+    "contains_private_customer_data": false,
+    "contains_private_prompts": false,
+    "contains_credentials": false
+  }
+}
