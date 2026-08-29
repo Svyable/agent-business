@@ -1,4 +1,3 @@
-import copy
 import importlib.util
 import json
 import unittest
@@ -49,7 +48,8 @@ class AgentDemandTests(unittest.TestCase):
         self.assertEqual(MOD.validate_record(starter(), allow_draft=True), [])
 
     def test_draft_requires_flag(self):
-        self.assert_invalid(starter(), "--allow-draft")
+        errors = MOD.validate_record(starter(), allow_draft=False)
+        self.assertTrue(any("--allow-draft" in error for error in errors), errors)
 
     def test_verified_demand_requires_authority(self):
         record = commercial()
