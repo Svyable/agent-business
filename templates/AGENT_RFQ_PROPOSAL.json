@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "proposal_id": "proposal.example-draft",
+  "proposal_version": "0.1.0",
+  "updated_at": "2026-08-29T18:00:00Z",
+  "status": "draft",
+  "request": {
+    "request_id": "request.example",
+    "request_version": "1.0.0",
+    "request_digest": "sha256:replace-with-request-digest",
+    "bid_closes_at": null
+  },
+  "seller": {
+    "listing_id": "listing.example",
+    "listing_version": "0.1.0",
+    "listing_updated_at": "2026-08-29T18:00:00Z",
+    "listing_evidence_state": "unknown",
+    "listing_evidence_expires_at": null,
+    "authority_state": "none",
+    "authority_evidence_ref": null,
+    "authority_effective_at": null,
+    "authority_expires_at": null
+  },
+  "offer": {
+    "currency": null,
+    "total_price_minor": null,
+    "pricing_basis": "undecided",
+    "valid_until": null,
+    "submitted_at": null,
+    "delivery_due_at": null,
+    "capacity_units": null,
+    "capacity_unit": null,
+    "assumptions": []
+  },
+  "service_levels": {
+    "availability_target": null,
+    "p95_latency_seconds": null,
+    "completion_deadline_seconds": null,
+    "human_review": "unknown"
+  },
+  "compatibility": {
+    "protocols": [],
+    "regions": [],
+    "data_constraints": [],
+    "compliance_constraints": [],
+    "dependencies": []
+  },
+  "deviations": [],
+  "eligibility": {
+    "all_hard_requirements_satisfied": false,
+    "eligible_for_award": false,
+    "unresolved_hard_requirement_ids": ["not-yet-evaluated"],
+    "evaluated_against_request_version": "1.0.0"
+  },
+  "payment": {
+    "rail": null,
+    "asset_or_currency": null,
+    "settlement_semantics": null,
+    "payment_terms": null
+  },
+  "acceptance": {
+    "request_criteria_acknowledged": false,
+    "seller_acceptance_notes": []
+  },
+  "normalization": {
+    "comparison_currency": null,
+    "comparable_total_minor": null,
+    "quantity": null,
+    "quantity_unit": null,
+    "normalization_method": "Not normalized; draft only."
+  },
+  "selection": {
+    "buyer_selection_ref": null,
+    "selected_at": null
+  },
+  "disclosure": {
+    "public_disclosure_confirmed": true,
+    "contains_secrets": false,
+    "contains_private_customer_data": false,
+    "contains_private_prompts": false,
+    "contains_credentials": false,
+    "contains_confidential_bid_data": false
+  }
+}
