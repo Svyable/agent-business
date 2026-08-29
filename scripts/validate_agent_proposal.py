@@ -189,10 +189,11 @@ def validate_record(record: object, allow_draft: bool = False) -> list[str]:
     # Comparison fields must not silently rewrite commercial truth.
     comparison_currency = normalization.get("comparison_currency")
     comparable_total = normalization.get("comparable_total_minor")
+    normalization_method = str(normalization.get("normalization_method", "")).strip().lower()
     if comparable_total is not None and comparison_currency is None:
         errors.append("normalized total requires comparison_currency")
     if offer.get("currency") == comparison_currency and offer.get("total_price_minor") is not None and comparable_total is not None:
-        if offer.get("total_price_minor") != comparable_total and "fx" not in str(normalization.get("normalization_method", "")).lower() and "adjust" not in str(normalization.get("normalization_method", "")).lower():
+        if offer.get("total_price_minor") != comparable_total and not normalization_method.startswith(("adjusted:", "fx:")):
             errors.append("same-currency normalized total differs without an explicit adjustment method")
 
     if payment.get("asset_or_currency") and offer.get("currency") and payment.get("asset_or_currency") != offer.get("currency"):
