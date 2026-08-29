@@ -119,6 +119,17 @@ A useful progression is:
 
 Do not productize faster than the evidence supports.
 
+## Alternative path: acquire existing demand
+
+A founder does not have to start with zero customers. Another model is to **buy, partner with, or become the operating layer behind an existing service business**, then use agents to improve the workflows serving an already-established customer base.
+
+Use the dedicated acquire-and-automate playbook to screen targets, separate existing business value from unproven automation upside, preserve tacit operating knowledge, run pre-commitment workflow proofs, plan the first 100 days, and decide whether building, partnering, or acquiring is actually justified:
+
+- [`ACQUIRE_AUTOMATE_SMB.md`](ACQUIRE_AUTOMATE_SMB.md)
+- [`../templates/ACQUIRE_AUTOMATE_THESIS.md`](../templates/ACQUIRE_AUTOMATE_THESIS.md)
+
+The key rule is simple: **do not pay today for automation savings that only exist in a future-state spreadsheet.**
+
 ## Avoid these traps
 
 - “AI for everyone” with no narrow buyer.
@@ -128,6 +139,7 @@ Do not productize faster than the evidence supports.
 - Fully autonomous high-stakes decisions without appropriate human review.
 - A marketplace with neither side already available.
 - Building an agent platform before you know which workflow customers value.
+- Acquiring a weak business because an AI story makes the spreadsheet look better.
 
 ## Pick your wedge
 
