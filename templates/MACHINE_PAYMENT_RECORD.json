@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0.0",
+  "payment_id": "pay_example_001",
+  "status": "proposed",
+  "updated_at": "2026-08-29T00:00:00Z",
+  "commercial_obligation": {
+    "type": "api_usage",
+    "reference": "order_public_example_001",
+    "purpose": "Disclosure-safe example only; replace with an authorized commercial obligation."
+  },
+  "parties": {
+    "payer_agent_id": "agent_example",
+    "payer_principal_ref": "principal_public_ref",
+    "payee_ref": "merchant_public_ref"
+  },
+  "authorization": {
+    "authority_ref": "authority_policy_example",
+    "approved_payee_ref": "merchant_public_ref",
+    "amount_limit": 0,
+    "currency_or_asset": "USD",
+    "valid_from": "2026-08-29T00:00:00Z",
+    "valid_until": "2026-08-29T00:00:00Z",
+    "evidence_ids": ["ev_authority"]
+  },
+  "execution": {
+    "rail": "card",
+    "provider": "not_configured",
+    "amount": 0,
+    "currency_or_asset": "USD",
+    "transaction_ref": null,
+    "idempotency_key": "pay_example_001_attempt_1",
+    "attempt": 1,
+    "submitted_at": null
+  },
+  "settlement": {
+    "state": "not_submitted",
+    "finality_basis": null,
+    "confirmation_ref": null,
+    "settled_at": null,
+    "evidence_ids": []
+  },
+  "economics": {
+    "principal_amount": 0,
+    "fees": 0,
+    "fx_cost": 0,
+    "slippage": 0,
+    "total_cash_cost": 0
+  },
+  "reconciliation": {
+    "status": "not_started",
+    "invoice_or_usage_ref": null,
+    "treasury_ref": null,
+    "audit_ref": null,
+    "evidence_ids": []
+  },
+  "dispute": {
+    "active": false,
+    "allegation": null,
+    "decision": null,
+    "evidence_ids": []
+  },
+  "reversal": {
+    "requested": false,
+    "executed": false,
+    "amount": null,
+    "idempotency_key": null,
+    "evidence_ids": []
+  },
+  "authority": {
+    "can_execute_payment": false,
+    "can_declare_settled": false,
+    "can_reverse_or_refund": false,
+    "can_close": false,
+    "evidence_ids": ["ev_authority"]
+  },
+  "evidence": [
+    {
+      "id": "ev_authority",
+      "type": "authorization_policy",
+      "status": "current",
+      "observed_at": "2026-08-29T00:00:00Z",
+      "reference": "public-or-private-evidence-pointer-without-secrets"
+    }
+  ],
+  "privacy": {
+    "contains_credentials": false,
+    "contains_private_keys": false,
+    "contains_card_data": false,
+    "contains_bank_credentials": false,
+    "contains_seed_phrases": false,
+    "contains_bearer_tokens": false,
+    "public_disclosure_confirmed": true
+  }
+}
