@@ -1,27 +1,25 @@
 # Agent Marketplace Storefronts, Listings & Commercial Conversion
 
-Agent businesses are moving from a world where discovery means "someone found my website" to a world where software buyers can search, compare, qualify, invoke, pay, and repurchase another software agent.
+Agent businesses are moving from a world where discovery means "someone found my website" to a world where software buyers can search, compare, qualify, invoke, pay, verify delivery, and repurchase another software agent.
 
 That creates a new founder job:
 
 > **Maintain one canonical commercial truth that machines can safely compare and marketplaces can project without drifting.**
 
-A public listing is not merely marketing copy. For an autonomous buyer it can become an input to a purchase decision.
-
-That means stale price, unsupported protocol metadata, an over-broad verification badge, or an ambiguous acceptance rule can turn a distribution mistake into a transaction mistake.
+A marketplace listing is not merely marketing copy. For an autonomous buyer it can become an input to a purchase decision. Stale pricing, unsupported protocols, ambiguous service levels, over-broad verification badges, hidden dependencies, or unclear payment semantics can therefore turn a distribution mistake into a transaction mistake.
 
 This playbook treats marketplace listings as versioned commercial operating artifacts.
 
 It complements:
 
 - `docs/AGENT_DISCOVERY_DISTRIBUTION.md` — how capabilities become discoverable,
-- `docs/AGENT_CAPABILITY_ASSURANCE.md` — how capability claims become evidence-backed,
-- `docs/AGENT_PRICING_PACKAGING.md` when present — how price/package logic is governed,
+- `docs/AGENT_CAPABILITY_ASSURANCE.md` — how performance claims become scoped evidence,
+- `docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md` — how pricing and commercial authority are governed,
 - `docs/AGENT_SERVICE_CONTRACTING.md` — how delivery and acceptance become contractual,
-- `docs/AGENT_AUTHORITY_DELEGATION.md` — how buyer/seller authority is bounded,
-- machine-payment and recurring-mandate resources — how payment authority and settlement work.
+- `docs/AGENT_AUTHORITY_DELEGATION.md` — how buyer and seller authority are bounded,
+- `docs/AGENT_MACHINE_PAYMENTS.md` — how machine-speed payment and settlement are controlled.
 
-The marketplace storefront layer binds those systems into the thing a buyer actually sees and acts on.
+The storefront layer binds those systems into the commercial object a buyer actually evaluates.
 
 ---
 
@@ -33,8 +31,8 @@ Use an explicit lifecycle rather than treating every uploaded profile as equally
 draft
   -> evidence_reviewed
   -> published
-  -> discovered
-  -> inspected
+  -> listing_discovered
+  -> capability_inspected
   -> buyer_qualified
   -> quote_or_checkout_started
   -> paid_transaction
@@ -42,7 +40,7 @@ draft
   -> repeat_purchase
 ```
 
-Operational states such as suspension and retirement can occur after publication:
+Operational states can branch after publication:
 
 ```text
 published -> suspended -> published
@@ -52,14 +50,18 @@ published -> retired
 A listing should be publishable only when:
 
 - provider identity is explicit,
-- capability scope is narrow enough to compare,
-- supported protocols are reachable and evidenced,
-- pricing semantics are reconstructable,
+- the capability is narrow enough to compare,
+- inputs and outputs are explicit,
+- service levels are explicit,
+- dependencies and compliance constraints are visible,
+- supported protocols are current and evidenced,
+- pricing is reconstructable,
+- advertised payment options are current and evidenced,
 - material claims are classified and evidenced,
-- marketplace-specific verification is scoped to that marketplace,
+- marketplace verification is scoped to the marketplace that issued it,
 - buyer authority and acceptance requirements are explicit,
 - privacy-safe public disclosure is confirmed,
-- every active marketplace copy represents the current canonical listing version.
+- every live marketplace copy represents the current canonical version.
 
 ---
 
@@ -73,14 +75,14 @@ Maintain one canonical record:
 canonical listing record
         |
         +--> own website / API catalog
-        +--> MCP registry metadata
-        +--> A2A directory / Agent Card projection
+        +--> MCP registry projection
+        +--> A2A / Agent Card projection
         +--> cloud marketplace listing
         +--> private enterprise catalog
-        +--> vertical marketplace
+        +--> vertical agent marketplace
 ```
 
-The channel may require a different schema or prose format. The underlying business truth should remain the same.
+Each channel may require a different schema or prose format. The underlying business truth should remain the same.
 
 Canonical fields should include:
 
@@ -92,39 +94,40 @@ Canonical fields should include:
 - categories and synonyms,
 - inputs and outputs,
 - human-review mode,
-- supported regions,
+- regions,
+- service-level expectations,
+- dependencies,
+- compliance constraints,
 - protocol/version/endpoint metadata,
 - pricing model and currency,
 - minimum commitment,
 - variable price components,
+- advertised payment and settlement options,
 - buyer qualification requirements,
 - claims and their evidence,
 - marketplace projection state,
 - conversion event contract,
-- privacy flags.
+- public-data safety flags.
 
-The repository starter is:
-
-```text
-templates/AGENT_MARKETPLACE_LISTING.json
-```
-
-The schema is:
+Canonical artifacts:
 
 ```text
+docs/AGENT_MARKETPLACE_STOREFRONT.md
 schemas/agent-marketplace-listing.schema.json
+templates/AGENT_MARKETPLACE_LISTING.json
+scripts/validate_marketplace_listing.py
 ```
 
-The semantic validator is:
-
-```bash
-python scripts/validate_marketplace_listing.py <record>
-```
-
-Validate the safe draft starter with:
+Validate the safe starter:
 
 ```bash
 python scripts/validate_marketplace_listing.py templates/AGENT_MARKETPLACE_LISTING.json --allow-draft
+```
+
+Validate a real publication candidate:
+
+```bash
+python scripts/validate_marketplace_listing.py path/to/listing.json
 ```
 
 ---
@@ -155,14 +158,22 @@ Broad identities are difficult to price, benchmark, qualify, accept, and compare
 A narrow capability lets the buyer reason about:
 
 ```text
-fit + price + latency + evidence + authority + risk + acceptance
+fit
++ price
++ service level
++ dependencies
++ evidence
++ authority
++ risk
++ payment path
++ acceptance
 ```
 
-That makes machine selection possible.
+That makes machine selection substantially safer.
 
 ---
 
-## 4. Design capability metadata for retrieval and purchase
+## 4. Design metadata for retrieval and purchase
 
 A useful commercial capability record should answer:
 
@@ -172,11 +183,15 @@ A useful commercial capability record should answer:
 4. What actions or side effects can occur?
 5. Is human review required?
 6. Which protocols can invoke it?
-7. Which regions or constraints apply?
-8. What does it cost?
-9. What evidence supports the material claims?
-10. What must the buyer prove before purchase?
-11. What constitutes successful delivery?
+7. Which regions apply?
+8. What service level should the buyer plan around?
+9. Which dependencies must exist first?
+10. Which compliance constraints narrow use?
+11. What does it cost?
+12. Which payment options are actually available?
+13. What evidence supports the material claims?
+14. What must the buyer prove before purchase?
+15. What constitutes successful delivery?
 
 ### Categories
 
@@ -202,7 +217,7 @@ automation
 
 Machines may search for the same job using different language.
 
-For invoice reconciliation, useful synonyms might include:
+For invoice reconciliation:
 
 ```text
 invoice matching
@@ -212,11 +227,75 @@ three-way match
 vendor invoice validation
 ```
 
-Do not stuff unrelated keywords into the listing. Relevance is more valuable than raw impressions.
+Do not stuff unrelated keywords into the listing. Qualified selection is more valuable than raw impressions.
 
 ---
 
-## 5. Protocol support is a claim
+## 5. Service levels belong in the storefront
+
+A buyer planning a multi-agent workflow needs more than a capability name.
+
+Useful service-level fields include:
+
+- availability target,
+- p95 latency,
+- maximum completion deadline,
+- support or escalation window.
+
+Not every seller can promise all four. Unknown is better than invented precision.
+
+For a published listing, however, expose at least one meaningful service-level value so a buyer does not have to infer that the service is instantaneous, always available, or supported 24/7.
+
+Example:
+
+```json
+{
+  "availability_target": 0.995,
+  "p95_latency_seconds": 90,
+  "completion_deadline_seconds": 300,
+  "support_window": "business-hours escalation"
+}
+```
+
+A target is not the same as measured historical performance. If you advertise an observed reliability claim, attach evidence through the claim system.
+
+---
+
+## 6. Dependencies and compliance constraints must be visible before purchase
+
+An agent can appear compatible while depending on hidden prerequisites.
+
+Examples of dependencies:
+
+- buyer-provided CRM access,
+- a particular accounting system,
+- a supported data format,
+- a minimum knowledge-base freshness level,
+- a customer-managed identity provider,
+- a human approver,
+- a third-party API that must already be licensed.
+
+Examples of compliance constraints:
+
+- not approved for payment execution,
+- no medical diagnosis,
+- EU-only data processing configuration required,
+- no regulated securities advice,
+- no export-controlled data,
+- customer must have rights to supplied documents.
+
+These fields improve two things at once:
+
+```text
+retrieval precision
++ pre-purchase qualification
+```
+
+A marketplace that hides them may generate more clicks but worse conversion and more disputes.
+
+---
+
+## 7. Protocol support is a claim
 
 Advertising A2A, MCP, HTTPS API, or another interface is not a decorative badge.
 
@@ -227,8 +306,7 @@ Every published protocol entry should include:
 - protocol type,
 - supported version,
 - current endpoint,
-- evidence that the endpoint/protocol works,
-- freshness or expiry where appropriate.
+- current evidence that the endpoint/protocol works.
 
 Useful evidence includes:
 
@@ -238,9 +316,9 @@ Useful evidence includes:
 - reachable metadata endpoint,
 - versioned API documentation.
 
-### Failure rule
+### Change rule
 
-If a model, deployment, gateway, domain, authentication method, or protocol adapter changes materially:
+If a deployment, domain, authentication method, transport, protocol adapter, or incompatible behavior changes materially:
 
 ```text
 mark affected evidence stale
@@ -250,13 +328,13 @@ mark affected evidence stale
 -> re-project affected marketplaces
 ```
 
-Do not advertise protocol support because it worked six months ago.
+Do not advertise protocol support because it worked months ago.
 
 ---
 
-## 6. Price must be machine-reconstructable
+## 8. Price must be machine-reconstructable
 
-A listing that says "starting at $5" while hiding a $500 monthly commitment is not machine-readable pricing.
+A listing that says "starting at $5" while hiding a $500 minimum is not machine-readable pricing.
 
 Represent separately:
 
@@ -264,13 +342,11 @@ Represent separately:
 - currency,
 - headline pricing description,
 - minimum commitment,
-- usage unit,
+- usage or outcome unit,
 - variable components,
-- platform fees where known,
-- taxes where separately determined,
-- commercial terms reference.
+- current commercial terms reference.
 
-Examples of pricing models:
+Examples:
 
 ### Fixed
 
@@ -300,39 +376,39 @@ $40 per verified qualified meeting
 
 ### Quote
 
-Use `quote` when the price genuinely requires scope review.
-
-Do not publish fake precision merely to satisfy a schema.
-
-For a quote-based service, say what the quote depends on:
-
-- task volume,
-- data volume,
-- review requirement,
-- risk tier,
-- SLA,
-- custom integrations,
-- deployment model.
+Use `quote` when the price genuinely requires scope review. State the variables that drive the quote instead of inventing false precision.
 
 ---
 
-## 7. Separate price from payment connectivity
+## 9. Payment options are capabilities, not authority
 
-A marketplace may show that a provider accepts a payment rail.
+If the listing advertises a card rail, bank transfer, marketplace balance, stablecoin rail, machine-payment protocol, or another settlement option, treat that as a current capability claim.
 
-That does **not** mean:
+A payment option should state:
 
-- the buyer has authority to spend,
-- the seller has accepted the requested scope,
-- the transaction terms are current,
-- the requested task is permitted,
-- successful settlement proves successful delivery.
+- rail,
+- asset or currency,
+- settlement semantics,
+- current evidence that the option is available.
+
+Example:
+
+```json
+{
+  "id": "marketplace-card",
+  "rail": "marketplace-card-settlement",
+  "asset_or_currency": "USD",
+  "settlement_semantics": "Marketplace charges buyer and settles under current payout terms; settlement is not service acceptance.",
+  "evidence_ids": ["payment-capability-2026-08"]
+}
+```
 
 Keep these concepts separate:
 
 ```text
 commercial offer
 purchase authority
+payment capability
 payment execution
 settlement
 service delivery
@@ -340,13 +416,15 @@ acceptance
 remedy / dispute
 ```
 
-A wallet, card, tokenized credential, or payment protocol is a payment capability—not purchase authority.
+A wallet balance, card credential, payment token, or connected rail does not prove that the buying agent is authorized to spend.
+
+Likewise, successful settlement does not prove that the promised service outcome was delivered or accepted.
 
 ---
 
-## 8. Buyer qualification should happen before consequential execution
+## 10. Buyer qualification should precede consequential purchase
 
-An autonomous buyer should not be able to turn "I found a listing" into an irreversible purchase without satisfying the seller's commercial gate.
+An autonomous buyer should not turn "I found a listing" into an irreversible purchase without satisfying the seller's commercial gate.
 
 A buyer qualification contract should answer:
 
@@ -358,8 +436,8 @@ A buyer qualification contract should answer:
 - Is automatic purchase allowed?
 - What is the maximum autonomous purchase amount?
 - What customer data will be sent?
-- What data restrictions apply?
-- What regions/jurisdictions matter?
+- What restrictions apply to that data?
+- What regions or jurisdictions matter?
 - What escalation path exists?
 
 ### Automatic purchase
@@ -370,7 +448,9 @@ If `automatic_purchase_allowed` is true, require at minimum:
 - explicit acceptance criteria,
 - a positive bounded purchase cap.
 
-That is enforced by the repository validator.
+For a paid published listing, automatic purchase should also require at least one currently evidenced payment option.
+
+The repository validator enforces these boundaries.
 
 Do not infer authority from:
 
@@ -383,7 +463,7 @@ Do not infer authority from:
 
 ---
 
-## 9. Verification must stay inside its scope
+## 11. Verification must stay inside its scope
 
 Marketplaces increasingly attach signals such as:
 
@@ -402,13 +482,13 @@ These signals are useful only when their scope is preserved.
 A marketplace's "verified" badge might mean:
 
 - domain control was verified,
-- GitHub ownership was linked,
+- repository ownership was linked,
 - legal entity documents were reviewed,
 - an endpoint responded,
 - a package passed malware scanning,
 - an internal marketplace policy check passed.
 
-Those are very different claims.
+Those are different claims.
 
 Never convert:
 
@@ -422,9 +502,7 @@ into:
 universally verified agent
 ```
 
-The canonical record therefore attaches badge evidence to the specific marketplace and records a plain-language scope.
-
-Example:
+The canonical record attaches badge evidence to the exact marketplace and requires a plain-language scope.
 
 ```json
 {
@@ -434,11 +512,11 @@ Example:
 }
 ```
 
-The validator rejects badge evidence that belongs to another marketplace.
+The validator rejects badge evidence issued by another marketplace.
 
 ---
 
-## 10. Keep claim classes explicit
+## 12. Keep claim classes explicit
 
 Every material public claim should be classified.
 
@@ -446,65 +524,49 @@ Every material public claim should be classified.
 
 The provider says it is true.
 
-Example:
-
-```text
-The service supports 10,000 records per batch.
-```
-
-Self-asserted does not mean false. It means the evidence source is the provider.
-
 ### `platform_verified`
 
-A named marketplace verified something under its own process.
-
-Always record which marketplace.
+A named marketplace verified something under its own process. Always record which marketplace.
 
 ### `customer_signal`
 
-A customer rating, review, repeat purchase, or other customer-originated signal.
-
-Do not present one review as representative performance.
+A customer review, repeat purchase, or other customer-originated signal. One review is not representative performance.
 
 ### `benchmark_evidence`
 
-A claim supported by a benchmark or evaluation artifact.
-
-Keep the benchmark scope, version, and freshness intact.
+A claim supported by a benchmark or evaluation artifact. Preserve workload scope, version, and freshness.
 
 ### `editorial_interpretation`
 
-A conclusion or explanation made by the publisher or repository editor.
+A conclusion or explanation made by the provider/editor. It may explain evidence but should not masquerade as observed fact.
 
-Editorial interpretation may explain evidence but should not masquerade as observed fact.
+Published non-editorial claims should always reference current evidence.
 
 ---
 
-## 11. Ratings and reviews are not ground truth
+## 13. Ratings and reviews are not ground truth
 
-Reputation systems can be manipulated.
-
-Potential failure modes include:
+Reputation systems can be manipulated through:
 
 - self-dealing purchases,
 - Sybil identities,
 - reciprocal reviews,
 - incentivized ratings,
 - wash transactions,
-- selective requests for reviews,
+- selective review requests,
 - review brigading,
-- transaction splitting to increase counts,
+- transaction splitting,
 - fake usage volume.
 
 Treat reputation as a weighted signal rather than a universal score.
 
-A useful buyer might combine:
+A stronger buyer model combines:
 
 ```text
 provider identity confidence
-+ current protocol reachability
++ protocol reachability
 + benchmark evidence
-+ verified successful deliveries
++ successful-delivery receipts
 + dispute history
 + customer signals
 + evidence freshness
@@ -514,7 +576,7 @@ No single badge should dominate all of those dimensions.
 
 ---
 
-## 12. Projection drift is a revenue and trust bug
+## 14. Projection drift is a revenue and trust bug
 
 Suppose the canonical service changes from:
 
@@ -536,17 +598,17 @@ The same problem occurs with:
 
 - retired endpoints,
 - unsupported regions,
-- deprecated models,
-- changed SLAs,
+- changed service levels,
+- new dependencies,
+- changed compliance constraints,
 - removed integrations,
 - new human-review requirements,
+- changed payment rails,
 - updated terms,
 - expired evidence,
 - suspended capabilities.
 
-### Projection rule
-
-Every published marketplace copy records:
+Every published marketplace copy should record:
 
 - canonical listing version projected,
 - last sync timestamp,
@@ -563,19 +625,17 @@ increment listing version
 -> revalidate
 ```
 
-The validator rejects a published marketplace copy when its projected version does not equal the current canonical version or when its sync predates the canonical update.
+The validator rejects a published marketplace copy when its projected version differs from the canonical version or its sync predates the canonical update.
 
 ---
 
-## 13. Build adapters, not duplicate truth
+## 15. Build adapters, not duplicate truth
 
 When multiple marketplaces matter, write small projection adapters.
 
-Conceptually:
-
 ```text
 canonical JSON
-  -> A2A/Agent Card fields
+  -> A2A / Agent Card fields
   -> MCP registry/package metadata
   -> cloud marketplace form/export
   -> vertical marketplace API
@@ -589,17 +649,17 @@ They should not invent new commercial truth.
 If a marketplace requires a field the canonical record lacks:
 
 1. decide whether it is channel-specific or universally useful,
-2. if universally useful, extend the canonical record,
-3. if channel-specific, keep it in the marketplace projection metadata,
+2. if universally useful, extend the canonical contract,
+3. if channel-specific, keep it in projection metadata,
 4. preserve evidence and freshness.
 
 ---
 
-## 14. Optimize for verified paid delivery
+## 16. Optimize for verified paid delivery
 
 Listing impressions are not the business outcome.
 
-Track the whole funnel:
+Track the full funnel:
 
 ```text
 listing_discovered
@@ -611,65 +671,65 @@ listing_discovered
   -> repeat_purchase
 ```
 
-Useful rates include:
+Useful rates:
 
 ```text
-inspection rate
+inspection_rate
 = capability_inspected / listing_discovered
 
-qualification rate
+qualification_rate
 = buyer_qualified / capability_inspected
 
-paid conversion
+paid_conversion
 = paid_transaction / buyer_qualified
 
-delivery success
+delivery_success
 = successful_delivery / paid_transaction
 
-repeat rate
+repeat_rate
 = repeat_purchase / successful_delivery
 ```
 
-### What each failure suggests
+### Diagnose the leak
 
 High discovery, low inspection:
 
-- poor title/category match,
+- poor title/category fit,
 - vague capability,
-- weak marketplace positioning.
+- weak search positioning.
 
 High inspection, low qualification:
 
-- capability mismatch,
-- data/region constraints,
-- excessive authority requirements,
-- wrong buyer segment.
+- wrong buyer segment,
+- hidden dependency becoming visible late,
+- region/data/compliance incompatibility,
+- excessive authority requirements.
 
 High qualification, low purchase:
 
 - pricing friction,
 - missing trust evidence,
 - unclear terms,
-- checkout or payment friction.
+- weak payment options,
+- checkout friction.
 
 High purchase, low successful delivery:
 
-- product/reliability problem,
+- reliability problem,
 - acceptance mismatch,
-- overclaiming.
+- service-level overclaim,
+- dependency failure.
 
 High delivery, low repeat:
 
 - weak ROI,
-- poor retention fit,
-- transactional rather than recurring job,
+- poor recurring fit,
+- support friction,
 - price/value mismatch.
 
 ---
 
-## 15. Attribute conversion by marketplace
-
-A founder should know which distribution surfaces create profitable buyers.
+## 17. Attribute economics by marketplace
 
 For every channel, track:
 
@@ -680,28 +740,37 @@ For every channel, track:
 - repeat purchases,
 - gross revenue,
 - marketplace fees,
-- refunds/credits,
+- payment fees,
+- refunds and credits,
 - variable delivery cost,
-- contribution margin,
-- support burden.
+- channel-specific support burden.
 
 Then calculate:
 
 ```text
-channel contribution margin
-= channel revenue
-- marketplace fees
-- payment fees
-- variable delivery cost
-- refunds / credits
-- channel-specific support cost
+channel_contribution_margin
+= channel_revenue
+- marketplace_fees
+- payment_fees
+- variable_delivery_cost
+- refunds_and_credits
+- channel_specific_support_cost
 ```
 
 A marketplace with many views can be worse than a small directory that sends repeat buyers with low support burden.
 
+A useful top-level metric is:
+
+```text
+marketplace_contribution_per_qualified_buyer
+= channel_contribution_margin / qualified_buyers
+```
+
+Pair it with delivery success and repeat purchase rate.
+
 ---
 
-## 16. Treat marketplace terms as dependencies
+## 18. Treat marketplace terms as dependencies
 
 A marketplace can change:
 
@@ -730,56 +799,60 @@ Do not assume one marketplace's rules apply to another.
 
 ---
 
-## 17. Marketplace portability is strategic leverage
+## 19. Marketplace portability is strategic leverage
 
 A founder who can only sell through one marketplace has channel concentration risk.
 
-Portability improves when you own:
+Portability improves when the business owns:
 
 - canonical identity,
 - capability metadata,
 - pricing truth,
+- service-level definitions,
+- dependency/compliance definitions,
 - evidence,
 - benchmark records,
-- customer references you are authorized to use,
-- service contract definitions,
+- customer references it is authorized to use,
+- service-contract definitions,
 - payment reconciliation,
-- transaction receipts,
+- transaction and acceptance receipts,
 - customer relationship where permitted.
 
 Marketplace-specific ratings may not be portable.
 
-Your underlying evidence should be.
+The underlying evidence should be.
 
 ---
 
-## 18. Marketplace launch checklist
-
-Before publishing a commercial capability:
+## 20. Marketplace launch checklist
 
 ### Capability
 
 - [ ] one narrow buyer job,
 - [ ] stable capability ID,
 - [ ] concrete input/output contract,
-- [ ] clear side effects,
 - [ ] human-review mode explicit,
-- [ ] regions/constraints explicit.
+- [ ] regions explicit,
+- [ ] service levels explicit,
+- [ ] dependencies explicit,
+- [ ] compliance constraints explicit.
 
 ### Protocols
 
 - [ ] supported protocol/version listed,
 - [ ] endpoint reachable,
 - [ ] current protocol evidence attached,
-- [ ] authentication requirements documented outside public secrets.
+- [ ] authentication requirements documented without public secrets.
 
-### Pricing
+### Pricing and payment
 
-- [ ] model explicit,
+- [ ] pricing model explicit,
 - [ ] currency explicit for paid offers,
 - [ ] minimum commitment explicit, including zero,
 - [ ] variable components reconstructable,
-- [ ] current terms reference.
+- [ ] current terms reference,
+- [ ] every advertised payment option has current capability evidence,
+- [ ] settlement semantics do not imply delivery acceptance.
 
 ### Claims
 
@@ -787,22 +860,23 @@ Before publishing a commercial capability:
 - [ ] every non-editorial claim evidenced,
 - [ ] expiry/freshness defined where appropriate,
 - [ ] benchmark scope preserved,
-- [ ] no universalization of marketplace-specific badges.
+- [ ] marketplace badges remain platform-scoped.
 
 ### Buyer gate
 
 - [ ] authority proof requirement explicit,
 - [ ] acceptance criteria rule explicit,
-- [ ] autonomous purchase cap explicit if automatic purchase is enabled,
+- [ ] autonomous purchase cap explicit if enabled,
+- [ ] paid automatic checkout has an evidenced payment path,
 - [ ] data constraints explicit.
 
-### Marketplace projection
+### Projection
 
-- [ ] canonical listing version incremented,
+- [ ] canonical listing version incremented after material change,
 - [ ] each live marketplace copy updated,
 - [ ] sync timestamps recorded,
 - [ ] listing URLs recorded,
-- [ ] badges scoped to platform evidence.
+- [ ] badges scoped to their platform evidence.
 
 ### Conversion
 
@@ -816,141 +890,109 @@ Before publishing a commercial capability:
 
 ---
 
-## 19. Failure-mode evals
+## 21. Failure-mode evals
 
 Test these before depending on marketplace distribution.
 
-### 1. Stale capability claim
+### Stale capability evidence
 
-Change a material model/tool dependency without refreshing claim evidence.
+Change a material dependency without refreshing a public claim.
 
-Expected:
+Expected: publication/republication blocked.
 
-```text
-publication/republication blocked
-```
+### Unsupported protocol advertised
 
-### 2. Unsupported protocol advertised
+Advertise A2A/MCP/API support without current evidence.
 
-Mark A2A or MCP as supported without current endpoint evidence.
+Expected: published record rejected.
 
-Expected:
+### Payment rail advertised from memory
 
-```text
-published record rejected
-```
+List a payment rail whose capability evidence is stale or missing.
 
-### 3. Price changed without marketplace sync
+Expected: published payment option rejected.
 
-Increment canonical listing version after changing price but leave one marketplace on the prior projected version.
+### Price changed without marketplace sync
 
-Expected:
+Increment canonical version after changing price while one marketplace remains on the prior version.
 
-```text
-stale projection rejected
-```
+Expected: stale projection rejected.
 
-### 4. Verification badge treated as universal trust
+### Service level omitted
 
-Attach a marketplace badge using evidence from a different marketplace or omit its scope.
+Publish a listing with no meaningful service-level value.
 
-Expected:
+Expected: publication rejected.
 
-```text
-badge rejected
-```
+### Verification badge universalized
 
-### 5. Benchmark cherry-pick
+Attach a marketplace badge using evidence from another marketplace.
 
-Publish a performance claim with expired, stale, or missing benchmark evidence.
+Expected: badge rejected.
 
-Expected:
+### Benchmark cherry-pick
 
-```text
-claim rejected
-```
+Publish a performance claim with expired or stale benchmark evidence.
 
-### 6. Buyer lacks purchase authority
+Expected: claim rejected.
+
+### Buyer lacks purchase authority
 
 Enable automatic purchase without authority proof.
 
-Expected:
+Expected: automatic purchase rejected.
 
-```text
-automatic purchase rejected
-```
+### No acceptance criteria
 
-### 7. No acceptance criteria
+Enable automatic purchase without acceptance criteria.
 
-Enable automatic purchase without requiring acceptance criteria.
+Expected: automatic purchase rejected.
 
-Expected:
+### Paid auto-purchase without payment path
 
-```text
-automatic purchase rejected
-```
+Enable paid automatic purchase while advertising no evidenced payment option.
 
-### 8. Duplicate contradictory profiles
+Expected: automatic purchase rejected.
 
-Publish two marketplace copies that claim different canonical versions.
+### Settlement treated as service proof
 
-Expected:
+Mark a paid transaction as successful delivery without delivery/acceptance evidence in downstream systems.
 
-```text
-outdated projection identified and blocked from current state
-```
+Expected: funnel stops at `paid_transaction`.
 
-### 9. Rating manipulation
-
-Feed self-dealing or unverified review data into a universal quality claim.
-
-Expected:
-
-```text
-claim remains scoped or is excluded
-```
-
-### 10. Settlement treated as service proof
-
-Mark a paid transaction as successful delivery without acceptance evidence.
-
-Expected:
-
-```text
-conversion funnel stops at paid_transaction
-```
-
-### 11. Expired marketplace verification
+### Expired marketplace verification
 
 Let badge evidence expire while the badge remains public.
 
-Expected:
+Expected: published listing fails until refreshed or badge removed.
 
-```text
-published listing fails validation until refreshed or badge removed
-```
-
-### 12. Marketplace sync before canonical update
+### Sync before canonical update
 
 Record a marketplace sync timestamp older than the canonical listing update.
 
-Expected:
+Expected: projection rejected as stale.
 
-```text
-projection rejected as stale
-```
+### Sensitive data placed in listing
+
+Attempt to store API keys, credentials, private prompts, customer secrets, or payment credentials.
+
+Expected: validation fails closed.
 
 ---
 
-## 20. Operating cadence
+## 22. Operating cadence
 
 ### On every material capability change
 
 Review:
 
 - listing version,
+- service levels,
+- dependencies,
+- compliance constraints,
 - protocol evidence,
 - pricing,
+- payment options,
 - claims,
 - regions,
 - human-review mode,
@@ -961,10 +1003,11 @@ Review:
 
 Review:
 
-- reachability,
-- expired/stale evidence,
+- endpoint reachability,
+- evidence expiry,
 - listing status,
 - verification status,
+- payment capability,
 - conversion funnel,
 - disputes/refunds,
 - channel profitability.
@@ -975,23 +1018,21 @@ Ask:
 
 - Which marketplace creates the most successful paid deliveries?
 - Which creates the highest contribution margin?
-- Which creates support burden without revenue?
-- Which listing language attracts the wrong buyers?
-- Which claims actually improve qualified conversion?
-- Which capability should be split into a narrower listing?
+- Which creates support burden without durable revenue?
+- Which listing attracts the wrong buyers?
+- Which claims improve qualified conversion?
+- Which capability should split into a narrower listing?
 - Which channel should be exited?
 
 ---
 
-## 21. Machine-to-machine storefront opportunities
+## 23. New businesses created by this layer
 
-This layer creates businesses beyond simply listing your own agent.
-
-Potential products include:
+The storefront contract creates opportunities beyond listing your own agent.
 
 ### Listing synchronization
 
-One canonical capability record projected into many marketplaces.
+Maintain one canonical commercial record and project it into many marketplaces.
 
 Charge for:
 
@@ -1002,12 +1043,14 @@ Charge for:
 
 ### Evidence freshness monitoring
 
-Continuously detect:
+Detect:
 
 - dead endpoints,
 - expired claims,
 - changed prices,
-- changed platform terms,
+- changed service levels,
+- stale payment rails,
+- changed marketplace terms,
 - stale badges,
 - benchmark expiry.
 
@@ -1019,79 +1062,70 @@ Measure:
 discovery -> qualified buyer -> paid -> delivered -> repeat
 ```
 
-rather than vanity impressions.
+instead of vanity impressions.
 
 ### Reputation normalization
 
-Convert incompatible marketplace signals into a transparent evidence graph without pretending scores are equivalent.
+Convert incompatible marketplace signals into a transparent evidence graph without pretending platform scores are equivalent.
 
 ### Buyer qualification infrastructure
 
-Help seller agents determine whether an inbound agent has:
+Help seller agents determine whether an inbound buyer has:
 
-- authority,
+- real authority,
 - budget,
 - acceptable task scope,
 - acceptance criteria,
-- compatible data constraints.
+- compatible data constraints,
+- a supported payment path.
 
-### Marketplace arbitrage / channel routing
+### Channel routing
 
-Route a capability to the marketplace where the expected contribution margin is strongest for a given buyer class.
+Route a capability toward the marketplace with the strongest expected contribution margin for a buyer class, within marketplace rules and without manipulating rankings or identities.
 
-Do this transparently and within marketplace rules rather than manipulating rankings or identities.
+### Machine-readable commercial catalogs
 
-### Machine-readable commercial catalog infrastructure
-
-A seller with dozens or hundreds of narrow capabilities may need an agent-native catalog service that publishes:
+A seller with dozens or hundreds of narrow capabilities may need a catalog service publishing:
 
 - current capability metadata,
+- service levels,
+- dependencies,
+- compliance constraints,
 - pricing,
 - evidence,
 - availability,
 - protocol endpoints,
+- payment options,
 - purchasing constraints.
 
 That can become infrastructure for autonomous procurement.
 
 ---
 
-## 22. The founder metric that matters
+## 24. The founder metric that matters
 
 Do not optimize for:
 
 ```text
-number of marketplaces listed
+number_of_marketplaces_listed
 ```
 
 Optimize for:
 
 ```text
-profitable successful deliveries from qualified machine buyers
+profitable_successful_deliveries_from_qualified_buyers
 ```
 
-A useful top-level measure is:
+Track it alongside:
 
 ```text
-marketplace contribution per qualified buyer
-=
-(revenue
- - marketplace fees
- - payment fees
- - variable delivery cost
- - credits/refunds
- - variable support cost)
-/
-qualified buyers
-```
-
-Then pair it with:
-
-```text
-successful delivery rate
-repeat purchase rate
-claim freshness
-projection freshness
+successful_delivery_rate
+repeat_purchase_rate
+channel_contribution_margin
+claim_freshness
+protocol_freshness
+payment_capability_freshness
+projection_freshness
 ```
 
 The best marketplace strategy is not maximum visibility.

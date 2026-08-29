@@ -104,21 +104,6 @@ Example:
 
 Behind the scenes, humans and agents can do whatever is necessary to deliver the result. Once the same steps repeat across customers, automate them.
 
-## Next model: AI-native managed outcomes
-
-Once a productized service has a measurable completion condition and repeatable workflow, consider turning it into an **AI-native managed service / micro-BPO**: sell the completed business job, not access to an agent.
-
-The dedicated playbook covers process qualification, outcome contracts, pricing, human + agent staffing, gross-margin math, 30-day paid pilots, and concrete AR, RFP, and support-operations blueprints:
-
-- [`AI_NATIVE_MICRO_BPO.md`](AI_NATIVE_MICRO_BPO.md)
-- [`../templates/OUTCOME_MANAGED_SERVICE_OFFER.md`](../templates/OUTCOME_MANAGED_SERVICE_OFFER.md)
-
-A useful progression is:
-
-**founder-operated service → agent-assisted productized service → managed outcome service → configurable platform → API/agent capability**.
-
-Do not productize faster than the evidence supports.
-
 ## Avoid these traps
 
 - “AI for everyone” with no narrow buyer.

@@ -17,7 +17,7 @@ def published_listing() -> dict:
         "provider": {
             "display_name": "Public Agent Co",
             "identity_ref": "https://public-agent.example/identity",
-            "canonical_url": "https://public-agent.example/reconcile"
+            "canonical_url": "https://public-agent.example/reconcile",
         },
         "capability": {
             "capability_id": "finance.reconcile-invoices",
@@ -29,15 +29,23 @@ def published_listing() -> dict:
             "outputs": ["reconciliation_report", "exception_list"],
             "human_review": "exceptions_only",
             "regions": ["US"],
+            "service_levels": {
+                "availability_target": 0.995,
+                "p95_latency_seconds": 90,
+                "completion_deadline_seconds": 300,
+                "support_window": "business-hours escalation",
+            },
+            "dependencies": ["buyer-provided purchase order records"],
+            "compliance_constraints": ["no payment approval or funds movement"],
             "protocols": [
                 {
                     "id": "api-v1",
                     "protocol": "https_api",
                     "version": "1.0",
                     "endpoint": "https://public-agent.example/api/reconcile",
-                    "evidence_ids": ["protocol-live"]
+                    "evidence_ids": ["protocol-live"],
                 }
-            ]
+            ],
         },
         "pricing": {
             "model": "usage",
@@ -45,23 +53,32 @@ def published_listing() -> dict:
             "headline": "$0.35 per invoice; $25 minimum",
             "minimum_commitment_minor": 2500,
             "variable_components": ["$0.35 per invoice"],
-            "terms_url": "https://public-agent.example/terms"
+            "terms_url": "https://public-agent.example/terms",
         },
+        "payment_options": [
+            {
+                "id": "invoice-card",
+                "rail": "marketplace-card-settlement",
+                "asset_or_currency": "USD",
+                "settlement_semantics": "Marketplace charges the buyer and settles to the provider under its current payout terms; settlement is not service acceptance.",
+                "evidence_ids": ["payment-live"],
+            }
+        ],
         "buyer_qualification": {
-            "requires_authority_proof": true,
-            "automatic_purchase_allowed": false,
-            "acceptance_criteria_required": true,
+            "requires_authority_proof": True,
+            "automatic_purchase_allowed": False,
+            "acceptance_criteria_required": True,
             "max_autonomous_purchase_minor": 10000,
-            "data_constraints": ["No payment credentials", "Buyer must be authorized to provide invoice data"]
+            "data_constraints": ["No payment credentials", "Buyer must be authorized to provide invoice data"],
         },
         "claims": [
             {
                 "id": "claim-live-api",
                 "statement": "The production reconciliation endpoint responded successfully to the current protocol probe.",
                 "classification": "self_asserted",
-                "marketplace_id": null,
+                "marketplace_id": None,
                 "evidence_ids": ["protocol-live"],
-                "expires_at": "2026-09-29T13:00:00Z"
+                "expires_at": "2026-09-29T13:00:00Z",
             },
             {
                 "id": "claim-marketplace-badge",
@@ -69,16 +86,16 @@ def published_listing() -> dict:
                 "classification": "platform_verified",
                 "marketplace_id": "example-market",
                 "evidence_ids": ["market-badge"],
-                "expires_at": "2026-09-29T13:00:00Z"
+                "expires_at": "2026-09-29T13:00:00Z",
             },
             {
                 "id": "claim-editorial",
                 "statement": "The badge should be treated as platform-scoped evidence, not universal proof of service quality.",
                 "classification": "editorial_interpretation",
-                "marketplace_id": null,
+                "marketplace_id": None,
                 "evidence_ids": [],
-                "expires_at": null
-            }
+                "expires_at": None,
+            },
         ],
         "evidence": [
             {
@@ -89,7 +106,7 @@ def published_listing() -> dict:
                 "observed_at": "2026-08-29T12:00:00Z",
                 "expires_at": "2026-09-05T12:00:00Z",
                 "status": "current",
-                "marketplace_id": null
+                "marketplace_id": None,
             },
             {
                 "id": "market-badge",
@@ -99,8 +116,18 @@ def published_listing() -> dict:
                 "observed_at": "2026-08-29T12:30:00Z",
                 "expires_at": "2026-09-29T12:30:00Z",
                 "status": "current",
-                "marketplace_id": "example-market"
-            }
+                "marketplace_id": "example-market",
+            },
+            {
+                "id": "payment-live",
+                "type": "payment_capability",
+                "description": "Marketplace public checkout supports the listed USD payment rail.",
+                "public_url": "https://market.example/listings/reconcile",
+                "observed_at": "2026-08-29T12:40:00Z",
+                "expires_at": "2026-09-05T12:40:00Z",
+                "status": "current",
+                "marketplace_id": "example-market",
+            },
         ],
         "marketplaces": [
             {
@@ -114,9 +141,9 @@ def published_listing() -> dict:
                     {
                         "name": "Verified publisher",
                         "scope": "Example Market publisher-control check only",
-                        "evidence_ids": ["market-badge"]
+                        "evidence_ids": ["market-badge"],
                     }
-                ]
+                ],
             }
         ],
         "conversion": {
@@ -127,7 +154,7 @@ def published_listing() -> dict:
                 "quote_or_checkout_started",
                 "paid_transaction",
                 "successful_delivery",
-                "repeat_purchase"
+                "repeat_purchase",
             ]
         },
         "privacy": {
@@ -135,8 +162,8 @@ def published_listing() -> dict:
             "contains_secrets": False,
             "contains_private_customer_data": False,
             "contains_private_prompts": False,
-            "contains_credentials": False
-        }
+            "contains_credentials": False,
+        },
     }
 
 
@@ -157,6 +184,28 @@ class MarketplaceListingValidationTests(unittest.TestCase):
         with self.assertRaises(SystemExit) as ctx:
             validate(record)
         self.assertIn("published protocol", str(ctx.exception))
+
+    def test_published_payment_option_requires_current_evidence(self):
+        record = published_listing()
+        record["evidence"][2]["status"] = "stale"
+        with self.assertRaises(SystemExit) as ctx:
+            validate(record)
+        self.assertIn("published payment option", str(ctx.exception))
+
+    def test_payment_option_requires_payment_capability_evidence(self):
+        record = published_listing()
+        record["payment_options"][0]["evidence_ids"] = ["protocol-live"]
+        with self.assertRaises(SystemExit) as ctx:
+            validate(record)
+        self.assertIn("payment_capability evidence", str(ctx.exception))
+
+    def test_published_listing_requires_explicit_service_level(self):
+        record = published_listing()
+        for key in record["capability"]["service_levels"]:
+            record["capability"]["service_levels"][key] = None
+        with self.assertRaises(SystemExit) as ctx:
+            validate(record)
+        self.assertIn("service-level", str(ctx.exception))
 
     def test_unknown_claim_evidence_is_rejected(self):
         record = published_listing()
@@ -194,6 +243,14 @@ class MarketplaceListingValidationTests(unittest.TestCase):
         with self.assertRaises(SystemExit) as ctx:
             validate(record)
         self.assertIn("acceptance criteria", str(ctx.exception))
+
+    def test_paid_automatic_purchase_requires_payment_option(self):
+        record = published_listing()
+        record["buyer_qualification"]["automatic_purchase_allowed"] = True
+        record["payment_options"] = []
+        with self.assertRaises(SystemExit) as ctx:
+            validate(record)
+        self.assertIn("payment option", str(ctx.exception))
 
     def test_badge_evidence_must_be_platform_scoped(self):
         record = published_listing()
