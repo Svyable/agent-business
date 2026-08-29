@@ -12,66 +12,26 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED = {
-    "schema_version",
-    "listing_id",
-    "listing_version",
-    "updated_at",
-    "status",
-    "provider",
-    "capability",
-    "pricing",
-    "buyer_qualification",
-    "claims",
-    "evidence",
-    "marketplaces",
-    "conversion",
-    "privacy",
+    "schema_version", "listing_id", "listing_version", "updated_at", "status",
+    "provider", "capability", "pricing", "payment_options", "buyer_qualification",
+    "claims", "evidence", "marketplaces", "conversion", "privacy",
 }
 STATUSES = {"draft", "evidence_reviewed", "published", "suspended", "retired"}
-CLAIM_CLASSES = {
-    "self_asserted",
-    "platform_verified",
-    "customer_signal",
-    "benchmark_evidence",
-    "editorial_interpretation",
-}
+CLAIM_CLASSES = {"self_asserted", "platform_verified", "customer_signal", "benchmark_evidence", "editorial_interpretation"}
 EVIDENCE_STATES = {"current", "stale", "disputed", "superseded"}
 PROHIBITED_KEYS = {
-    "password",
-    "secret",
-    "client_secret",
-    "api_key",
-    "access_token",
-    "refresh_token",
-    "authorization",
-    "raw_prompt",
-    "prompt_content",
-    "card_number",
-    "cvv",
-    "private_key",
-    "seed_phrase",
-    "bearer_token",
+    "password", "secret", "client_secret", "api_key", "access_token", "refresh_token",
+    "authorization", "raw_prompt", "prompt_content", "card_number", "cvv",
+    "private_key", "seed_phrase", "bearer_token",
 }
 PLACEHOLDERS = (
-    "replace before publication",
-    "replace-before-publication",
-    "replace with",
-    "replace.capability",
-    "replace-category",
-    "replace-input",
-    "replace-output",
-    "example.invalid",
-    "unknown-until-reviewed",
-    "draft only",
+    "replace before publication", "replace-before-publication", "replace with",
+    "replace.capability", "replace-category", "replace-input", "replace-output",
+    "example.invalid", "unknown-until-reviewed", "draft only",
 )
 REQUIRED_FUNNEL = {
-    "listing_discovered",
-    "capability_inspected",
-    "buyer_qualified",
-    "quote_or_checkout_started",
-    "paid_transaction",
-    "successful_delivery",
-    "repeat_purchase",
+    "listing_discovered", "capability_inspected", "buyer_qualified",
+    "quote_or_checkout_started", "paid_transaction", "successful_delivery", "repeat_purchase",
 }
 
 
@@ -164,17 +124,30 @@ def unique_marketplaces(items: object) -> dict[str, dict]:
 
 
 def evidence_is_current(item: dict, as_of: datetime) -> bool:
-    if item.get("status") != "current":
-        return False
     observed = parse_time(item.get("observed_at"), f"evidence {item.get('id')}.observed_at")
     if observed > as_of:
         fail(f"evidence {item.get('id')} is observed after listing updated_at")
+    if item.get("status") != "current":
+        return False
     expires_raw = item.get("expires_at")
-    if expires_raw is not None:
-        expires = parse_time(expires_raw, f"evidence {item.get('id')}.expires_at")
-        if expires < as_of:
-            return False
+    if expires_raw is not None and parse_time(expires_raw, f"evidence {item.get('id')}.expires_at") < as_of:
+        return False
     return True
+
+
+def check_refs(refs: object, evidence: dict[str, dict], label: str) -> list[str]:
+    if not isinstance(refs, list) or any(not isinstance(ref, str) or not ref for ref in refs):
+        fail(f"{label}.evidence_ids must be a list of non-empty ids")
+    unknown = sorted(set(refs) - set(evidence))
+    if unknown:
+        fail(f"{label} references unknown evidence: {', '.join(unknown)}")
+    return refs
+
+
+def require_current(refs: list[str], current: set[str], label: str) -> None:
+    stale = sorted(set(refs) - current)
+    if stale:
+        fail(f"{label} references non-current evidence: {', '.join(stale)}")
 
 
 def validate(record: dict, *, allow_draft: bool = False) -> None:
@@ -210,6 +183,29 @@ def validate(record: dict, *, allow_draft: bool = False) -> None:
         value = capability.get(field)
         if not isinstance(value, list) or not value:
             fail(f"capability.{field} must be a non-empty list")
+    for field in ("synonyms", "dependencies", "compliance_constraints"):
+        if not isinstance(capability.get(field), list):
+            fail(f"capability.{field} must be a list")
+
+    service_levels = capability.get("service_levels")
+    if not isinstance(service_levels, dict):
+        fail("capability.service_levels must be an object")
+    service_fields = ("availability_target", "p95_latency_seconds", "completion_deadline_seconds", "support_window")
+    for field in service_fields:
+        if field not in service_levels:
+            fail(f"capability.service_levels.{field} is required")
+    if status == "published" and all(service_levels.get(field) is None for field in service_fields):
+        fail("published listing requires at least one explicit service-level value")
+    availability = service_levels.get("availability_target")
+    if availability is not None and (isinstance(availability, bool) or not isinstance(availability, (int, float)) or not 0 <= availability <= 1):
+        fail("capability.service_levels.availability_target must be between 0 and 1")
+    for field in ("p95_latency_seconds", "completion_deadline_seconds"):
+        value = service_levels.get(field)
+        if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float)) or value < 0):
+            fail(f"capability.service_levels.{field} must be a non-negative number or null")
+    support_window = service_levels.get("support_window")
+    if support_window is not None and (not isinstance(support_window, str) or not support_window.strip()):
+        fail("capability.service_levels.support_window must be a non-empty string or null")
 
     evidence = unique_by_id(record.get("evidence"), "evidence")
     current_evidence: set[str] = set()
@@ -225,18 +221,11 @@ def validate(record: dict, *, allow_draft: bool = False) -> None:
         fail("capability.protocols must contain at least one protocol")
     for protocol_id, item in protocols.items():
         https_url(item.get("endpoint"), f"protocol {protocol_id}.endpoint")
-        refs = item.get("evidence_ids")
-        if not isinstance(refs, list):
-            fail(f"protocol {protocol_id}.evidence_ids must be a list")
-        unknown = sorted(set(refs) - set(evidence))
-        if unknown:
-            fail(f"protocol {protocol_id} references unknown evidence: {', '.join(unknown)}")
+        refs = check_refs(item.get("evidence_ids"), evidence, f"protocol {protocol_id}")
         if status == "published":
             if not refs:
                 fail(f"published protocol {protocol_id} requires evidence")
-            stale = sorted(set(refs) - current_evidence)
-            if stale:
-                fail(f"published protocol {protocol_id} references non-current evidence: {', '.join(stale)}")
+            require_current(refs, current_evidence, f"published protocol {protocol_id}")
 
     pricing = record.get("pricing")
     if not isinstance(pricing, dict):
@@ -258,6 +247,19 @@ def validate(record: dict, *, allow_draft: bool = False) -> None:
         if pricing.get("minimum_commitment_minor") is None:
             fail("published listing requires pricing.minimum_commitment_minor, including zero")
 
+    payment_options = unique_by_id(record.get("payment_options"), "payment option")
+    for option_id, item in payment_options.items():
+        for field in ("rail", "asset_or_currency", "settlement_semantics"):
+            if not isinstance(item.get(field), str) or not item[field].strip():
+                fail(f"payment option {option_id}.{field} is required")
+        refs = check_refs(item.get("evidence_ids"), evidence, f"payment option {option_id}")
+        if not refs:
+            fail(f"payment option {option_id} requires evidence_ids")
+        if not any(evidence[ref].get("type") == "payment_capability" for ref in refs):
+            fail(f"payment option {option_id} requires payment_capability evidence")
+        if status == "published":
+            require_current(refs, current_evidence, f"published payment option {option_id}")
+
     buyer = record.get("buyer_qualification")
     if not isinstance(buyer, dict):
         fail("buyer_qualification must be an object")
@@ -267,8 +269,10 @@ def validate(record: dict, *, allow_draft: bool = False) -> None:
         if buyer.get("acceptance_criteria_required") is not True:
             fail("automatic purchase requires acceptance criteria")
         cap = buyer.get("max_autonomous_purchase_minor")
-        if not isinstance(cap, int) or cap <= 0:
+        if not isinstance(cap, int) or isinstance(cap, bool) or cap <= 0:
             fail("automatic purchase requires a positive max_autonomous_purchase_minor")
+        if status == "published" and model != "free" and not payment_options:
+            fail("published paid automatic purchase requires at least one evidenced payment option")
     if status == "published" and not isinstance(buyer.get("data_constraints"), list):
         fail("published listing requires explicit buyer data_constraints")
 
@@ -292,12 +296,12 @@ def validate(record: dict, *, allow_draft: bool = False) -> None:
         for badge in badges:
             if not isinstance(badge, dict):
                 fail(f"marketplace {marketplace_id} badge must be an object")
-            refs = badge.get("evidence_ids")
-            if not isinstance(refs, list) or not refs:
+            scope = badge.get("scope")
+            if not isinstance(scope, str) or not scope.strip():
+                fail(f"marketplace {marketplace_id} badge requires a non-empty scope")
+            refs = check_refs(badge.get("evidence_ids"), evidence, f"marketplace {marketplace_id} badge")
+            if not refs:
                 fail(f"marketplace {marketplace_id} badge requires evidence_ids")
-            unknown = sorted(set(refs) - set(evidence))
-            if unknown:
-                fail(f"marketplace {marketplace_id} badge references unknown evidence: {', '.join(unknown)}")
             for ref in refs:
                 evidence_item = evidence[ref]
                 if evidence_item.get("type") != "platform_verification":
@@ -314,12 +318,7 @@ def validate(record: dict, *, allow_draft: bool = False) -> None:
         classification = item.get("classification")
         if classification not in CLAIM_CLASSES:
             fail(f"claim {claim_id} has invalid classification")
-        refs = item.get("evidence_ids")
-        if not isinstance(refs, list):
-            fail(f"claim {claim_id}.evidence_ids must be a list")
-        unknown = sorted(set(refs) - set(evidence))
-        if unknown:
-            fail(f"claim {claim_id} references unknown evidence: {', '.join(unknown)}")
+        refs = check_refs(item.get("evidence_ids"), evidence, f"claim {claim_id}")
         expires_raw = item.get("expires_at")
         if expires_raw is not None and parse_time(expires_raw, f"claim {claim_id}.expires_at") < as_of and status == "published":
             fail(f"published claim {claim_id} is expired")
@@ -338,9 +337,7 @@ def validate(record: dict, *, allow_draft: bool = False) -> None:
         if status == "published" and classification != "editorial_interpretation":
             if not refs:
                 fail(f"published non-editorial claim {claim_id} requires evidence")
-            stale = sorted(set(refs) - current_evidence)
-            if stale:
-                fail(f"published claim {claim_id} references non-current evidence: {', '.join(stale)}")
+            require_current(refs, current_evidence, f"published claim {claim_id}")
 
     conversion = record.get("conversion")
     if not isinstance(conversion, dict) or not isinstance(conversion.get("events"), list):
@@ -379,8 +376,8 @@ def main() -> None:
     print(
         "marketplace listing OK: "
         f"{record['listing_id']} version={record['listing_version']} status={record['status']} "
-        f"protocols={len(record['capability']['protocols'])} marketplaces={len(record['marketplaces'])} "
-        f"claims={len(record['claims'])} evidence={len(record['evidence'])}"
+        f"protocols={len(record['capability']['protocols'])} payment_options={len(record['payment_options'])} "
+        f"marketplaces={len(record['marketplaces'])} claims={len(record['claims'])} evidence={len(record['evidence'])}"
     )
 
 

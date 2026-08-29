@@ -19,6 +19,14 @@
     "outputs": ["replace-output"],
     "human_review": "buyer_selectable",
     "regions": ["unknown-until-reviewed"],
+    "service_levels": {
+      "availability_target": null,
+      "p95_latency_seconds": null,
+      "completion_deadline_seconds": null,
+      "support_window": null
+    },
+    "dependencies": [],
+    "compliance_constraints": [],
     "protocols": [
       {
         "id": "protocol-001",
@@ -37,6 +45,7 @@
     "variable_components": [],
     "terms_url": null
   },
+  "payment_options": [],
   "buyer_qualification": {
     "requires_authority_proof": true,
     "automatic_purchase_allowed": false,
