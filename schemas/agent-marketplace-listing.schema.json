@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/agent-marketplace-listing.schema.json",
+  "title": "Agent Business Marketplace Listing Record",
+  "description": "Canonical, disclosure-safe commercial listing record for projecting one agent capability into multiple marketplaces and directories without losing pricing, evidence, protocol, buyer-authority, or freshness semantics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "listing_id",
+    "listing_version",
+    "updated_at",
+    "status",
+    "provider",
+    "capability",
+    "pricing",
+    "buyer_qualification",
+    "claims",
+    "evidence",
+    "marketplaces",
+    "conversion",
+    "privacy"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "listing_id": {"type": "string", "minLength": 3, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "listing_version": {"type": "string", "minLength": 1, "maxLength": 64},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["draft", "evidence_reviewed", "published", "suspended", "retired"]},
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display_name", "identity_ref", "canonical_url"],
+      "properties": {
+        "display_name": {"type": "string", "minLength": 1, "maxLength": 160},
+        "identity_ref": {"type": "string", "minLength": 1, "maxLength": 320},
+        "canonical_url": {"type": "string", "minLength": 1, "maxLength": 1000}
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability_id", "name", "summary", "categories", "synonyms", "inputs", "outputs", "human_review", "protocols", "regions"],
+      "properties": {
+        "capability_id": {"type": "string", "minLength": 3, "maxLength": 160},
+        "name": {"type": "string", "minLength": 3, "maxLength": 200},
+        "summary": {"type": "string", "minLength": 10, "maxLength": 1200},
+        "categories": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 100}},
+        "synonyms": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 120}},
+        "inputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 160}},
+        "outputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 160}},
+        "human_review": {"enum": ["none", "exceptions_only", "always", "buyer_selectable"]},
+        "regions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 120}},
+        "protocols": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "protocol", "version", "endpoint", "evidence_ids"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1, "maxLength": 128},
+              "protocol": {"enum": ["a2a", "mcp", "https_api", "other"]},
+              "version": {"type": "string", "minLength": 1, "maxLength": 80},
+              "endpoint": {"type": "string", "minLength": 1, "maxLength": 1000},
+              "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}}
+            }
+          }
+        }
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "currency", "headline", "minimum_commitment_minor", "variable_components", "terms_url"],
+      "properties": {
+        "model": {"enum": ["undecided", "free", "fixed", "usage", "subscription", "outcome", "quote", "hybrid"]},
+        "currency": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+        "headline": {"type": ["string", "null"], "maxLength": 320},
+        "minimum_commitment_minor": {"type": ["integer", "null"], "minimum": 0},
+        "variable_components": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 240}},
+        "terms_url": {"type": ["string", "null"], "maxLength": 1000}
+      }
+    },
+    "buyer_qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requires_authority_proof", "automatic_purchase_allowed", "acceptance_criteria_required", "max_autonomous_purchase_minor", "data_constraints"],
+      "properties": {
+        "requires_authority_proof": {"type": "boolean"},
+        "automatic_purchase_allowed": {"type": "boolean"},
+        "acceptance_criteria_required": {"type": "boolean"},
+        "max_autonomous_purchase_minor": {"type": ["integer", "null"], "minimum": 0},
+        "data_constraints": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 320}}
+      }
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "statement", "classification", "marketplace_id", "evidence_ids", "expires_at"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "statement": {"type": "string", "minLength": 1, "maxLength": 1200},
+          "classification": {"enum": ["self_asserted", "platform_verified", "customer_signal", "benchmark_evidence", "editorial_interpretation"]},
+          "marketplace_id": {"type": ["string", "null"], "maxLength": 128},
+          "evidence_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}},
+          "expires_at": {"type": ["string", "null"], "format": "date-time"}
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "description", "public_url", "observed_at", "expires_at", "status", "marketplace_id"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "type": {"enum": ["capability_test", "protocol_probe", "price_source", "platform_verification", "customer_review", "transaction_receipt", "policy_or_terms", "other"]},
+          "description": {"type": "string", "minLength": 1, "maxLength": 1200},
+          "public_url": {"type": ["string", "null"], "maxLength": 1000},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "expires_at": {"type": ["string", "null"], "format": "date-time"},
+          "status": {"enum": ["current", "stale", "disputed", "superseded"]},
+          "marketplace_id": {"type": ["string", "null"], "maxLength": 128}
+        }
+      }
+    },
+    "marketplaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["marketplace_id", "listing_url", "external_listing_id", "state", "projected_listing_version", "synced_at", "badges"],
+        "properties": {
+          "marketplace_id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "listing_url": {"type": ["string", "null"], "maxLength": 1000},
+          "external_listing_id": {"type": ["string", "null"], "maxLength": 320},
+          "state": {"enum": ["draft", "published", "suspended", "retired"]},
+          "projected_listing_version": {"type": ["string", "null"], "maxLength": 64},
+          "synced_at": {"type": ["string", "null"], "format": "date-time"},
+          "badges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "scope", "evidence_ids"],
+              "properties": {
+                "name": {"type": "string", "minLength": 1, "maxLength": 160},
+                "scope": {"type": "string", "minLength": 1, "maxLength": 320},
+                "evidence_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "conversion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["events"],
+      "properties": {
+        "events": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["listing_discovered", "capability_inspected", "buyer_qualified", "quote_or_checkout_started", "paid_transaction", "successful_delivery", "repeat_purchase"]}
+        }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["public_disclosure_confirmed", "contains_secrets", "contains_private_customer_data", "contains_private_prompts", "contains_credentials"],
+      "properties": {
+        "public_disclosure_confirmed": {"const": true},
+        "contains_secrets": {"const": false},
+        "contains_private_customer_data": {"const": false},
+        "contains_private_prompts": {"const": false},
+        "contains_credentials": {"const": false}
+      }
+    }
+  }
+}
