@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Svyable/agent-business/schemas/agent-demand-request.schema.json",
+  "title": "Agent Business Demand Request Record",
+  "description": "Disclosure-safe buyer demand / machine RFQ record for publishing bounded commercial needs without conflating intent, authority, award, payment, delivery, or acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "request_id", "request_version", "updated_at", "status", "demand_quality", "buyer", "outcome", "requirements", "budget", "timing", "authority", "bidding", "award", "acceptance", "disclosure"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "request_id": {"type": "string", "minLength": 3, "maxLength": 128, "pattern": "^[A-Za-z0-9._-]+$"},
+    "request_version": {"type": "string", "minLength": 1, "maxLength": 64},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["draft", "published", "invited", "matched", "bids_received", "shortlisted", "awarded", "contracted", "paid", "delivered", "accepted", "disputed", "closed", "cancelled", "expired"]},
+    "demand_quality": {"enum": ["verified_commercial", "self_declared_intent", "exploratory_research", "synthetic_test"]},
+    "buyer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["principal_ref", "identity_confidence", "public_identity_disclosure"],
+      "properties": {
+        "principal_ref": {"type": "string", "minLength": 1, "maxLength": 320},
+        "identity_confidence": {"enum": ["unverified", "self_asserted", "platform_verified", "independently_verified"]},
+        "public_identity_disclosure": {"type": "boolean"}
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability_category", "business_outcome", "quantity_min", "quantity_max", "quantity_unit", "recurrence"],
+      "properties": {
+        "capability_category": {"type": "string", "minLength": 2, "maxLength": 160},
+        "business_outcome": {"type": "string", "minLength": 10, "maxLength": 1200},
+        "quantity_min": {"type": ["number", "null"], "minimum": 0},
+        "quantity_max": {"type": ["number", "null"], "minimum": 0},
+        "quantity_unit": {"type": ["string", "null"], "maxLength": 120},
+        "recurrence": {"enum": ["one_time", "ad_hoc", "daily", "weekly", "monthly", "continuous", "unknown"]}
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inputs", "outputs", "hard_constraints", "required_protocols", "regions", "data_constraints", "compliance_constraints", "human_review", "service_levels"],
+      "properties": {
+        "inputs": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 240}},
+        "outputs": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 240}},
+        "hard_constraints": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 400}},
+        "required_protocols": {"type": "array", "uniqueItems": true, "items": {"enum": ["a2a", "mcp", "https_api", "other"]}},
+        "regions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 120}},
+        "data_constraints": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 320}},
+        "compliance_constraints": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 320}},
+        "human_review": {"enum": ["none", "exceptions_only", "always", "buyer_selectable", "unknown"]},
+        "service_levels": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["availability_min", "p95_latency_max_seconds", "completion_deadline_seconds"],
+          "properties": {
+            "availability_min": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+            "p95_latency_max_seconds": {"type": ["number", "null"], "minimum": 0},
+            "completion_deadline_seconds": {"type": ["number", "null"], "minimum": 0}
+          }
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "public_min_minor", "public_max_minor", "budget_disclosed"],
+      "properties": {
+        "currency": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+        "public_min_minor": {"type": ["integer", "null"], "minimum": 0},
+        "public_max_minor": {"type": ["integer", "null"], "minimum": 0},
+        "budget_disclosed": {"type": "boolean"}
+      }
+    },
+    "timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bid_opens_at", "bid_closes_at", "delivery_due_at"],
+      "properties": {
+        "bid_opens_at": {"type": ["string", "null"], "format": "date-time"},
+        "bid_closes_at": {"type": ["string", "null"], "format": "date-time"},
+        "delivery_due_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority_state", "authority_evidence_ref", "authorized_currency", "max_authorized_spend_minor", "effective_at", "expires_at"],
+      "properties": {
+        "authority_state": {"enum": ["none", "unverified", "current", "expired", "revoked", "disputed"]},
+        "authority_evidence_ref": {"type": ["string", "null"], "maxLength": 500},
+        "authorized_currency": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+        "max_authorized_spend_minor": {"type": ["integer", "null"], "minimum": 0},
+        "effective_at": {"type": ["string", "null"], "format": "date-time"},
+        "expires_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "bidding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "automatic_award_allowed", "max_autonomous_award_minor", "award_method", "sponsored_ranking_separated"],
+      "properties": {
+        "mode": {"enum": ["public", "invite_only", "direct", "research_only"]},
+        "automatic_award_allowed": {"type": "boolean"},
+        "max_autonomous_award_minor": {"type": ["integer", "null"], "minimum": 0},
+        "award_method": {"enum": ["none", "lowest_eligible_price", "weighted_score", "buyer_review", "sealed_bid", "other"]},
+        "sponsored_ranking_separated": {"const": true}
+      }
+    },
+    "award": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seller_listing_ref", "seller_listing_version", "proposal_ref", "awarded_price_minor", "awarded_currency", "awarded_at"],
+      "properties": {
+        "seller_listing_ref": {"type": ["string", "null"], "maxLength": 320},
+        "seller_listing_version": {"type": ["string", "null"], "maxLength": 64},
+        "proposal_ref": {"type": ["string", "null"], "maxLength": 320},
+        "awarded_price_minor": {"type": ["integer", "null"], "minimum": 0},
+        "awarded_currency": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+        "awarded_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criteria", "acceptance_state", "accepted_at"],
+      "properties": {
+        "criteria": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 500}},
+        "acceptance_state": {"enum": ["not_applicable", "pending", "accepted", "rejected", "disputed"]},
+        "accepted_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "disclosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tier", "public_disclosure_confirmed", "contains_secrets", "contains_private_customer_data", "contains_private_prompts", "contains_credentials", "contains_confidential_procurement_data"],
+      "properties": {
+        "tier": {"enum": ["public", "restricted", "confidential"]},
+        "public_disclosure_confirmed": {"type": "boolean"},
+        "contains_secrets": {"const": false},
+        "contains_private_customer_data": {"const": false},
+        "contains_private_prompts": {"const": false},
+        "contains_credentials": {"const": false},
+        "contains_confidential_procurement_data": {"const": false}
+      }
+    }
+  }
+}
