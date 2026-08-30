@@ -128,5 +128,8 @@ jobs:
       - name: Validate interoperability bounty starter
         run: python scripts/validate_interoperability_bounty.py templates/INTEROPERABILITY_BOUNTY.json --allow-draft
 
+      - name: Validate pooled demand starter
+        run: python scripts/validate_pooled_demand.py templates/POOLED_DEMAND_LOT.json --allow-draft
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
