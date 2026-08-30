@@ -122,5 +122,8 @@ jobs:
       - name: Validate fail-closed deal plan starter
         run: python -c 'import json; p=json.load(open("templates/AGENT_DEAL_PLAN.json")); assert p["grants_authority"] is False and p["action_authorized"] is False and p["plan_ready"] is False'
 
+      - name: Analyze synthetic transaction-corridor liquidity
+        run: python scripts/analyze_corridor_liquidity.py examples/CORRIDOR_LIQUIDITY_SYNTHETIC.json --costs examples/CORRIDOR_INTEGRATION_COSTS_SYNTHETIC.json --as-of 2026-08-30T18:00:00Z
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
