@@ -113,5 +113,11 @@ jobs:
       - name: Validate Agent Business world model
         run: python scripts/validate_agent_world_model.py agent-world-model.json
 
+      - name: Validate Agent Business compatibility profile
+        run: python scripts/agent_business_compatibility.py templates/AGENT_BUSINESS_COMPATIBILITY.json
+
+      - name: Validate cross-agent compatibility handshake
+        run: python scripts/agent_business_compatibility.py templates/AGENT_BUSINESS_COMPATIBILITY.json --negotiate examples/AGENT_BUSINESS_COMPATIBILITY_COUNTERPARTY.json --json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
