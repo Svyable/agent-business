@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "currency": "USD",
+  "costs": [
+    {
+      "convention": "machine-rfq",
+      "implementation_cost_minor_range": [100000, 300000],
+      "annual_maintenance_cost_minor_range": [25000, 75000]
+    },
+    {
+      "convention": "machine-payment-reconciliation",
+      "implementation_cost_minor_range": [300000, 900000],
+      "annual_maintenance_cost_minor_range": [100000, 300000]
+    },
+    {
+      "convention": "execution-evidence",
+      "implementation_cost_minor_range": [200000, 600000],
+      "annual_maintenance_cost_minor_range": [75000, 200000]
+    },
+    {
+      "convention": "bounded-authority",
+      "implementation_cost_minor_range": [400000, 1200000],
+      "annual_maintenance_cost_minor_range": [125000, 400000]
+    }
+  ],
+  "note": "Synthetic hypothesis ranges for exercising the analyzer only. They are not market prices or recommended budgets."
+}
