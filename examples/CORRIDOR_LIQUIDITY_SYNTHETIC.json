@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "synthetic-corridor-liquidity-v1",
+  "generated_at": "2026-08-30T12:30:00Z",
+  "population_definition": "Six synthetic deal-plan summaries spanning ready, fallback, compatibility-blocked, complementary-gap, and real-authority-blocked corridors.",
+  "selection_rule": "All six synthetic fixtures are included; none represent observed counterparties or real demand.",
+  "known_exclusions": ["No real buyers, sellers, prices, budgets, identities, or production transactions are represented."],
+  "synthetic_separated": true,
+  "corridors": [
+    {
+      "corridor_id": "synthetic-ready",
+      "evidence_class": "synthetic_test",
+      "observed_at": "2026-08-30T12:00:00Z",
+      "plan": {
+        "compatibility": {"transaction_mode": "structured", "blockers": [], "fallbacks": [], "authority_granted": false},
+        "action_authorized": false,
+        "grants_authority": false,
+        "transitions": [
+          {"transition": "qualify", "convention": "machine-rfq", "status": "ready", "reasons": [], "fallback": null, "grants_authority": false},
+          {"transition": "execute_payment", "convention": "machine-payment-reconciliation", "status": "ready", "reasons": [], "fallback": null, "grants_authority": false},
+          {"transition": "deliver", "convention": "execution-evidence", "status": "ready", "reasons": [], "fallback": null, "grants_authority": false}
+        ]
+      }
+    },
+    {
+      "corridor_id": "synthetic-payment-gap",
+      "evidence_class": "synthetic_test",
+      "observed_at": "2026-08-30T12:00:00Z",
+      "plan": {
+        "compatibility": {"transaction_mode": "reduced", "blockers": [], "fallbacks": [], "authority_granted": false},
+        "action_authorized": false,
+        "grants_authority": false,
+        "transitions": [
+          {"transition": "qualify", "convention": "machine-rfq", "status": "ready", "reasons": [], "fallback": null, "grants_authority": false},
+          {"transition": "execute_payment", "convention": "machine-payment-reconciliation", "status": "unsupported", "reasons": ["machine-payment-reconciliation not shared"], "fallback": null, "grants_authority": false},
+          {"transition": "deliver", "convention": "execution-evidence", "status": "ready", "reasons": [], "fallback": null, "grants_authority": false}
+        ]
+      }
+    },
+    {
+      "corridor_id": "synthetic-rfq-fallback",
+      "evidence_class": "synthetic_test",
+      "observed_at": "2026-08-30T12:00:00Z",
+      "plan": {
+        "compatibility": {"transaction_mode": "reduced", "blockers": [], "fallbacks": [{"convention_id": "machine-rfq", "fallback": "human_reviewed_request_document"}], "authority_granted": false},
+        "action_authorized": false,
+        "grants_authority": false,
+        "transitions": [
+          {"transition": "qualify", "convention": "machine-rfq", "status": "human_review", "reasons": ["machine-rfq not shared; use explicit fallback"], "fallback": "human_reviewed_request_document", "grants_authority": false},
+          {"transition": "execute_payment", "convention": "machine-payment-reconciliation", "status": "ready", "reasons": [], "fallback": null, "grants_authority": false}
+        ]
+      }
+    },
+    {
+      "corridor_id": "synthetic-complementary-gap",
+      "evidence_class": "synthetic_test",
+      "observed_at": "2026-08-30T12:00:00Z",
+      "plan": {
+        "compatibility": {"transaction_mode": "reduced", "blockers": [], "fallbacks": [], "authority_granted": false},
+        "action_authorized": false,
+        "grants_authority": false,
+        "transitions": [
+          {"transition": "execute_payment", "convention": "machine-payment-reconciliation", "status": "unsupported", "reasons": ["machine-payment-reconciliation not shared"], "fallback": null, "grants_authority": false},
+          {"transition": "deliver", "convention": "execution-evidence", "status": "unsupported", "reasons": ["execution-evidence not shared"], "fallback": null, "grants_authority": false}
+        ]
+      }
+    },
+    {
+      "corridor_id": "synthetic-required-compatibility-gap",
+      "evidence_class": "synthetic_test",
+      "observed_at": "2026-08-30T12:00:00Z",
+      "plan": {
+        "compatibility": {"transaction_mode": "stop", "blockers": [{"convention_id": "bounded-authority", "reason": "required_convention_missing"}], "fallbacks": [], "authority_granted": false},
+        "action_authorized": false,
+        "grants_authority": false,
+        "transitions": [
+          {"transition": "qualify", "convention": "machine-rfq", "status": "blocked", "reasons": ["compatibility handshake has required blockers"], "fallback": null, "grants_authority": false},
+          {"transition": "authorize_payment", "convention": "bounded-authority", "status": "blocked", "reasons": ["compatibility handshake has required blockers"], "fallback": null, "grants_authority": false}
+        ]
+      }
+    },
+    {
+      "corridor_id": "synthetic-real-authority-gap",
+      "evidence_class": "synthetic_test",
+      "observed_at": "2026-08-30T12:00:00Z",
+      "plan": {
+        "compatibility": {"transaction_mode": "structured", "blockers": [], "fallbacks": [], "authority_granted": false},
+        "action_authorized": false,
+        "grants_authority": false,
+        "transitions": [
+          {"transition": "authorize_payment", "convention": "bounded-authority", "status": "blocked", "reasons": ["current buyer payment authority does not cover proposal price"], "fallback": null, "grants_authority": false},
+          {"transition": "execute_payment", "convention": "machine-payment-reconciliation", "status": "blocked", "reasons": ["current buyer payment authority does not cover proposal price"], "fallback": null, "grants_authority": false}
+        ]
+      }
+    }
+  ]
+}
