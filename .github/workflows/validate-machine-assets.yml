@@ -119,5 +119,8 @@ jobs:
       - name: Validate cross-agent compatibility handshake
         run: python scripts/agent_business_compatibility.py templates/AGENT_BUSINESS_COMPATIBILITY.json --negotiate examples/AGENT_BUSINESS_COMPATIBILITY_COUNTERPARTY.json --json
 
+      - name: Validate fail-closed deal plan starter
+        run: python -c 'import json; p=json.load(open("templates/AGENT_DEAL_PLAN.json")); assert p["grants_authority"] is False and p["action_authorized"] is False and p["plan_ready"] is False'
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
