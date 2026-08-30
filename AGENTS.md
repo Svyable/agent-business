@@ -4,6 +4,8 @@ Agent Business is a public, GitHub-native operating system for autonomous agents
 
 This file is the deterministic entrypoint for an agent entering the repository through a coding agent, repository browser, or local clone.
 
+Before broad traversal, read `WORLD_MODEL.md` and `agent-world-model.json`. They explain the repository's core empirical theses, explicit falsifiers, and normative constraints. Do not adopt those theses merely because they are canonical; test them against evidence and preserve counterevidence.
+
 ## First command
 
 Create a conservative founder packet:
@@ -28,18 +30,20 @@ python scripts/agent_business.py next founder-packet.json
 
 Read these before broad repository traversal:
 
-1. `agent-index.json` — canonical structured resource graph.
-2. `llms.txt` — compact machine-facing repository guide.
-3. `templates/FOUNDER_LAUNCH_PACKET.json` — founder-state example.
-4. `schemas/founder-launch-packet.schema.json` — founder-state contract.
-5. `docs/AGENT_LAUNCH_PACKET.md` — packet protocol.
-6. `docs/FOUNDER_OUTCOME_CASE_STUDIES.md` — public outcome-evidence and case-study protocol.
-7. `templates/FOUNDER_OUTCOME_RECORD.json` — safe draft outcome record.
-8. `schemas/founder-outcome-record.schema.json` — outcome evidence contract.
-9. `docs/AGENT_WORKFLOW_ROI.md` — fully loaded workflow ROI and cost-versus-value protocol.
-10. `templates/WORKFLOW_ROI_ANALYSIS.json` — safe workflow economics starter.
-11. `docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md` — pricing, meter, margin-floor, budget-control, and quote-authority protocol.
-12. `templates/PRICING_PACKAGE.json` — conservative non-quote-ready pricing starter.
+1. `agent-world-model.json` — compact machine-readable thesis map with predictions, falsifiers, and canonical resource links.
+2. `WORLD_MODEL.md` — concise human/agent explanation of the shared operating worldview and adoption loop.
+3. `agent-index.json` — canonical structured resource graph.
+4. `llms.txt` — compact machine-facing repository guide.
+5. `templates/FOUNDER_LAUNCH_PACKET.json` — founder-state example.
+6. `schemas/founder-launch-packet.schema.json` — founder-state contract.
+7. `docs/AGENT_LAUNCH_PACKET.md` — packet protocol.
+8. `docs/FOUNDER_OUTCOME_CASE_STUDIES.md` — public outcome-evidence and case-study protocol.
+9. `templates/FOUNDER_OUTCOME_RECORD.json` — safe draft outcome record.
+10. `schemas/founder-outcome-record.schema.json` — outcome evidence contract.
+11. `docs/AGENT_WORKFLOW_ROI.md` — fully loaded workflow ROI and cost-versus-value protocol.
+12. `templates/WORKFLOW_ROI_ANALYSIS.json` — safe workflow economics starter.
+13. `docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md` — pricing, meter, margin-floor, budget-control, and quote-authority protocol.
+14. `templates/PRICING_PACKAGE.json` — conservative non-quote-ready pricing starter.
 
 List indexed founder stages without parsing prose:
 
@@ -52,6 +56,14 @@ Inspect one resource:
 ```bash
 python scripts/agent_business.py stage pick --json
 ```
+
+## World-model adoption loop
+
+For any material founder decision, identify which world-model theses are doing work. For each relevant empirical thesis, compare its prediction with the available evidence and treat the thesis as `adopt`, `reject`, or `uncertain` for the current context. A canonical thesis is not permission to ignore contradictory evidence.
+
+If repeated real outcomes disagree with the model, preserve the counterevidence and improve the model. The desired network effect is a shared operating grammar that lowers reasoning and transaction cost, not uniform belief.
+
+Normative constraints such as explicit authority, non-fabrication of evidence, and public-data safety remain operating boundaries rather than empirical forecasts.
 
 ## Operating loop
 
@@ -234,6 +246,7 @@ python scripts/validate_customer_success.py templates/CUSTOMER_SUCCESS_RECORD.js
 python scripts/validate_vendor_readiness.py templates/VENDOR_READINESS_RECORD.json
 python scripts/validate_ip_rights.py templates/IP_RIGHTS_RECORD.json
 python scripts/validate_pricing_package.py templates/PRICING_PACKAGE.json
+python scripts/validate_agent_world_model.py agent-world-model.json
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 
@@ -254,6 +267,7 @@ python scripts/validate_ip_rights.py <ip-rights-record>
 python scripts/validate_diligence_room.py <room>
 python scripts/validate_service_contract.py <contract>
 python scripts/validate_authority_envelope.py <authority>
+python scripts/validate_agent_world_model.py agent-world-model.json
 ```
 
 ## Definition of progress

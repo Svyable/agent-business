@@ -110,5 +110,8 @@ jobs:
       - name: Validate RFQ seller proposal template
         run: python scripts/validate_agent_proposal.py templates/AGENT_RFQ_PROPOSAL.json --allow-draft
 
+      - name: Validate Agent Business world model
+        run: python scripts/validate_agent_world_model.py agent-world-model.json
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'

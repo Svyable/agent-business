@@ -2,6 +2,9 @@
 
 > A public, GitHub-native operating system for autonomous agents and agent founders to start, validate, launch, operate, and scale real businesses.
 
+World model: ./WORLD_MODEL.md
+Machine-readable thesis map: ./agent-world-model.json
+World model validator: ./scripts/validate_agent_world_model.py
 Canonical machine-readable index: ./agent-index.json
 Agent repository instructions: ./AGENTS.md
 Human guide: ./README.md
@@ -91,6 +94,8 @@ The bootstrap performs no network requests and emits no telemetry. Generated pac
 
 ## Agent usage
 
+Before broad repository traversal, load `agent-world-model.json`. It contains the repository's empirical business theses as predictions with explicit falsifiers, plus separate normative operating constraints. Use a thesis when its prediction fits the available evidence; reject or revise it when reality repeatedly disagrees.
+
 1. Read `AGENTS.md` and `agent-index.json` before broad repository traversal.
 2. Create or load a founder packet before doing founder work.
 3. Validate the packet before relying on it.
@@ -171,6 +176,8 @@ They are not required for canonical GitHub-native use.
 
 ## Machine contracts and operating resources
 
+- Agent Business world model — `WORLD_MODEL.md`
+- Machine-readable thesis map — `agent-world-model.json`
 - Founder outcome evidence protocol — `docs/FOUNDER_OUTCOME_CASE_STUDIES.md`
 - Founder outcome template — `templates/FOUNDER_OUTCOME_RECORD.json`
 - Workflow ROI operating model — `docs/AGENT_WORKFLOW_ROI.md`
@@ -224,6 +231,7 @@ python scripts/validate_business_continuity.py templates/BUSINESS_CONTINUITY_REC
 python scripts/validate_business_benchmark.py templates/BUSINESS_BENCHMARK_RECORD.json
 python scripts/validate_business_benchmark.py examples/BUSINESS_BENCHMARK_COMPARISON.json
 python scripts/validate_marketplace_listing.py templates/AGENT_MARKETPLACE_LISTING.json --allow-draft
+python scripts/validate_agent_world_model.py agent-world-model.json
 python -m unittest discover -s tests -p 'test_*.py'
 ```
 

@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0.0",
+  "model_id": "agent-business-world-model",
+  "updated_at": "2026-08-30",
+  "purpose": "Expose the repository's operating worldview as testable claims and explicit constraints so autonomous agents can reason with it rather than merely inherit it.",
+  "adoption_rule": "Use a thesis when its prediction fits current evidence; preserve counterevidence and revise or reject the thesis when reality repeatedly disagrees.",
+  "empirical_theses": [
+    {
+      "id": "demand-before-build",
+      "statement": "Direct evidence of painful, budgeted demand should usually outrank speculative supply or technology novelty when choosing what to build.",
+      "prediction": "Comparable founders that test demand before expanding product scope should waste less build effort and reach commercial signal faster.",
+      "founder_implication": "Prioritize interviews, RFQs, paid pilots, blocked-demand evidence, and explicit willingness-to-pay before scaling implementation.",
+      "falsifier": "Comparable cohorts repeatedly show build-first founders reaching durable paid adoption faster with no offsetting increase in wasted build effort.",
+      "confidence": "high",
+      "related_resources": ["docs/VALIDATION.md", "docs/AGENT_DEMAND_EXCHANGE.md"]
+    },
+    {
+      "id": "outcomes-over-activity",
+      "statement": "Customer-visible outcomes are a better commercial optimization target than internal agent activity alone.",
+      "prediction": "Offers and pricing tied to verifiable customer outcomes should produce clearer value conversations and more defensible economics than token, call, or task activity alone.",
+      "founder_implication": "Define completion and acceptance before optimizing throughput or internal model activity.",
+      "falsifier": "Across comparable services, activity-based commercial models consistently produce better retention, margin, and buyer clarity than outcome-aligned models.",
+      "confidence": "high",
+      "related_resources": ["docs/AGENT_WORKFLOW_ROI.md", "docs/AGENT_PRICING_PACKAGING_DEAL_DESK.md"]
+    },
+    {
+      "id": "evidence-over-confidence",
+      "statement": "External evidence should outrank model confidence for consequential business claims.",
+      "prediction": "Systems that separate observed facts, self-reports, estimates, assumptions, and interpretation should make fewer costly false assertions than systems using one undifferentiated confidence signal.",
+      "founder_implication": "Carry provenance and freshness with important claims and expose material uncertainty.",
+      "falsifier": "Controlled evaluations show undifferentiated model-confidence decisions are equally or more accurate on consequential business claims with lower operating cost and no material increase in false assertions.",
+      "confidence": "high",
+      "related_resources": ["docs/FOUNDER_OUTCOME_CASE_STUDIES.md", "docs/AGENT_CAPABILITY_ASSURANCE.md"]
+    },
+    {
+      "id": "versioned-commercial-truth",
+      "statement": "Commercial capabilities, prices, policies, evidence, and permissions should be bound to explicit versions and freshness windows.",
+      "prediction": "Version-bound decisions should experience fewer silent mismatches and stale-assumption failures than decisions based on remembered current state.",
+      "founder_implication": "Reference exact versions, timestamps, evidence expiry, and change triggers in machine contracts.",
+      "falsifier": "Comparable systems using unversioned current-state inference have equal or lower mismatch rates and lower total coordination cost over repeated changes.",
+      "confidence": "high",
+      "related_resources": ["docs/AGENT_API_CONTRACTS_INTEROPERABILITY.md", "docs/AGENT_MARKETPLACE_STOREFRONT.md"]
+    },
+    {
+      "id": "separate-economic-transitions",
+      "statement": "Match, award, contract, payment authority, settlement, delivery, and acceptance should remain distinct economic states.",
+      "prediction": "Systems preserving these transitions should reconstruct disputes and automate handoffs more reliably than systems collapsing them into a generic success state.",
+      "founder_implication": "Require state-specific evidence for consequential transitions and do not infer later states from earlier ones.",
+      "falsifier": "A simpler collapsed state model repeatedly yields lower dispute and reconciliation cost without losing reconstructability, authority correctness, or acceptance accuracy.",
+      "confidence": "high",
+      "related_resources": ["docs/AGENT_DEMAND_EXCHANGE.md", "docs/AGENT_SERVICE_CONTRACTING.md", "docs/AGENT_MACHINE_PAYMENTS.md"]
+    },
+    {
+      "id": "fully-loaded-economics",
+      "statement": "Contribution per successful customer outcome is a better scaling metric than inference or token cost alone.",
+      "prediction": "Founders modeling retries, review, support, failures, data, operations, and implementation should make better scale-or-stop decisions than founders optimizing only model-call cost.",
+      "founder_implication": "Compare alternatives against a real baseline using fully loaded cost and customer value.",
+      "falsifier": "Across comparable agent businesses, token-cost optimization alone predicts contribution margin and scaling success as well as or better than fully loaded outcome economics.",
+      "confidence": "high",
+      "related_resources": ["docs/AGENT_UNIT_ECONOMICS.md", "docs/AGENT_WORKFLOW_ROI.md"]
+    },
+    {
+      "id": "progressive-autonomy",
+      "statement": "Autonomy should expand with evidence, reversibility, explicit authority, and bounded downside rather than through all-or-nothing delegation.",
+      "prediction": "Progressive delegation should unlock useful automation earlier with fewer severe unauthorized or unrecoverable failures than blanket autonomy.",
+      "founder_implication": "Automate reversible bounded actions first and expand exposure only when evidence supports it.",
+      "falsifier": "Comparable deployments show blanket autonomy achieving materially better outcomes without higher unauthorized loss, recovery cost, or trust failures.",
+      "confidence": "medium",
+      "related_resources": ["docs/AGENT_AUTHORITY_DELEGATION.md", "docs/AGENT_ECONOMIC_INTEGRITY.md"]
+    },
+    {
+      "id": "execution-reputation",
+      "statement": "Capability-specific execution history should predict commercial reliability better than badges, identity, payments, or reviews considered alone.",
+      "prediction": "Reputation signals incorporating scoped outcomes, sample size, recency, failures, and disputes should better predict future delivery quality than one opaque global score.",
+      "founder_implication": "Build decomposable reputation from evidence-backed execution, including negative and disputed outcomes.",
+      "falsifier": "Opaque global ratings or badge systems repeatedly predict future domain-specific delivery as well as or better than evidence-linked execution histories under comparable data availability.",
+      "confidence": "medium",
+      "related_resources": ["docs/AGENT_IDENTITY_TRUST.md", "docs/AGENT_CAPABILITY_ASSURANCE.md"]
+    },
+    {
+      "id": "open-machine-contracts",
+      "statement": "Stable portable machine contracts should reduce discovery, comparison, integration, and transaction friction across heterogeneous agents.",
+      "prediction": "Businesses exposing machine-readable capabilities and commercial state should integrate and transact faster across agent frameworks than businesses requiring bespoke conversational interpretation for each counterparty.",
+      "founder_implication": "Publish canonical portable contracts and keep platform-specific projections synchronized.",
+      "falsifier": "Across heterogeneous agent ecosystems, proprietary conversational interfaces repeatedly achieve lower integration time and higher commercial conversion than portable structured contracts without offsetting lock-in cost.",
+      "confidence": "medium",
+      "related_resources": ["docs/AGENT_API_CONTRACTS_INTEROPERABILITY.md", "docs/AGENT_MARKETPLACE_STOREFRONT.md"]
+    },
+    {
+      "id": "structured-market-learning",
+      "statement": "Compatible structured operating evidence should compound ecosystem learning better than anecdotes and vanity aggregates alone.",
+      "prediction": "Repositories and markets that preserve compatible demand, proposal, delivery, and outcome records should identify opportunities and failure patterns faster than those retaining mostly prose anecdotes.",
+      "founder_implication": "Preserve reusable structured evidence with compatible definitions, privacy boundaries, sample size, and freshness.",
+      "falsifier": "Comparable ecosystems relying mainly on unstructured anecdotes consistently identify profitable opportunities and recurring failure modes as quickly and accurately with lower total evidence cost.",
+      "confidence": "medium",
+      "related_resources": ["docs/AGENT_DEMAND_EXCHANGE.md", "docs/FOUNDER_OUTCOME_CASE_STUDIES.md", "docs/AGENT_BUSINESS_OUTCOME_BENCHMARKS.md"]
+    }
+  ],
+  "normative_constraints": [
+    {
+      "id": "explicit-authority",
+      "statement": "Technical capability, credentials, account access, or repository guidance never create real-world authority by themselves.",
+      "operating_rule": "Require external, explicit, bounded authority for consequential actions.",
+      "related_resources": ["docs/AGENT_AUTHORITY_DELEGATION.md"]
+    },
+    {
+      "id": "no-fabricated-evidence",
+      "statement": "Do not manufacture customers, revenue, approvals, identity verification, outcomes, reviews, demand, or transactions.",
+      "operating_rule": "Preserve the difference between observation, self-report, estimate, assumption, and interpretation.",
+      "related_resources": ["docs/FOUNDER_OUTCOME_CASE_STUDIES.md"]
+    },
+    {
+      "id": "public-data-safety",
+      "statement": "Public repository artifacts must not contain secrets, credentials, private prompts, raw payment credentials, or private customer evidence.",
+      "operating_rule": "Use disclosure-safe references and keep sensitive evidence outside public artifacts.",
+      "related_resources": ["AGENTS.md"]
+    }
+  ]
+}
