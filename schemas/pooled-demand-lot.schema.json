@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pooled Agent Demand Lot",
+  "type": "object",
+  "required": [
+    "schema_version", "pool_id", "pool_version", "updated_at", "status",
+    "normalized_demand", "participants", "thresholds", "seller_offer",
+    "allocation", "economics", "authority_boundaries", "disclosure"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "pool_id": {"type": "string", "minLength": 1},
+    "pool_version": {"type": "string", "minLength": 1},
+    "updated_at": {"type": "string", "minLength": 1},
+    "status": {
+      "enum": ["draft", "collecting", "threshold_met", "offer_received", "offer_selected", "allocating", "allocated", "closed", "cancelled", "expired"]
+    },
+    "normalized_demand": {
+      "type": "object",
+      "required": ["capability_category", "business_outcome", "quantity_unit", "commercial_unit", "currency", "scope_hash", "hard_requirements", "optional_preferences", "regions", "service_levels", "acceptance_criteria"],
+      "properties": {
+        "capability_category": {"type": "string", "minLength": 1},
+        "business_outcome": {"type": "string", "minLength": 1},
+        "quantity_unit": {"type": "string", "minLength": 1},
+        "commercial_unit": {"type": "string", "minLength": 1},
+        "currency": {"type": "string", "minLength": 1},
+        "scope_hash": {"type": "string", "minLength": 1},
+        "hard_requirements": {"type": "array", "items": {"type": "object"}},
+        "optional_preferences": {"type": "array"},
+        "regions": {"type": "array", "items": {"type": "string"}},
+        "service_levels": {"type": "object"},
+        "acceptance_criteria": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["participant_id", "rfq_ref", "demand_quality", "quantity_min", "quantity_max", "committed_quantity", "max_unit_price_minor", "budget_cap_minor", "valid_until", "opt_in_state", "committed_at", "accepted_offer_at", "authority", "related_party_to_seller"],
+        "properties": {
+          "participant_id": {"type": "string", "minLength": 1},
+          "rfq_ref": {
+            "type": "object",
+            "required": ["request_id", "request_version", "request_digest"],
+            "properties": {
+              "request_id": {"type": "string", "minLength": 1},
+              "request_version": {"type": "string", "minLength": 1},
+              "request_digest": {"type": "string", "minLength": 1}
+            }
+          },
+          "demand_quality": {"enum": ["synthetic_test", "exploratory_research", "self_declared_intent", "verified_commercial"]},
+          "quantity_min": {"type": "integer", "minimum": 1},
+          "quantity_max": {"type": "integer", "minimum": 1},
+          "committed_quantity": {"type": "integer", "minimum": 0},
+          "max_unit_price_minor": {"type": ["integer", "null"], "minimum": 0},
+          "budget_cap_minor": {"type": ["integer", "null"], "minimum": 0},
+          "valid_until": {"type": "string"},
+          "opt_in_state": {"enum": ["interested", "committed", "accepted", "withdrawn", "expired"]},
+          "committed_at": {"type": ["string", "null"]},
+          "accepted_offer_at": {"type": ["string", "null"]},
+          "authority": {
+            "type": "object",
+            "required": ["state", "evidence_ref", "currency", "max_total_minor", "expires_at"],
+            "properties": {
+              "state": {"enum": ["none", "current", "expired", "revoked", "unknown"]},
+              "evidence_ref": {"type": ["string", "null"]},
+              "currency": {"type": ["string", "null"]},
+              "max_total_minor": {"type": ["integer", "null"], "minimum": 0},
+              "expires_at": {"type": ["string", "null"]}
+            }
+          },
+          "related_party_to_seller": {"enum": ["yes", "no", "unknown"]}
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "required": ["min_committed_buyers", "min_committed_quantity", "min_committed_budget_minor", "computed_committed_buyers", "computed_committed_quantity", "computed_committed_budget_minor", "state", "evaluated_at"],
+      "properties": {
+        "min_committed_buyers": {"type": "integer", "minimum": 1},
+        "min_committed_quantity": {"type": "integer", "minimum": 1},
+        "min_committed_budget_minor": {"type": ["integer", "null"], "minimum": 0},
+        "computed_committed_buyers": {"type": "integer", "minimum": 0},
+        "computed_committed_quantity": {"type": "integer", "minimum": 0},
+        "computed_committed_budget_minor": {"type": "integer", "minimum": 0},
+        "state": {"enum": ["not_met", "met"]},
+        "evaluated_at": {"type": "string"}
+      }
+    },
+    "seller_offer": {
+      "type": "object",
+      "required": ["status", "offer_id", "seller_listing_ref", "seller_listing_version", "received_at", "selected_at", "valid_until", "capacity_ceiling", "volume_tiers", "setup_cost_minor", "setup_allocation_method", "dependencies", "related_party_disclosure"],
+      "properties": {
+        "status": {"enum": ["none", "received", "selected", "withdrawn", "expired"]},
+        "offer_id": {"type": ["string", "null"]},
+        "seller_listing_ref": {"type": ["string", "null"]},
+        "seller_listing_version": {"type": ["string", "null"]},
+        "received_at": {"type": ["string", "null"]},
+        "selected_at": {"type": ["string", "null"]},
+        "valid_until": {"type": ["string", "null"]},
+        "capacity_ceiling": {"type": ["integer", "null"], "minimum": 1},
+        "volume_tiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["min_quantity", "max_quantity", "unit_price_minor"],
+            "properties": {
+              "min_quantity": {"type": "integer", "minimum": 1},
+              "max_quantity": {"type": ["integer", "null"], "minimum": 1},
+              "unit_price_minor": {"type": "integer", "minimum": 0}
+            }
+          }
+        },
+        "setup_cost_minor": {"type": "integer", "minimum": 0},
+        "setup_allocation_method": {"const": "pro_rata_allocated_quantity"},
+        "dependencies": {"type": "array", "items": {"type": "string"}},
+        "related_party_disclosure": {"enum": ["none_known", "disclosed", "unknown"]}
+      }
+    },
+    "allocation": {
+      "type": "object",
+      "required": ["state", "policy", "finalized_at", "selected_unit_price_minor", "allocated_total_quantity", "allocations"],
+      "properties": {
+        "state": {"enum": ["not_started", "provisional", "finalized", "cancelled"]},
+        "policy": {"const": "pro_rata_committed_quantity"},
+        "finalized_at": {"type": ["string", "null"]},
+        "selected_unit_price_minor": {"type": ["integer", "null"], "minimum": 0},
+        "allocated_total_quantity": {"type": "integer", "minimum": 0},
+        "allocations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["participant_id", "allocated_quantity", "unit_price_minor", "setup_share_minor", "total_price_minor", "buyer_deal_plan_ref", "payment_authorized"],
+            "properties": {
+              "participant_id": {"type": "string", "minLength": 1},
+              "allocated_quantity": {"type": "integer", "minimum": 1},
+              "unit_price_minor": {"type": "integer", "minimum": 0},
+              "setup_share_minor": {"type": "integer", "minimum": 0},
+              "total_price_minor": {"type": "integer", "minimum": 0},
+              "buyer_deal_plan_ref": {"type": "string", "minLength": 1},
+              "payment_authorized": {"const": false}
+            }
+          }
+        }
+      }
+    },
+    "economics": {
+      "type": "object",
+      "required": ["baseline_policy", "market_claims_allowed", "buyer_savings", "supplier_concentration"],
+      "properties": {
+        "baseline_policy": {"const": "comparable_individual_evidence_only"},
+        "market_claims_allowed": {"type": "boolean"},
+        "buyer_savings": {"type": "array", "items": {"type": "object"}},
+        "supplier_concentration": {"type": "object"}
+      }
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "required": ["shared_wallet", "shared_credentials", "shared_payment_authority", "shared_contract_authority", "pool_award_grants_buyer_authority", "pool_allocation_executes_payment"],
+      "properties": {
+        "shared_wallet": {"const": false},
+        "shared_credentials": {"const": false},
+        "shared_payment_authority": {"const": false},
+        "shared_contract_authority": {"const": false},
+        "pool_award_grants_buyer_authority": {"const": false},
+        "pool_allocation_executes_payment": {"const": false}
+      }
+    },
+    "disclosure": {
+      "type": "object",
+      "required": ["public_disclosure_confirmed", "contains_secrets", "contains_credentials", "contains_private_buyer_identity", "contains_confidential_rfq_content", "contains_hidden_budget_data", "aggregate_publication_allowed", "evidence_classes_kept_separate"],
+      "properties": {
+        "public_disclosure_confirmed": {"type": "boolean"},
+        "contains_secrets": {"const": false},
+        "contains_credentials": {"const": false},
+        "contains_private_buyer_identity": {"const": false},
+        "contains_confidential_rfq_content": {"const": false},
+        "contains_hidden_budget_data": {"const": false},
+        "aggregate_publication_allowed": {"type": "boolean"},
+        "evidence_classes_kept_separate": {"const": true}
+      }
+    }
+  },
+  "additionalProperties": false
+}

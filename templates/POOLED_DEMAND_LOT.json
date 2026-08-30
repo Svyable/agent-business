@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0.0",
+  "pool_id": "pool.example-draft",
+  "pool_version": "0.1.0",
+  "updated_at": "2026-08-30T18:45:00Z",
+  "status": "draft",
+  "normalized_demand": {
+    "capability_category": "example-capability",
+    "business_outcome": "Describe one measurable outcome shared by compatible buyer RFQs.",
+    "quantity_unit": "completed_outcome",
+    "commercial_unit": "completed_outcome",
+    "currency": "USD",
+    "scope_hash": "sha256:replace-with-normalized-scope-digest",
+    "hard_requirements": [
+      {"id": "hr.example", "statement": "Replace with one shared hard requirement that every pooled RFQ satisfies."}
+    ],
+    "optional_preferences": [],
+    "regions": [],
+    "service_levels": {"completion_deadline_seconds": null},
+    "acceptance_criteria": ["Replace with buyer-verifiable acceptance criteria before commercial activation."]
+  },
+  "participants": [
+    {
+      "participant_id": "buyer.example.a",
+      "rfq_ref": {
+        "request_id": "request.example.a",
+        "request_version": "0.1.0",
+        "request_digest": "sha256:replace-with-rfq-digest-a"
+      },
+      "demand_quality": "synthetic_test",
+      "quantity_min": 1,
+      "quantity_max": 5,
+      "committed_quantity": 0,
+      "max_unit_price_minor": null,
+      "budget_cap_minor": null,
+      "valid_until": "2026-09-30T00:00:00Z",
+      "opt_in_state": "interested",
+      "committed_at": null,
+      "accepted_offer_at": null,
+      "authority": {
+        "state": "none",
+        "evidence_ref": null,
+        "currency": null,
+        "max_total_minor": null,
+        "expires_at": null
+      },
+      "related_party_to_seller": "unknown"
+    },
+    {
+      "participant_id": "buyer.example.b",
+      "rfq_ref": {
+        "request_id": "request.example.b",
+        "request_version": "0.1.0",
+        "request_digest": "sha256:replace-with-rfq-digest-b"
+      },
+      "demand_quality": "synthetic_test",
+      "quantity_min": 1,
+      "quantity_max": 5,
+      "committed_quantity": 0,
+      "max_unit_price_minor": null,
+      "budget_cap_minor": null,
+      "valid_until": "2026-09-30T00:00:00Z",
+      "opt_in_state": "interested",
+      "committed_at": null,
+      "accepted_offer_at": null,
+      "authority": {
+        "state": "none",
+        "evidence_ref": null,
+        "currency": null,
+        "max_total_minor": null,
+        "expires_at": null
+      },
+      "related_party_to_seller": "unknown"
+    }
+  ],
+  "thresholds": {
+    "min_committed_buyers": 2,
+    "min_committed_quantity": 10,
+    "min_committed_budget_minor": null,
+    "computed_committed_buyers": 0,
+    "computed_committed_quantity": 0,
+    "computed_committed_budget_minor": 0,
+    "state": "not_met",
+    "evaluated_at": "2026-08-30T18:45:00Z"
+  },
+  "seller_offer": {
+    "status": "none",
+    "offer_id": null,
+    "seller_listing_ref": null,
+    "seller_listing_version": null,
+    "received_at": null,
+    "selected_at": null,
+    "valid_until": null,
+    "capacity_ceiling": null,
+    "volume_tiers": [],
+    "setup_cost_minor": 0,
+    "setup_allocation_method": "pro_rata_allocated_quantity",
+    "dependencies": [],
+    "related_party_disclosure": "unknown"
+  },
+  "allocation": {
+    "state": "not_started",
+    "policy": "pro_rata_committed_quantity",
+    "finalized_at": null,
+    "selected_unit_price_minor": null,
+    "allocated_total_quantity": 0,
+    "allocations": []
+  },
+  "economics": {
+    "baseline_policy": "comparable_individual_evidence_only",
+    "market_claims_allowed": false,
+    "buyer_savings": [],
+    "supplier_concentration": {
+      "single_supplier": false,
+      "risk": "unknown",
+      "substitution_plan": null
+    }
+  },
+  "authority_boundaries": {
+    "shared_wallet": false,
+    "shared_credentials": false,
+    "shared_payment_authority": false,
+    "shared_contract_authority": false,
+    "pool_award_grants_buyer_authority": false,
+    "pool_allocation_executes_payment": false
+  },
+  "disclosure": {
+    "public_disclosure_confirmed": true,
+    "contains_secrets": false,
+    "contains_credentials": false,
+    "contains_private_buyer_identity": false,
+    "contains_confidential_rfq_content": false,
+    "contains_hidden_budget_data": false,
+    "aggregate_publication_allowed": false,
+    "evidence_classes_kept_separate": true
+  }
+}
