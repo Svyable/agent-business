@@ -34,6 +34,15 @@ def load(path: Path) -> dict:
     return value
 
 
+def valid_range(value: object) -> bool:
+    return (
+        isinstance(value, list)
+        and len(value) == 2
+        and all(isinstance(x, int) and x >= 0 for x in value)
+        and value[0] <= value[1]
+    )
+
+
 def validate_dataset(data: dict) -> None:
     required = [
         "schema_version", "dataset_id", "generated_at", "population_definition",
@@ -44,6 +53,7 @@ def validate_dataset(data: dict) -> None:
         raise ValueError("missing dataset fields: " + ", ".join(missing))
     if data["schema_version"] != "1.0.0":
         raise ValueError("schema_version must be 1.0.0")
+    parse_time(data["generated_at"])
     if not data["population_definition"] or not data["selection_rule"]:
         raise ValueError("population_definition and selection_rule must be explicit")
     if data["synthetic_separated"] is not True:
@@ -82,10 +92,27 @@ def validate_dataset(data: dict) -> None:
         if value_range is not None:
             if evidence_class not in COMMERCIAL_CLASSES:
                 raise ValueError("demand value ranges are only allowed for observed/verified commercial demand")
-            if not (isinstance(value_range, list) and len(value_range) == 2 and all(isinstance(x, int) and x >= 0 for x in value_range) and value_range[0] <= value_range[1]):
+            if not valid_range(value_range):
                 raise ValueError("qualified_demand_value_minor_range must be [low, high] non-negative integers")
             if not item.get("currency"):
                 raise ValueError("currency is required with demand value range")
+
+
+def validate_costs(data: dict) -> tuple[str, dict[str, dict]]:
+    if data.get("schema_version") != "1.0.0" or not data.get("currency"):
+        raise ValueError("cost model requires schema_version 1.0.0 and currency")
+    rows = data.get("costs")
+    if not isinstance(rows, list):
+        raise ValueError("costs must be an array")
+    result: dict[str, dict] = {}
+    for row in rows:
+        convention = row.get("convention") if isinstance(row, dict) else None
+        if not convention or convention in result:
+            raise ValueError("cost convention must be present and unique")
+        if not valid_range(row.get("implementation_cost_minor_range")) or not valid_range(row.get("annual_maintenance_cost_minor_range")):
+            raise ValueError(f"{convention} cost ranges must be [low, high] non-negative integers")
+        result[convention] = row
+    return data["currency"], result
 
 
 def transition_solved_by(transition: dict, conventions: set[str], blocker_ids: set[str]) -> bool:
@@ -106,9 +133,10 @@ def state_after(plan: dict, conventions: set[str]) -> tuple[bool, bool, int, int
         for item in plan.get("compatibility", {}).get("blockers", [])
         if item.get("convention_id")
     }
-    statuses = []
-    for transition in plan["transitions"]:
-        statuses.append("ready" if transition_solved_by(transition, conventions, blockers) else transition["status"])
+    statuses = [
+        "ready" if transition_solved_by(transition, conventions, blockers) else transition["status"]
+        for transition in plan["transitions"]
+    ]
     reachable = not any(status in {"blocked", "unsupported"} for status in statuses)
     structured = reachable and all(status == "ready" for status in statuses)
     return (
@@ -138,14 +166,17 @@ def summarize(items: list[dict], implementations: set[str] | None = None) -> dic
     implementations = implementations or set()
     states = [state_after(item["plan"], implementations) for item in items]
     transition_count = sum(len(item["plan"]["transitions"]) for item in items)
-    minimum_work = [
-        sum(1 for transition in item["plan"]["transitions"] if not transition_solved_by(
-            transition,
-            implementations,
-            {b.get("convention_id") for b in item["plan"].get("compatibility", {}).get("blockers", []) if b.get("convention_id")},
+    minimum_work = []
+    for item in items:
+        blocker_ids = {
+            b.get("convention_id")
+            for b in item["plan"].get("compatibility", {}).get("blockers", [])
+            if b.get("convention_id")
+        }
+        minimum_work.append(sum(
+            1 for transition in item["plan"]["transitions"]
+            if not transition_solved_by(transition, implementations, blocker_ids)
         ))
-        for item in items
-    ]
     return {
         "sample_size": len(items),
         "reachable_counterparty_rate": round(sum(s[0] for s in states) / len(states), 6),
@@ -170,7 +201,38 @@ def demand_range(items: list[dict], unlocked_ids: set[str]) -> tuple[str | None,
     ]
 
 
-def analyze_cohort(items: list[dict], min_sample: int) -> dict:
+def attach_roi(row: dict, cost_currency: str | None, costs: dict[str, dict]) -> None:
+    convention = row["convention"]
+    cost = costs.get(convention)
+    value = row.get("unlocked_qualified_demand_value_minor_range")
+    value_currency = row.get("unlocked_qualified_demand_currency")
+    if not cost or not value or not cost_currency or value_currency != cost_currency:
+        row["integration_roi"] = None
+        return
+    implementation = cost["implementation_cost_minor_range"]
+    maintenance = cost["annual_maintenance_cost_minor_range"]
+    total_cost = [implementation[0] + maintenance[0], implementation[1] + maintenance[1]]
+    unlocked_count = row["incremental_reachable_corridors"]
+    result = {
+        "currency": cost_currency,
+        "year_one_cost_minor_range": total_cost,
+        "unlocked_qualified_demand_value_minor_range": value,
+        "cost_per_incremental_reachable_corridor_minor_range": None,
+        "year_one_roi_range": None,
+    }
+    if unlocked_count:
+        result["cost_per_incremental_reachable_corridor_minor_range"] = [
+            round(total_cost[0] / unlocked_count), round(total_cost[1] / unlocked_count)
+        ]
+    if total_cost[0] > 0 and total_cost[1] > 0:
+        result["year_one_roi_range"] = [
+            round((value[0] - total_cost[1]) / total_cost[1], 6),
+            round((value[1] - total_cost[0]) / total_cost[0], 6),
+        ]
+    row["integration_roi"] = result
+
+
+def analyze_cohort(items: list[dict], min_sample: int, cost_currency: str | None, costs: dict[str, dict]) -> dict:
     baseline = summarize(items)
     candidates = sorted(set().union(*(candidate_conventions(item["plan"]) for item in items)))
     single = []
@@ -183,7 +245,7 @@ def analyze_cohort(items: list[dict], min_sample: int) -> dict:
             if item["corridor_id"] not in baseline_reachable and state_after(item["plan"], implementations)[0]
         }
         currency, value = demand_range(items, unlocked)
-        single.append({
+        row = {
             "convention": convention,
             "incremental_reachable_corridors": len(unlocked),
             "incremental_reachable_rate": round(len(unlocked) / len(items), 6),
@@ -192,7 +254,9 @@ def analyze_cohort(items: list[dict], min_sample: int) -> dict:
             "unlocked_corridor_ids": sorted(unlocked),
             "unlocked_qualified_demand_currency": currency,
             "unlocked_qualified_demand_value_minor_range": value,
-        })
+        }
+        attach_roi(row, cost_currency, costs)
+        single.append(row)
     single.sort(key=lambda x: (-x["incremental_reachable_corridors"], x["convention"]))
 
     pairs = []
@@ -208,14 +272,26 @@ def analyze_cohort(items: list[dict], min_sample: int) -> dict:
         )
         synergy = len(unlocked) - best_single
         if unlocked and synergy > 0:
-            pairs.append({"conventions": [left, right], "incremental_reachable_corridors": len(unlocked), "complementarity_gain_over_best_single": synergy, "unlocked_corridor_ids": sorted(unlocked)})
+            pairs.append({
+                "conventions": [left, right],
+                "incremental_reachable_corridors": len(unlocked),
+                "complementarity_gain_over_best_single": synergy,
+                "unlocked_corridor_ids": sorted(unlocked),
+            })
     pairs.sort(key=lambda x: (-x["complementarity_gain_over_best_single"], -x["incremental_reachable_corridors"], x["conventions"]))
-    return {"publishable": len(items) >= min_sample, "baseline": baseline, "convention_unlocks": single, "complementary_pairs": pairs}
+    return {
+        "publishable": len(items) >= min_sample,
+        "publication_note": None if len(items) >= min_sample else f"sample below minimum publication threshold of {min_sample}",
+        "baseline": baseline,
+        "convention_unlocks": single,
+        "complementary_pairs": pairs,
+    }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset", type=Path)
+    parser.add_argument("--costs", type=Path, help="Optional evidence-backed integration cost ranges")
     parser.add_argument("--min-sample", type=int, default=3)
     parser.add_argument("--max-age-days", type=int, default=90)
     parser.add_argument("--as-of", default=None, help="RFC3339 evaluation time; defaults to now")
@@ -225,6 +301,7 @@ def main() -> int:
         data = load(args.dataset)
         validate_dataset(data)
         as_of = parse_time(args.as_of) if args.as_of else datetime.now(timezone.utc)
+        cost_currency, costs = (validate_costs(load(args.costs)) if args.costs else (None, {}))
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
@@ -247,7 +324,11 @@ def main() -> int:
         "stale_corridors_excluded": len(stale),
         "evidence_classes_kept_separate": True,
         "authority_inference": False,
-        "cohorts": {key: analyze_cohort(items, args.min_sample) for key, items in sorted(cohorts.items())},
+        "cost_model_currency": cost_currency,
+        "cohorts": {
+            key: analyze_cohort(items, args.min_sample, cost_currency, costs)
+            for key, items in sorted(cohorts.items())
+        },
         "interpretation": "Reachable means no blocked or unsupported transition after the modeled interoperability change. It does not mean authorized, contracted, paid, delivered, or accepted.",
     }
     text = json.dumps(report, indent=2, sort_keys=True) + "\n"
