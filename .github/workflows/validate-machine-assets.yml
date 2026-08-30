@@ -14,77 +14,113 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Validate agent index
         run: python scripts/validate_agent_index.py
+
       - name: Validate discovery assets
         run: python scripts/validate_discovery_assets.py
+
       - name: Validate economic integrity assets
         run: python scripts/validate_economic_integrity.py
+
       - name: Validate founder outcome template
         run: python scripts/validate_founder_outcome.py templates/FOUNDER_OUTCOME_RECORD.json --allow-draft
+
       - name: Validate fiscal evidence template
         run: python scripts/validate_fiscal_evidence.py templates/FISCAL_TRANSACTION_EVIDENCE.json
+
       - name: Validate entity governance template
         run: python scripts/validate_entity_governance.py templates/ENTITY_GOVERNANCE_RECORD.json
+
       - name: Validate workflow ROI template
         run: python scripts/workflow_roi.py templates/WORKFLOW_ROI_ANALYSIS.json --validate-only
+
       - name: Validate customer success template
         run: python scripts/validate_customer_success.py templates/CUSTOMER_SUCCESS_RECORD.json
+
       - name: Validate enterprise vendor readiness template
         run: python scripts/validate_vendor_readiness.py templates/VENDOR_READINESS_RECORD.json
+
       - name: Validate IP rights template
         run: python scripts/validate_ip_rights.py templates/IP_RIGHTS_RECORD.json
+
       - name: Validate pricing package template
         run: python scripts/validate_pricing_package.py templates/PRICING_PACKAGE.json
+
       - name: Validate revenue opportunity template
         run: python scripts/validate_revenue_opportunity.py templates/REVENUE_OPPORTUNITY_RECORD.json
+
       - name: Validate growth experiment template
         run: python scripts/validate_growth_experiment.py templates/GROWTH_EXPERIMENT_RECORD.json
+
       - name: Validate customer implementation template
         run: python scripts/validate_customer_implementation.py templates/CUSTOMER_IMPLEMENTATION_RECORD.json
+
       - name: Validate agent release template
         run: python scripts/validate_agent_release.py templates/AGENT_RELEASE_RECORD.json
+
       - name: Validate tenant operations template
         run: python scripts/validate_tenant_operations.py templates/TENANT_OPERATIONS_RECORD.json
+
       - name: Validate business continuity template
         run: python scripts/validate_business_continuity.py templates/BUSINESS_CONTINUITY_RECORD.json
+
       - name: Validate business benchmark template
         run: python scripts/validate_business_benchmark.py templates/BUSINESS_BENCHMARK_RECORD.json
+
       - name: Validate worked business benchmark comparison
         run: python scripts/validate_business_benchmark.py examples/BUSINESS_BENCHMARK_COMPARISON.json
+
       - name: Validate incident response template
         run: python scripts/validate_incident_response.py templates/INCIDENT_RESPONSE_RECORD.json
+
       - name: Verify audit evidence template
         run: python scripts/verify_audit_evidence.py templates/AUDIT_EVIDENCE_RECORD.json
+
       - name: Validate privacy request template
         run: python scripts/validate_privacy_request.py templates/PRIVACY_REQUEST_RECORD.json
+
       - name: Validate platform access template
         run: python scripts/validate_platform_access.py templates/PLATFORM_ACCESS_RECORD.json
+
       - name: Validate AI transparency template
         run: python scripts/validate_ai_transparency.py templates/AI_TRANSPARENCY_RECORD.json
+
       - name: Validate data residency profile
         run: python scripts/validate_data_residency.py templates/DATA_RESIDENCY_PROFILE.json
+
       - name: Validate complaint redress template
         run: python scripts/validate_complaint_redress.py templates/COMPLAINT_REDRESS_RECORD.json
+
       - name: Validate machine payment template
         run: python scripts/validate_machine_payment.py templates/MACHINE_PAYMENT_RECORD.json
+
       - name: Validate marketplace storefront template
         run: python scripts/validate_marketplace_listing.py templates/AGENT_MARKETPLACE_LISTING.json --allow-draft
+
       - name: Validate demand exchange template
         run: python scripts/validate_agent_demand.py templates/AGENT_DEMAND_REQUEST.json --allow-draft
+
       - name: Validate RFQ seller proposal template
         run: python scripts/validate_agent_proposal.py templates/AGENT_RFQ_PROPOSAL.json --allow-draft
+
       - name: Validate Agent Business world model
         run: python scripts/validate_agent_world_model.py agent-world-model.json
+
       - name: Validate Agent Business compatibility profile
         run: python scripts/agent_business_compatibility.py templates/AGENT_BUSINESS_COMPATIBILITY.json
+
       - name: Validate cross-agent compatibility handshake
         run: python scripts/agent_business_compatibility.py templates/AGENT_BUSINESS_COMPATIBILITY.json --negotiate examples/AGENT_BUSINESS_COMPATIBILITY_COUNTERPARTY.json --json
+
       - name: Validate fail-closed deal plan starter
         run: python -c 'import json; p=json.load(open("templates/AGENT_DEAL_PLAN.json")); assert p["grants_authority"] is False and p["action_authorized"] is False and p["plan_ready"] is False'
+
       - name: Test discovery runtime and repository tooling
         run: python -m unittest discover -s tests -p 'test_*.py'
