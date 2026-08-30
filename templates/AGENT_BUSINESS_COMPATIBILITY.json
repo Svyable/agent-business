@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "replace-with-stable-profile-id",
+  "profile_version": "1.0.0",
+  "publisher": {
+    "agent_or_business_ref": "replace-with-public-agent-or-business-ref",
+    "identity_evidence_ref": null
+  },
+  "updated_at": "2026-08-30T00:00:00Z",
+  "expires_at": "2026-09-29T00:00:00Z",
+  "world_model": {
+    "model_id": "agent-business-world-model",
+    "schema_version": "1.0.0"
+  },
+  "conventions": [
+    {
+      "id": "evidence-provenance",
+      "spec_version": "1.0.0",
+      "support_state": "declared",
+      "required_for_transaction": true,
+      "fallback": null,
+      "test_evidence_ref": null,
+      "tested_at": null,
+      "production_evidence_ref": null,
+      "observed_at": null,
+      "observation_scope": null,
+      "verifier_ref": null,
+      "verification_evidence_ref": null,
+      "verified_at": null,
+      "evidence_expires_at": null
+    },
+    {
+      "id": "bounded-authority",
+      "spec_version": "1.0.0",
+      "support_state": "declared",
+      "required_for_transaction": true,
+      "fallback": null,
+      "test_evidence_ref": null,
+      "tested_at": null,
+      "production_evidence_ref": null,
+      "observed_at": null,
+      "observation_scope": null,
+      "verifier_ref": null,
+      "verification_evidence_ref": null,
+      "verified_at": null,
+      "evidence_expires_at": null
+    },
+    {
+      "id": "economic-state-separation",
+      "spec_version": "1.0.0",
+      "support_state": "declared",
+      "required_for_transaction": true,
+      "fallback": null,
+      "test_evidence_ref": null,
+      "tested_at": null,
+      "production_evidence_ref": null,
+      "observed_at": null,
+      "observation_scope": null,
+      "verifier_ref": null,
+      "verification_evidence_ref": null,
+      "verified_at": null,
+      "evidence_expires_at": null
+    },
+    {
+      "id": "machine-rfq",
+      "spec_version": "1.0.0",
+      "support_state": "declared",
+      "required_for_transaction": false,
+      "fallback": "human_reviewed_request_document",
+      "test_evidence_ref": null,
+      "tested_at": null,
+      "production_evidence_ref": null,
+      "observed_at": null,
+      "observation_scope": null,
+      "verifier_ref": null,
+      "verification_evidence_ref": null,
+      "verified_at": null,
+      "evidence_expires_at": null
+    },
+    {
+      "id": "machine-proposal",
+      "spec_version": "1.0.0",
+      "support_state": "declared",
+      "required_for_transaction": false,
+      "fallback": "human_reviewed_proposal_document",
+      "test_evidence_ref": null,
+      "tested_at": null,
+      "production_evidence_ref": null,
+      "observed_at": null,
+      "observation_scope": null,
+      "verifier_ref": null,
+      "verification_evidence_ref": null,
+      "verified_at": null,
+      "evidence_expires_at": null
+    }
+  ],
+  "publication": {
+    "canonical_profile_url": null,
+    "transport_hints": ["http"]
+  },
+  "disclosure": {
+    "contains_secrets": false,
+    "contains_credentials": false,
+    "contains_private_customer_data": false,
+    "contains_private_prompts": false,
+    "public_disclosure_confirmed": true
+  },
+  "compatibility_grants_authority": false,
+  "certification_claim": null
+}
