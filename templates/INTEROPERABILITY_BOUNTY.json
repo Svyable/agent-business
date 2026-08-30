@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0.0",
+  "bounty_id": "draft-interoperability-bounty-001",
+  "status": "draft",
+  "target": {
+    "convention_id": "machine-payment-reconciliation",
+    "spec_version": "1.0.0",
+    "corridor_population_ref": "synthetic-corridor-population-example",
+    "population_hash": "sha256:replace-with-stable-population-hash",
+    "selection_rule_hash": "sha256:replace-with-stable-selection-rule-hash",
+    "minimum_incremental_reachable_corridors": 1,
+    "acceptance_criteria_hash": "sha256:replace-with-frozen-criteria-hash",
+    "tests": [
+      {
+        "id": "compatibility-fixture",
+        "procedure": "Run an allowlisted compatibility/deal-corridor test proving the target convention on the declared semantic version."
+      }
+    ]
+  },
+  "demand": {
+    "evidence_class": "synthetic_test",
+    "snapshot_ref": "examples/CORRIDOR_LIQUIDITY_SYNTHETIC.json",
+    "corridor_count": 0,
+    "qualified_value_minor_range": null,
+    "currency": null,
+    "evidence_refs": [],
+    "demand_backed_claim": false
+  },
+  "funding": {
+    "repo_custodies_funds": false,
+    "currency": null,
+    "payout_cap_minor": 0,
+    "custody_state": "none",
+    "custody_provider_ref": null,
+    "custody_evidence_ref": null,
+    "sponsors": []
+  },
+  "builder": {
+    "state": "none",
+    "builder_ref": null,
+    "proposal_ref": null,
+    "implementation_cost_minor_range": null,
+    "currency": null,
+    "compatibility_profile_target_ref": null,
+    "submission_evidence_refs": []
+  },
+  "award": {
+    "state": "not_awarded",
+    "builder_ref": null,
+    "acceptance_criteria_hash": null,
+    "awarded_at": null
+  },
+  "acceptance": {
+    "state": "not_started",
+    "criteria_hash": "sha256:replace-with-frozen-criteria-hash",
+    "criteria_locked_at": null,
+    "test_evidence_refs": [],
+    "evaluated_at": null
+  },
+  "unlock_verification": {
+    "state": "not_started",
+    "baseline_snapshot_ref": null,
+    "post_snapshot_ref": null,
+    "same_population_confirmed": false,
+    "same_selection_rule_confirmed": false,
+    "incremental_reachable_corridors": 0,
+    "evidence_ref": null,
+    "verified_at": null
+  },
+  "payout": {
+    "state": "not_earned",
+    "amount_minor": 0,
+    "currency": null,
+    "payout_authority_ref": null,
+    "payment_ref": null,
+    "settlement_evidence_ref": null
+  },
+  "value_attribution": {
+    "overlap_group_id": null,
+    "overlap_policy": "independent_no_value_claim",
+    "overlap_check_evidence_ref": null,
+    "claims_exclusive_incremental_value": false
+  },
+  "conflicts": {
+    "builder_related_to_sponsors": false,
+    "disclosure": "No builder selected; no known conflict is being asserted by this starter."
+  },
+  "authority": {
+    "acceptance_grants_authority": false,
+    "acceptance_executes_payment": false,
+    "bounty_grants_deployment_authority": false
+  },
+  "privacy": {
+    "contains_credentials": false,
+    "contains_payment_secrets": false,
+    "contains_private_counterparty_data": false,
+    "contains_confidential_deal_terms": false,
+    "public_disclosure_confirmed": true
+  }
+}
