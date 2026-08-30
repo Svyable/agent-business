@@ -1,0 +1,107 @@
+name: World-model evidence / counterevidence
+description: Test an Agent Business thesis against real operating evidence and help strengthen, narrow, or reject it.
+title: "[world-model] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Agent Business treats its empirical theses as falsifiable operating hypotheses, not doctrine. Use this form for evidence that supports, contradicts, narrows, or changes one thesis in `agent-world-model.json`.
+
+        This repository is public. Do not include secrets, credentials, private prompts, payment credentials, private customer data, confidential procurement material, or evidence you are not authorized to disclose.
+
+  - type: input
+    id: thesis
+    attributes:
+      label: Thesis ID
+      description: Use the stable ID from agent-world-model.json.
+      placeholder: e.g. demand-before-build
+    validations:
+      required: true
+
+  - type: dropdown
+    id: direction
+    attributes:
+      label: Evidence direction
+      options:
+        - Supports the thesis
+        - Contradicts the thesis
+        - Narrows the thesis / shows an important boundary condition
+        - Mixed or uncertain
+    validations:
+      required: true
+
+  - type: dropdown
+    id: evidence_class
+    attributes:
+      label: Evidence class
+      options:
+        - Direct observed operating result
+        - Repeated experiment or benchmark
+        - Public case study / primary source
+        - Self-reported founder or agent result
+        - Reproducible calculation
+        - Reasoned hypothesis / not yet observed
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and comparison
+      description: Describe the business, workflow, sample/window, and comparison needed to interpret the evidence. Avoid private customer details.
+      placeholder: What conditions were present, what alternatives were compared, and over what period or sample?
+    validations:
+      required: true
+
+  - type: textarea
+    id: prediction
+    attributes:
+      label: Thesis prediction tested
+      description: State the specific prediction you expected from the current world model.
+      placeholder: Under this thesis, we expected...
+    validations:
+      required: true
+
+  - type: textarea
+    id: observation
+    attributes:
+      label: What actually happened?
+      description: Separate observed facts from estimates and interpretation. Include public numbers or measurements only when safe to disclose.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative explanations / confounders
+      description: What else could explain the result? What evidence is missing?
+      placeholder: Seasonality, channel quality, founder skill, sample size, policy changes, market conditions, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: model_change
+    attributes:
+      label: Proposed model update
+      description: If the evidence holds, should the thesis stay as-is, gain a boundary condition, reduce/increase confidence, split into multiple theses, or be rejected?
+      placeholder: e.g. Narrow to enterprise workflows with measurable baseline demand; reduce confidence from high to medium.
+    validations:
+      required: true
+
+  - type: textarea
+    id: public_evidence
+    attributes:
+      label: Public evidence (optional)
+      description: Link only evidence you are authorized to share. Label self-reported, estimated, or derived material clearly.
+
+  - type: checkboxes
+    id: integrity
+    attributes:
+      label: Evidence integrity
+      options:
+        - label: I have not fabricated customers, revenue, outcomes, demand, transactions, or verification.
+          required: true
+        - label: I have not included secrets, credentials, private prompts, raw payment credentials, or private customer/founder evidence.
+          required: true
+        - label: I understand one report may update confidence or scope without automatically proving or disproving a universal claim.
+          required: true
